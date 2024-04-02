@@ -1,4 +1,4 @@
-import DataPage from "@/components/dashboard/dataPage/dataPage"
+import DataPage from "@/components/dashboard/dataPage/DataPage"
 
 const page = ({ searchParams }) => {
   const type = searchParams?.type || "leave"
