@@ -62,7 +62,7 @@ const DataPage = ({ employees }) => {
                 <button onClick={() => setOpen(true)}>Add New</button>
             </div>
             <DataTable slug="products" columns={columns} rows={[]} />
-            {open && <Add slug="product" columns={columns} setOpen={setOpen} />}
+            {/*{open && <Add slug="product" columns={columns} setOpen={setOpen} />}*/}
         </div>
     )
 }
