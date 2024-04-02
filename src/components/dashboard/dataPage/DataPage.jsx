@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import './data-page.scss'
 import DataTable from "../shared/dataTable/DataTable";
+import Add from "../shared/add/Add";
+import axios from "axios";
+import { getData } from "@/services";
 
 const columns = [
   { field: "id", headerName: "ID", width: 90 },
@@ -57,11 +60,8 @@ const DataPage = ({ type, category }) => {
   const [open, setOpen] = useState(false);
 
   const fetchData = async (type, category) => {
-    // currently type = leave or employee
-    const API_URL = `${process.env.NEXT_PUBLIC_SERVER_ONE}/${type}/${category}`
-    const res = await axios.get(API_URL)
-    const data = await res.json()
-    setRows(data[type])
+    const res = getData(type, category)
+    if(res.error) return toast
   }
 
   useEffect(() => {
