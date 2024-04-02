@@ -1,0 +1,90 @@
+@import "../../../../styles/variables.scss";
+@import "../../../../styles/responsive.scss";
+
+.menu {
+  background-color: $main-bg;
+  height: 100vh;
+  overflow: auto;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+
+    .title {
+      font-size: 12px;
+      font-weight: 200;
+      color: $soft-color;
+      text-transform: uppercase;
+
+      @include lg {
+        display: none;
+      }
+
+      @include md {
+        display: block;
+      }
+    }
+
+    .listItem {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 5px;
+
+      &:hover {
+        background-color: $soft-bg;
+      }
+
+      .listItemTitle {
+        color: $soft-color;
+
+        @include lg {
+          display: none;
+        }
+
+        @include md {
+          display: block;
+        }
+      }
+    }
+  }
+
+  .logout {
+    padding: 10px 14px;
+    margin: 10px 0px 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    background: none;
+    border: none;
+    color: white;
+    width: 100%;
+
+    .logout-title {
+      @include lg {
+        display: none;
+      }
+
+      @include md {
+        display: block;
+      }
+    }
+  }
+
+  .logout:hover {
+    background-color: $soft-bg;
+  }
+}
