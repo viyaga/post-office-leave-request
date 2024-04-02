@@ -1,8 +1,11 @@
 import DataPage from "@/components/dashboard/dataPage/dataPage"
 
-const page = () => {
+const page = ({ searchParams }) => {
+  const type = searchParams?.type || "leave"
+  const cat = searchParams?.cat || "pending"
+
   return (
-    <DataPage />
+    <DataPage type={type} category={cat} />
   )
 }
 
