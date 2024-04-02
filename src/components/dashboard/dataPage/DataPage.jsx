@@ -56,7 +56,6 @@ const DataPage = ({ type, category }) => {
   const [rows, setRows] = useState(null)
   const [open, setOpen] = useState(false);
 
-<<<<<<< HEAD
   const fetchData = async (type, category) => {
     // currently type = leave or employee
     const API_URL = `${process.env.NEXT_PUBLIC_SERVER_ONE}/${type}/${category}`
@@ -84,18 +83,6 @@ const DataPage = ({ type, category }) => {
       {open && <Add slug="product" columns={columns} setOpen={setOpen} />}
     </div>
   )
-======
-    return (
-        <div className="leave-requests">
-            <div className="info">
-                <h1>Leave Requests</h1>
-                <button onClick={() => setOpen(true)}>Add New</button>
-            </div>
-            <DataTable slug="products" columns={columns} rows={[]} />
-            {/*{open && <Add slug="product" columns={columns} setOpen={setOpen} />}*/}
-        </div>
-    )
->>>>>>> d2e5a7e52cb4c9913166ddc1cc4eddc2925af626
 }
 
 export default DataPage
