@@ -53,8 +53,8 @@ export const menu = [
     listItems: [
       {
         id: 1,
-        title: "Permanent",
-        url: "/dashboard/data-page/?type=employee&&cat=permanent",
+        title: "Regular",
+        url: "/dashboard/data-page/?type=employee&&cat=regular",
         icon: <MdPerson size={18} />,
       },
       {

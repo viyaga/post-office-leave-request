@@ -60,7 +60,7 @@ const DataPage = ({ type, category }) => {
 
   const fetchData = async (type, category) => {
     const res = getData(type, category)
-    if(res.error) return toast
+    //if(res.error) return toast
   }
 
   useEffect(() => {
