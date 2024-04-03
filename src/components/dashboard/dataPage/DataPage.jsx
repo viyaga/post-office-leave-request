@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import './data-page.scss'
 import DataTable from "../shared/dataTable/DataTable";
 import Add from "../shared/add/Add";
-import axios from "axios";
 import { getData } from "@/services";
 
 const columns = [
@@ -80,7 +79,7 @@ const DataPage = ({ type, category }) => {
           ? <p>No Data Found</p>
           : <p>Loading...</p>
       }
-      {open && <Add slug="product" columns={columns} setOpen={setOpen} />}
+      {/* {open && <Add slug="product" columns={columns} setOpen={setOpen} />} */}
     </div>
   )
 }
