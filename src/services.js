@@ -10,9 +10,9 @@ const errResponse = (error) => {
 
 const getData = async (type, category) => {
     try {
-        const res = await axios.get(`${PUBLIC_SERVER_ONE}/${type}/${category}`)
-        const data = await res.json()
-        return {data: data[type]}
+        const response = await axios.get(`${PUBLIC_SERVER_ONE}/${type}/${category}`)
+        const data = response.data
+        return { data: data[type] }
     } catch (error) {
         return { error: errResponse(error) }
     }

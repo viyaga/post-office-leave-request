@@ -54,13 +54,13 @@ export const menu = [
       {
         id: 1,
         title: "Regular",
-        url: "/dashboard/data-page/?type=employee&&cat=regular",
+        url: "/dashboard/data-page/?type=employees&&cat=regular",
         icon: <MdPerson size={18} />,
       },
       {
         id: 2,
         title: "Substitute",
-        url: "/dashboard/data-page/?type=employee&&cat=substitute",
+        url: "/dashboard/data-page/?type=employees&&cat=substitute",
         icon: <BsFillPersonLinesFill size={18} />,
       },
     ],

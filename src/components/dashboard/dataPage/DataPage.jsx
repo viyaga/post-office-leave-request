@@ -1,66 +1,58 @@
 "use client"
 
 import { useEffect, useState } from "react";
+import toast from 'react-hot-toast'
 import './data-page.scss'
 import DataTable from "../shared/dataTable/DataTable";
 import Add from "../shared/add/Add";
 import { getData } from "@/services";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 90 },
+  { field: "_id", headerName: "ID", width: 90 },
+  // {
+  //   field: "img",
+  //   headerName: "Image",
+  //   width: 100,
+  //   renderCell: (params) => {
+  //     return <img src={params.row.img || "/noavatar.png"} alt="" />;
+  //   },
+  // },
   {
-    field: "img",
-    headerName: "Image",
-    width: 100,
-    renderCell: (params) => {
-      return <img src={params.row.img || "/noavatar.png"} alt="" />;
-    },
-  },
-  {
-    field: "title",
+    field: "name",
     type: "string",
-    headerName: "Title",
+    headerName: "Name",
     width: 250,
   },
   {
-    field: "color",
+    field: "designation",
     type: "string",
-    headerName: "Color",
+    headerName: "Designation",
     width: 150,
   },
   {
-    field: "price",
+    field: "officeName",
     type: "string",
-    headerName: "Price",
+    headerName: "Office Name",
     width: 200,
   },
-  {
-    field: "producer",
-    headerName: "Producer",
-    type: "string",
-    width: 200,
-  },
-  {
-    field: "createdAt",
-    headerName: "Created At",
-    width: 200,
-    type: "string",
-  },
-  {
-    field: "inStock",
-    headerName: "In Stock",
-    width: 150,
-    type: "boolean",
-  },
+  // {
+  //   field: "createdAt",
+  //   headerName: "Created At",
+  //   width: 200,
+  //   type: "string",
+  // },
 ];
 
 const DataPage = ({ type, category }) => {
   const [rows, setRows] = useState(null)
   const [open, setOpen] = useState(false);
 
+  console.log({rows});
   const fetchData = async (type, category) => {
-    const res = getData(type, category)
-    //if(res.error) return toast
+    const res = await getData(type, category)
+    console.log({data: res?.data  || res.error });
+    if (res.error) return toast.error("An Error Occured While Fetching Data")
+    if (res.data) setRows(res.data)
   }
 
   useEffect(() => {

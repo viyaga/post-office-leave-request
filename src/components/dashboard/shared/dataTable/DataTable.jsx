@@ -32,9 +32,10 @@ const DataTable = (props) => {
   return (
     <div className="dataTable">
       <DataGrid
+        getRowId={(row) => row._id}
         className="dataGrid"
         rows={props.rows}
-        columns={[...props.columns, actionColumn]}
+        columns={[...props.columns]}
         initialState={{
           pagination: {
             paginationModel: {
