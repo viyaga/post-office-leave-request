@@ -4,7 +4,7 @@ import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { PiFlagPennantFill } from "react-icons/pi";
 import { MdLocalLibrary, MdOutlineMoneyOffCsred, MdOutlinePendingActions, MdPerson } from "react-icons/md";
 
-export const menu = [
+const menu = [
   {
     id: 1,
     title: "Leave Portal",
@@ -67,7 +67,20 @@ export const menu = [
   },
 ];
 
-export const products = [
+const regularEmployeeColumns = [
+  { field: "id", headerName: "ID", width: 90, filterable: false },
+  { field: "name", type: "string", headerName: "Name", width: 250 },
+  { field: "designation", type: "string", headerName: "Designation", width: 150 },
+  { field: "officeName", type: "string", headerName: "Office Name", width: 250 },
+];
+
+const substituteEmployeeColums = [
+  { field: "id", headerName: "ID", width: 90, filterable: false },
+  { field: "name", type: "string", headerName: "Name", width: 250 },
+  { field: "accountNo", type: "string", headerName: "Account Number", width: 250 },
+];
+
+const products = [
   {
     id: 1,
     img: "https://store.sony.com.au/on/demandware.static/-/Sites-sony-master-catalog/default/dw1b537bbb/images/PLAYSTATION5W/PLAYSTATION5W.png",
@@ -166,3 +179,5 @@ export const products = [
     inStock: true,
   },
 ];
+
+export { menu, regularEmployeeColumns, substituteEmployeeColums, products }

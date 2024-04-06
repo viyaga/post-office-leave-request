@@ -6,53 +6,28 @@ import './data-page.scss'
 import DataTable from "../shared/dataTable/DataTable";
 import Add from "../shared/add/Add";
 import { getData } from "@/services";
-
-const columns = [
-  { field: "_id", headerName: "ID", width: 90 },
-  // {
-  //   field: "img",
-  //   headerName: "Image",
-  //   width: 100,
-  //   renderCell: (params) => {
-  //     return <img src={params.row.img || "/noavatar.png"} alt="" />;
-  //   },
-  // },
-  {
-    field: "name",
-    type: "string",
-    headerName: "Name",
-    width: 250,
-  },
-  {
-    field: "designation",
-    type: "string",
-    headerName: "Designation",
-    width: 150,
-  },
-  {
-    field: "officeName",
-    type: "string",
-    headerName: "Office Name",
-    width: 200,
-  },
-  // {
-  //   field: "createdAt",
-  //   headerName: "Created At",
-  //   width: 200,
-  //   type: "string",
-  // },
-];
+import { regularEmployeeColumns, substituteEmployeeColums } from '@/data'
 
 const DataPage = ({ type, category }) => {
   const [rows, setRows] = useState(null)
   const [open, setOpen] = useState(false);
 
-  console.log({rows});
+  var columns = regularEmployeeColumns
+
+  if (type === 'employees' && category === 'regular') {
+    columns = regularEmployeeColumns;
+  } else if (type === 'employees' && category === 'substitute') {
+    columns = substituteEmployeeColums;
+  }
+
   const fetchData = async (type, category) => {
     const res = await getData(type, category)
-    console.log({data: res?.data  || res.error });
+    console.log({ data: res?.data || res.error });
     if (res.error) return toast.error("An Error Occured While Fetching Data")
-    if (res.data) setRows(res.data)
+    if (res.data) {
+      const idAddedData = res.data.map((item, index) => ({ id: index + 1, ...item }))
+      setRows(idAddedData)
+    }
   }
 
   useEffect(() => {

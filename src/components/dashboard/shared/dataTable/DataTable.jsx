@@ -4,6 +4,7 @@ import {
 } from "@mui/x-data-grid";
 import "./dataTable.scss";
 import Link from "next/link";
+import { MdDelete, MdEdit } from "react-icons/md";
 
 const DataTable = (props) => {
 
@@ -19,10 +20,10 @@ const DataTable = (props) => {
       return (
         <div className="action">
           <Link href={`/${props.slug}/${params.row.id}`}>
-            <img src="/view.svg" alt="" />
+            <MdEdit size={20} />
           </Link>
           <div className="delete" onClick={() => handleDelete(params.row.id)}>
-            <img src="/delete.svg" alt="" />
+            <MdDelete size={20} />
           </div>
         </div>
       );
@@ -32,10 +33,9 @@ const DataTable = (props) => {
   return (
     <div className="dataTable">
       <DataGrid
-        getRowId={(row) => row._id}
         className="dataGrid"
         rows={props.rows}
-        columns={[...props.columns]}
+        columns={[...props.columns, actionColumn]}
         initialState={{
           pagination: {
             paginationModel: {
