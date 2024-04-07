@@ -1,7 +1,12 @@
 {
     "name": "DOP Leave Manager",
     "short_name": "Leave",
-    "icons": [],
+    "icons": [
+      {
+        "src": "/logo/logo-v.svg",
+        "sizes": "71x71"
+      }
+    ],
     "theme_color": "#009688",
     "background_color": "#FFFFFF",
     "start_url": "/",
