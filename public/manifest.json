@@ -1,15 +1,19 @@
 {
-    "name": "DOP Leave Manager",
-    "short_name": "Leave",
-    "icons": [
-      {
-        "src": "/logo/logo-v.svg",
-        "sizes": "71x71"
-      }
-    ],
-    "theme_color": "#009688",
-    "background_color": "#FFFFFF",
-    "start_url": "/",
-    "display": "standalone",
-    "orientation": "portrait"
-  }
+  "name": "DOP Leave Manager",
+  "short_name": "Leave",
+  "icons": [
+    {
+      "src": "/logo/logo-v.svg",
+      "sizes": "71x71"
+    },
+    {
+      "src": "/logo/logo-v.svg",
+      "sizes": "512x512"
+    }
+  ],
+  "theme_color": "#009688",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}
