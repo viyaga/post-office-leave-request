@@ -11,7 +11,7 @@ const getData = async (type, category) => {
 }
 
 const page = ({ searchParams }) => {
-  const type = searchParams?.type || "leave"
+  const type = searchParams?.type || "leaves"
   const cat = searchParams?.cat || "pending"
 
   return (
