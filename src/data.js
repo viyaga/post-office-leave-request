@@ -3,6 +3,7 @@ import { FaBaby } from "react-icons/fa";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { PiFlagPennantFill } from "react-icons/pi";
 import { MdLocalLibrary, MdOutlineMoneyOffCsred, MdOutlinePendingActions, MdPerson } from "react-icons/md";
+import moment from "moment";
 
 const menu = [
   {
@@ -71,7 +72,7 @@ const regularEmployeeColumns = [
   { field: "id", headerName: "ID", width: 90, filterable: false },
   { field: "name", type: "string", headerName: "Name", width: 250 },
   { field: "designation", type: "string", headerName: "Designation", width: 150 },
-  { field: "officeName", type: "string", headerName: "Office Name", width: 250 },
+  { field: "officeName", type: "string", headerName: "Office Name", width: 180 },
 ];
 
 const substituteEmployeeColums = [
@@ -81,19 +82,20 @@ const substituteEmployeeColums = [
 ];
 
 const leaveDataColums = [
-  { field: "id", headerName: "ID", width: 90, filterable: false },
-  { field: "name", type: "string", headerName: "Name", width: 250 },
-  { field: "designation", type: "string", headerName: "Designation", width: 250 },
-  { field: "officeName", type: "string", headerName: "Office Name", width: 250 },
-  { field: "from", type: "string", headerName: "From", width: 250 },
-  { field: "to", type: "string", headerName: "To", width: 250 },
-  { field: "days", type: "number", headerName: "Days", width: 250 },
-  { field: "substituteName", type: "string", headerName: "Substitute Name", width: 250 },
-  { field: "accountNo", type: "string", headerName: "Account Number", width: 250 },
-  { field: "remarks", type: "string", headerName: "Remarks", width: 250 },
-  { field: "postmanBeatNo", type: "string", headerName: "Postman Beat No", width: 250 },
-  { field: "reference", type: "string", headerName: "Reference", width: 250 },
-  { field: "sendToHoOn", type: "string", headerName: "Send To Ho On", width: 250 },
+  { field: "id", headerName: "S.No.", width: 90, filterable: false },
+  { field: "name", type: "string", headerName: "Name", width: 200 },
+  { field: "designation", type: "string", headerName: "Designation", width: 120 },
+  { field: "officeName", type: "string", headerName: "Office Name", width: 180 },
+  { field: "from", type: "Date", headerName: "From", width: 120, valueFormatter: params => params ? moment(params).format("DD/MM/YYYY") : "-" },
+  { field: "to", type: "Date", headerName: "To", width: 100, valueFormatter: params => params ? moment(params).format("DD/MM/YYYY") : "-" },
+  { field: "days", type: "number", headerName: "Days", width: 100, valueFormatter: params => params ? params : '-' },
+  { field: "substituteName", type: "string", headerName: "Substitute Name", width: 200, valueFormatter: params => params ? params : '-' },
+  { field: "accountNo", type: "string", headerName: "Account Number", width: 160, valueFormatter: params => params ? params : '-' },
+  { field: "remarks", type: "string", headerName: "Remarks", width: 200, valueFormatter: params => params ? params : '-' },
+  { field: "leaveType", type: "string", headerName: "Leave Type", width: 200, valueFormatter: params => params ? params : '-' },
+  { field: "postmanBeatNo", type: "string", headerName: "Postman Beat No", width: 200, valueFormatter: params => params ? params : '-' },
+  { field: "reference", type: "string", headerName: "Reference", width: 200, valueFormatter: params => params ? params : '-' },
+  { field: "sendToHoOn", type: "Date", headerName: "Send To Ho On", width: 120, valueFormatter: params => params ? moment(params).format('DD/MM/YYYY') : "-" },
 ]
 
 const products = [

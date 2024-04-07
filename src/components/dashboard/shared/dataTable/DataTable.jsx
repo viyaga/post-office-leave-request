@@ -51,8 +51,8 @@ const DataTable = (props) => {
             printOptions: { disableToolbarButton: true }
           },
         }}
-        rowCount={100}
-        paginationMode="server"
+        //rowCount={100}
+        // paginationMode="server"
         pageSizeOptions={[5, 10, 25]}
         checkboxSelection
         disableRowSelectionOnClick
