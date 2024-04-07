@@ -6,7 +6,7 @@ import './data-page.scss'
 import DataTable from "../shared/dataTable/DataTable";
 import Add from "../shared/add/Add";
 import { getData } from "@/services";
-import { regularEmployeeColumns, substituteEmployeeColums } from '@/data'
+import { leaveDataColums, regularEmployeeColumns, substituteEmployeeColums } from '@/data'
 
 const DataPage = ({ type, category }) => {
   const [rows, setRows] = useState(null)
@@ -14,11 +14,31 @@ const DataPage = ({ type, category }) => {
 
   var columns = regularEmployeeColumns
 
-  if (type === 'employees' && category === 'regular') {
-    columns = regularEmployeeColumns;
-  } else if (type === 'employees' && category === 'substitute') {
-    columns = substituteEmployeeColums;
+  if (type === 'employees') {
+
+    if (category === 'regular') {
+      columns = regularEmployeeColumns;
+    } else if (category === 'substitute') {
+      columns = substituteEmployeeColums;
+    }
+
+  } else if (type === 'leaves') {
+
+    columns = leaveDataColums;
+    // if (category === 'Lwa') {
+    //   columns = regularEmployeeColumns;
+    // } else if (category === 'Paid Leave') {
+    //   columns = substituteEmployeeColums;
+    // } else if (category === 'Stop Gap Arrangement') {
+    //   columns = substituteEmployeeColums;
+    // } else if (category === 'Training') {
+    //   columns = substituteEmployeeColums;
+    // }
+
+  } else {
+    return <p>Not Found</p>
   }
+
 
   const fetchData = async (type, category) => {
     const res = await getData(type, category)

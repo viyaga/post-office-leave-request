@@ -48,9 +48,12 @@ const DataTable = (props) => {
           toolbar: {
             showQuickFilter: true,
             quickFilterProps: { debounceMs: 300 },
+            printOptions: { disableToolbarButton: true }
           },
         }}
-        pageSizeOptions={[5]}
+        rowCount={100}
+        paginationMode="server"
+        pageSizeOptions={[5, 10, 25]}
         checkboxSelection
         disableRowSelectionOnClick
         disableColumnFilter
