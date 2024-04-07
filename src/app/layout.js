@@ -5,9 +5,17 @@ import "../styles/global.scss";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "DOP Tech Blazers",
-  description: " Simplifying Employee Management for Post Office Administrators",
-};
+  manifest: "/manifest.json",
+  title: 'DOP Leave Manager',
+  description: 'Department of Post Leave Manager',
+  icons: {
+    icon: '/logo/logo.svg'
+  }
+}
+
+export const viewport = {
+  themeColor: "#009688",
+}
 
 export default function RootLayout({ children }) {
   return (
