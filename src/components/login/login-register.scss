@@ -8,6 +8,10 @@
     justify-content: center;
     background: $main-bg;
 
+    @include sm {
+        background-color: $soft-bg;
+    }
+
     .wrapper {
         position: relative;
         max-width: 440px;
@@ -28,6 +32,7 @@
 
         @include sm {
             max-width: 380px;
+            box-shadow: none;
         }
     }
 
