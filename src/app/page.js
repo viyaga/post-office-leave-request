@@ -1,6 +1,8 @@
+import Link from "next/link";
+
 const page = () => {
   return (
-    <div>Login</div>
+    <Link href="/dashboard" >Login</Link>
   )
 }
 
