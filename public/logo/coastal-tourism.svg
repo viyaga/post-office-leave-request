@@ -19,14 +19,15 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="2.0089285"
-     inkscape:cx="212.55111"
-     inkscape:cy="212.8"
+     inkscape:cx="212.55112"
+     inkscape:cy="93.333337"
      inkscape:window-width="1920"
      inkscape:window-height="1111"
      inkscape:window-x="-9"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg2" />
+     inkscape:current-layer="svg2"
+     inkscape:export-bgcolor="#ffffffff" />
   <defs
      id="defs2">
     <linearGradient
@@ -62,8 +63,7 @@
      id="title2">Fichier 3</title>
   <g
      id="Calque_2"
-     data-name="Calque 2"
-     transform="matrix(0.76842105,0,0,0.76842105,56.746667,57.742223)">
+     data-name="Calque 2">
     <g
        id="Calque_1-2"
        data-name="Calque 1">
