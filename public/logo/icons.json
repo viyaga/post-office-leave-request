@@ -1,6 +1,4 @@
 {
-  "name": "DOP Leave Manager",
-  "short_name": "Leave",
   "icons": [
     {
       "src": "windows11/SmallTile.scale-100.png",
@@ -450,10 +448,5 @@
       "src": "ios/1024.png",
       "sizes": "1024x1024"
     }
-  ],
-  "theme_color": "#2a3447",
-  "background_color": "#FFFFFF",
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "portrait"
+  ]
 }
