@@ -1,8 +1,9 @@
+import LoginRegister from "@/components/login/LoginRegister";
 import Link from "next/link";
 
 const page = () => {
   return (
-    <Link href="/dashboard" >Login</Link>
+    <LoginRegister />
   )
 }
 
