@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 import { loginUser } from '@/lib/actions'
 import { useRouter } from 'next/navigation'
 
-const LoginForm = () => {
+const EmployeeLogin = () => {
 	const [isPending, startTransition] = useTransition()
 	console.log({ isPending });
 	const router = useRouter()
@@ -43,4 +43,4 @@ const LoginForm = () => {
 	)
 }
 
-export default LoginForm
+export default EmployeeLogin

@@ -1,9 +1,8 @@
-import LoginRegister from "@/components/login/LoginRegister";
-import Link from "next/link";
+import Login from '@/components/login/Login'
 
 const page = () => {
   return (
-    <LoginRegister />
+    <Login />
   )
 }
 

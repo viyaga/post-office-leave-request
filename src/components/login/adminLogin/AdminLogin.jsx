@@ -4,7 +4,7 @@ import React, { useTransition } from 'react'
 import toast from 'react-hot-toast'
 import { registerUser } from '@/lib/actions'
 
-const RegisterForm = () => {
+const AdminLogin = () => {
     const [isPending, startTransition] = useTransition()
     const onRegister = (formData) => {
         const { email, password, cpassword } = Object.fromEntries(formData)
@@ -49,4 +49,4 @@ const RegisterForm = () => {
     )
 }
 
-export default RegisterForm
+export default AdminLogin

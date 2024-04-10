@@ -13,14 +13,20 @@ const adminSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    subDivisionName: {
+        type: String,
+        required: true,
     }
 })
-
-module.exports = mongoose.model('Admin', adminSchema)
 
 const employeeSchema = new mongoose.Schema(
     {
         name: {
+            type: String,
+            required: true,
+        },
+        employeeId: {
             type: String,
             required: true,
         },
@@ -44,5 +50,5 @@ const employeeSchema = new mongoose.Schema(
     }
 )
 
-module.exports = mongoose.models.Employee || mongoose.model('Employee', employeeSchema)
-module.exports = mongoose.models.Admin || mongoose.model('Admin')
+export const Employee = mongoose.models.Employee || mongoose.model('Employee', employeeSchema)
+export const Admin = mongoose.models.Admin || mongoose.model('Admin', adminSchema)
