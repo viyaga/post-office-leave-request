@@ -7,15 +7,18 @@ import { registerAdmin } from '@/lib/actions'
 import ZodFormInput from '@/components/shared/zodFormInput/ZodFormInput'
 import { useForm } from 'react-hook-form'
 import ZodSelectInput from '@/components/shared/zodSelectInput/ZodSelectInput'
+import { useState } from 'react'
+import { subDivisionOptions } from '@/data'
 
 const adminSchema = z.object({
     name: z.string().min(1, { message: "Name Required" }).max(50, { message: "Name must contain at most 50 characters" }),
-    email: z.string().email().max(75, { message: "Email must contain at most 75 characters" }),
+    email: z.string().email().min(1, { message: "Email Required" }).max(75, { message: "Email must contain at most 75 characters" }),
     password: z.string().min(6, { message: "Password  must contain at least 6 characters" }).max(20, { message: "Password must contain at most 20 characters" }),
     subdivisionName: z.string().min(1, { message: "Subdivision Required" }).max(75, { message: "Subdivision must contain at most 75 characters" })
 })
 
 const AdminRegister = () => {
+    const [isChecked, setIsChecked] = useState(false)
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(adminSchema) })
 
     const formInputs = [
@@ -24,13 +27,12 @@ const AdminRegister = () => {
         { type: "password", name: "password", placeholder: "Password" },
     ]
 
-    const subDivisionOptions = ['Tirumangalam']
-
     const onRegister = async ({ name, email, password, subdivisionName }) => {
 
         if (!name || !email || !password || !subdivisionName) return toast.error("Please enter the required field")
+        if (!isChecked) return toast.error("Please Accept Our Terms & Conditions")
 
-        const register = await registerAdmin(name, email, password, subdivisionName)
+        const register = await registerAdmin(name.toLowerCase(), email.toLowerCase(), password, subdivisionName.toLowerCase())
         console.log({ register });
         if (register?.error) {
             toast.error(register.error)
@@ -58,7 +60,7 @@ const AdminRegister = () => {
                 <ZodSelectInput name='subdivisionName' register={register} defaultValue='Select' options={subDivisionOptions} error={errors['subdivisionName']} />
 
                 <div className="checkbox">
-                    <input type="checkbox" id="signupCheck" />
+                    <input type="checkbox" id="signupCheck" checked={isChecked} onChange={() => setIsChecked(!isChecked)} />
                     <label htmlFor="signupCheck">I accept all terms &amp; conditions</label>
                 </div>
                 <input type="submit" defaultValue={isSubmitting ? "Loading..." : "Register"} />

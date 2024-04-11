@@ -7,22 +7,22 @@ import { useRouter } from 'next/navigation'
 
 const EmployeeRegister = () => {
 	const [isPending, startTransition] = useTransition()
-	console.log({ isPending });
 	const router = useRouter()
 
 	const onLogin = (formData) => {
-		const { email, password } = Object.fromEntries(formData)
-		if (!email || !password) return toast.error("Please enter the required field")
-		startTransition(async () => {
-			const res = await loginUser(email, password)
+		// const { email, password } = Object.fromEntries(formData)
+		// if (!email || !password) return toast.error("Please enter the required field")
+	
+		// startTransition(async () => {
+		// 	const res = await loginUser(email, password)
 
-			if (res?.error) {
-				toast.error(res.error)
-			} else {
-				toast.success(res?.success)
-				router.replace('/dashboard')
-			}
-		})
+		// 	if (res?.error) {
+		// 		toast.error(res.error)
+		// 	} else {
+		// 		toast.success(res?.success)
+		// 		router.replace('/dashboard')
+		// 	}
+		// })
 	}
 
 	const changeLogin = () => {

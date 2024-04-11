@@ -82,7 +82,8 @@
         margin-top: 40px;
     }
 
-    form input {
+    form input,
+    form select {
         height: 60px;
         padding: 0 15px;
         font-size: 16px;
@@ -90,6 +91,13 @@
         color: $main-color;
         border-radius: 8px;
         background: $main-bg;
+        width: 100%;
+    }
+
+    form p {
+        margin-top: 5px;
+        color: black;
+        font-weight: 400;
     }
 
     .form.login input {

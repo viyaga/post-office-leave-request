@@ -19,7 +19,7 @@ const connectDB = async () => {
 };
 
 // register user ==========================================
-const registerAdmin = async (name, email, password, subDivisionName) => {
+const registerAdmin = async (name, email, password, subdivisionName) => {
 
     try {
         await connectDB()
@@ -29,18 +29,19 @@ const registerAdmin = async (name, email, password, subDivisionName) => {
         const salt = await genSalt(10)
         const hashedPassword = await hash(password, salt)
 
-        await Admin.create({ name, email, password: hashedPassword, subDivisionName })
+        await Admin.create({ name, email, password: hashedPassword, subdivisionName })
         return { success: "Registration successfull" }
     } catch (error) {
+        console.log({ error });
         return { error: "An error occurred, try after sometime" }
     }
 }
 
 // login User =========================================================
-const loginUser = async (email, password) => {
+const loginUser = async (email, password, subdivisionName) => {
 
     try {
-        await signIn("credentials", { email, password, redirect: false });
+        await signIn("credentials", { email, password, subdivisionName, redirect: false });
         return { success: "Login successfull" }
     } catch (err) {
         return { error: "Wrong Credentials!" }

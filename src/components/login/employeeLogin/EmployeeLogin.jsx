@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 
 const EmployeeLogin = () => {
 	const [isPending, startTransition] = useTransition()
-	console.log({ isPending });
+	
 	const router = useRouter()
 
 	const onLogin = (formData) => {
