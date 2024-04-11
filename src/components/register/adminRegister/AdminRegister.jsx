@@ -28,11 +28,10 @@ const AdminRegister = () => {
 
     const onRegister = async ({ name, email, password, subdivisionName }) => {
 
-        console.log({data:{ name, email, password, subdivisionName }});
         if (!name || !email || !password || !subdivisionName) return toast.error("Please enter the required field")
 
         const register = await registerAdmin(name, email, password, subdivisionName)
-
+        console.log({ register });
         if (register?.error) {
             toast.error(register.error)
         } else {

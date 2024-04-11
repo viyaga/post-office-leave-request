@@ -2,7 +2,7 @@
 
 import React, { useTransition } from 'react'
 import toast from 'react-hot-toast'
-import { registerUser } from '@/lib/actions'
+// import { registerUser } from '@/lib/actions'
 
 const AdminLogin = () => {
     const [isPending, startTransition] = useTransition()

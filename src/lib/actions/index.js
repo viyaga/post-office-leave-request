@@ -22,7 +22,7 @@ const connectDB = async () => {
 const registerAdmin = async (name, email, password, subDivisionName) => {
 
     try {
-        connectDB()
+        await connectDB()
         const isExisiting = await Admin.findOne({ email })
         if (isExisiting) return { error: "Email Already Registered" }
 
