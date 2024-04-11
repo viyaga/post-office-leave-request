@@ -16,11 +16,8 @@ const login = async (credentials) => {
 			const admin = await Admin.findOne({ email, subdivisionName }).select(['password', 'subdivisionName'])
 			if (!admin) return null
 
-			console.log({ admin });
 			const isPasswordCorrect = await bcrypt.compare(password, admin.password);
 			if (!isPasswordCorrect) return null
-
-			admin.isAdmin = true
 
 			return admin;
 		}
@@ -33,7 +30,6 @@ const login = async (credentials) => {
 
 		return { user };
 	} catch (err) {
-		console.log({error});
 		return null;
 	}
 };
@@ -52,7 +48,7 @@ export const { signIn, signOut, auth } = NextAuth({
 
 				// if not admin
 				if (!credentials.email && !credentials.subdivisionName) {
-					
+
 					parsedCredentials = z.object({
 						employeeId: z.string().min(4).max(10),
 						password: z.string().min(6).max(20),
@@ -60,9 +56,8 @@ export const { signIn, signOut, auth } = NextAuth({
 				}
 
 				if (parsedCredentials?.success) {
-					const data = await login(credentials);
-					console.log({ data, input: "Valid Input" });
-					return data;
+					const user = await login(credentials);
+					return user;
 				}
 
 				return null
@@ -73,15 +68,24 @@ export const { signIn, signOut, auth } = NextAuth({
 	callbacks: {
 		async jwt({ token, user }) {
 			if (user) {
-				token.username = user.username;
-				token.img = user.img;
+				token.userId = user._id;
+
+				if (user.subdivisionName) {
+					token.subdivisionName = user.subdivisionName;
+					token.isAdmin = true;
+				}
 			}
 			return token;
 		},
 		async session({ session, token }) {
 			if (token) {
-				session.user.username = token.username;
-				session.user.img = token.img;
+				session.user.userId = token.userId;
+
+				if(token.subdivisionName) {
+					session.user.subdivisionName = token.subdivisionName;
+					session.user.isAdmin  = token.isAdmin
+				}
+				
 			}
 			return session;
 		},

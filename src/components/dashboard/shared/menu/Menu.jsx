@@ -1,6 +1,8 @@
 import { menu } from "@/data";
 import "./menu.scss";
 import Link from "next/link";
+import { MdLogout } from "react-icons/md";
+import { signOut } from "@/auth";
 
 const Menu = () => {
   return (
@@ -16,6 +18,16 @@ const Menu = () => {
           ))}
         </div>
       ))}
+      <form action={async () => {
+        "use server";
+        await signOut();
+      }}
+      >
+        <button className="logout">
+          <MdLogout size={24} />
+          <span className="logout-title">Logout</span>
+        </button>
+      </form>
     </div>
   );
 };

@@ -1,8 +1,13 @@
 import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-const page = async() => {
+const page = async () => {
   const au = await auth()
-  console.log({user: au?.user, aadmin: au?.admin});
+
+  if (au?.user?.isAdmin) {
+    redirect('/dashboard')
+  } 
+
   return (
     <div>page</div>
   )

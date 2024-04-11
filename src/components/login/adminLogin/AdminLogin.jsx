@@ -40,7 +40,7 @@ const AdminLogin = () => {
             toast.success(res?.success)
             const form = document.getElementById("adminLogin")
             form.reset()
-            router.replace('/dashboard/data-page')
+            router.replace('/dashboard/')
         }
     }
 
