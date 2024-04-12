@@ -1,12 +1,8 @@
-import DataPage from "@/components/dashboard/dataPage/DataPage"
+import PendingLeaveRequest from '@/components/dashboard/pendingLeaveRequest/PendingLeaveRequest'
 
-const page = async ({ searchParams }) => {
-
-  const type = searchParams?.type || "leaves"
-  const cat = searchParams?.cat || "pending"
-
+const page = () => {
   return (
-    <DataPage type={type} category={cat} />
+    <PendingLeaveRequest />
   )
 }
 

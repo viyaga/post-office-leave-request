@@ -12,30 +12,12 @@ const DataTable = (props) => {
     console.log(id)
   };
 
-  const actionColumn = {
-    field: "action",
-    headerName: "Action",
-    width: 200,
-    renderCell: (params) => {
-      return (
-        <div className="action">
-          <Link href={`/${props.slug}/${params.row.id}`}>
-            <MdEdit size={20} />
-          </Link>
-          <div className="delete" onClick={() => handleDelete(params.row.id)}>
-            <MdDelete size={20} />
-          </div>
-        </div>
-      );
-    },
-  };
-
   return (
     <div className="dataTable">
       <DataGrid
         className="dataGrid"
         rows={props.rows}
-        columns={[...props.columns, actionColumn]}
+        columns={[...props.columns]}
         initialState={{
           pagination: {
             paginationModel: {
