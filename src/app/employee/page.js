@@ -8,6 +8,7 @@ const page = async () => {
     redirect('/dashboard')
   } 
 
+  console.log({employee: au.user});
   return (
     <div>page</div>
   )

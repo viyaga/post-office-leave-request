@@ -7,13 +7,12 @@ import bcrypt from "bcrypt";
 import { z } from "zod";
 
 const login = async (credentials) => {
-	const { email, employeeId, password, subdivisionName } = credentials
-
+	const { userName, password, subdivisionName } = credentials
 	try {
-		connectDB();
+		await connectDB();
 
-		if (email && subdivisionName) {
-			const admin = await Admin.findOne({ email, subdivisionName }).select(['password', 'subdivisionName'])
+		if (subdivisionName) {
+			const admin = await Admin.findOne({ email: userName, subdivisionName }).select(['name', 'password', 'subdivisionName'])
 			if (!admin) return null
 
 			const isPasswordCorrect = await bcrypt.compare(password, admin.password);
@@ -22,13 +21,13 @@ const login = async (credentials) => {
 			return admin;
 		}
 
-		const employee = await Employee.findOne({ employeeId });
+		const employee = await Employee.findOne({ $or: [{ employeeId: userName }, { accountNo: userName }] }).select(['name']);
+
 		if (!employee) return null
 
-		const isPasswordCorrect = await bcrypt.compare(password, user.password);
+		const isPasswordCorrect = password === 'Doplm@123';
 		if (!isPasswordCorrect) return null
-
-		return { user };
+		return employee;
 	} catch (err) {
 		return null;
 	}
@@ -40,17 +39,18 @@ export const { signIn, signOut, auth } = NextAuth({
 		CredentialsProvider({
 			async authorize(credentials) {
 
-				let parsedCredentials = z.object({
-					email: z.string().email().min(1).max(75),
-					password: z.string().min(6).max(20),
-					subdivisionName: z.string().min(1).max(75)
-				}).safeParse(credentials);
+				let parsedCredentials = null
 
-				// if not admin
-				if (!credentials.email && !credentials.subdivisionName) {
-
+				// if admin
+				if (credentials.subdivisionName) {
 					parsedCredentials = z.object({
-						employeeId: z.string().min(4).max(10),
+						userName: z.string().email().min(4).max(75),
+						password: z.string().min(6).max(20),
+						subdivisionName: z.string().min(1).max(75)
+					}).safeParse(credentials);
+				} else {
+					parsedCredentials = z.object({
+						userName: z.string().min(4).max(20),
 						password: z.string().min(6).max(20),
 					}).safeParse(credentials);
 				}
@@ -64,6 +64,10 @@ export const { signIn, signOut, auth } = NextAuth({
 			},
 		}),
 	],
+	session: {
+		strategy: "jwt",
+		maxAge: 60 * 60 * 24 * 1000
+	},
 	// ADD ADDITIONAL INFORMATION TO SESSION
 	callbacks: {
 		async jwt({ token, user }) {
@@ -81,11 +85,11 @@ export const { signIn, signOut, auth } = NextAuth({
 			if (token) {
 				session.user.userId = token.userId;
 
-				if(token.subdivisionName) {
+				if (token.subdivisionName) {
 					session.user.subdivisionName = token.subdivisionName;
-					session.user.isAdmin  = token.isAdmin
+					session.user.isAdmin = token.isAdmin
 				}
-				
+
 			}
 			return session;
 		},

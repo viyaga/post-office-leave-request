@@ -1,8 +1,16 @@
 import Navbar from '@/components/dashboard/shared/navbar/Navbar'
 import Menu from '@/components/dashboard/shared/menu/Menu'
 import Footer from '@/components/dashboard/shared/footer/Footer'
+import { redirect } from "next/navigation"
+import { auth } from "@/auth"
 
-const layout = ({ children }) => {
+const layout = async({ children }) => {
+    const au = await auth()
+
+    if (!(au?.user?.isAdmin)) {
+      redirect('/employee')
+    }
+
     return (
         <div className="main">
             <Navbar />

@@ -13,7 +13,6 @@ const connectDB = async () => {
         const db = await mongoose.connect(process.env.MONGO_URI);
         connection.isConnected = db.connections[0].readyState;
     } catch (error) {
-        console.log(error)
         throw new Error(error);
     }
 };
@@ -32,16 +31,20 @@ const registerAdmin = async (name, email, password, subdivisionName) => {
         await Admin.create({ name, email, password: hashedPassword, subdivisionName })
         return { success: "Registration successfull" }
     } catch (error) {
-        console.log({ error });
         return { error: "An error occurred, try after sometime" }
     }
 }
 
 // login User =========================================================
-const loginUser = async (email, password, subdivisionName) => {
-
+const loginUser = async (userName, password, subdivisionName) => {
+    // userName = email || employeeId
     try {
-        await signIn("credentials", { email, password, subdivisionName, redirect: false });
+        if (subdivisionName) {
+            await signIn("credentials", { userName, password, subdivisionName, redirect: false });
+        } else {
+            await signIn("credentials", { userName, password, redirect: false });
+        }
+
         return { success: "Login successfull" }
     } catch (err) {
         return { error: "Wrong Credentials!" }
