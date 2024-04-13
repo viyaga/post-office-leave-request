@@ -7,10 +7,13 @@ import { getData } from "@/services";
 import { leaveDataColums } from '@/data'
 import DataTableWithActions from "../shared/dataTableWithActions/DataTableWithActions";
 import AddLeaveData from "./addLeaveData/AddLeaveData";
+import { useDispatch, useSelector } from "react-redux";
+import { setPendingLeave } from "@/redux/slices/commonSlice";
 
 const PendingLeaveRequest = () => {
-  const [rows, setRows] = useState(null)
+  const { pendingLeave } = useSelector(state => state.common) 
   const [open, setOpen] = useState(false)
+  const dispatch = useDispatch()
 
   const fetchData = async (type, category) => {
     const res = await getData(type, category)
@@ -18,7 +21,7 @@ const PendingLeaveRequest = () => {
     if (res.error) return toast.error("An Error Occured While Fetching Data")
     if (res.data) {
       const idAddedData = res.data.map((item, index) => ({ id: index + 1, ...item }))
-      setRows(idAddedData)
+      dispatch(setPendingLeave(idAddedData))
     }
   }
 
@@ -32,9 +35,9 @@ const PendingLeaveRequest = () => {
         <h2>Pending</h2>
         <button onClick={() => setOpen(true)}>Add New</button>
       </div>
-      {(rows && rows.length > 0)
-        ? < DataTableWithActions columns={leaveDataColums} rows={rows} />
-        : rows
+      {(pendingLeave && pendingLeave.length > 0)
+        ? < DataTableWithActions columns={leaveDataColums} rows={pendingLeave} />
+        : pendingLeave
           ? <p>No Data Found</p>
           : <p>Loading...</p>
       }
