@@ -6,9 +6,8 @@ const page = async () => {
 
   if (au?.user?.isAdmin) {
     redirect('/dashboard')
-  } 
+  }
 
-  console.log({employee: au.user});
   return (
     <div>page</div>
   )
