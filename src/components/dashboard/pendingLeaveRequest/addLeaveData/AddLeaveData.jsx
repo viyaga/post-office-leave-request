@@ -15,14 +15,14 @@ const AddLeaveData = ({ setOpen }) => {
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(leaveSchema) })
 
     const formInputs = [
-        { type: "text", name: "name", placeholder: "email" },
-        { type: "text", name: "designation", placeholder: "email" },
-        { type: "text", name: "officeName", placeholder: "email" },
-        { type: "text", name: "from", placeholder: "email" },
-        { type: "text", name: "to", placeholder: "email" },
-        { type: "text", name: "substituteName", placeholder: "email" },
-        { type: "text", name: "accountNo", placeholder: "email" },
-        { type: "password", name: "remarks", placeholder: "password" },
+        { type: "text", name: "name", placeholder: "Name", label: "Name" },
+        { type: "text", name: "designation", placeholder: "Designation", label: "Designation" },
+        { type: "date", name: "from", placeholder: "From", label: "From" },
+        { type: "date", name: "to", placeholder: "To", label: "To" },
+        { type: "text", name: "officeName", placeholder: "Office", label: "Office" },
+        { type: "text", name: "substituteName", placeholder: "Substitute", label: "Substitute" },
+        { type: "text", name: "AccountNo", placeholder: "Account", label: "Account" },
+        { type: "text", name: "remarks", placeholder: "Remarks", label: "Remarks" },
     ]
 
     const onLeaveDataSubmit = async () => {
@@ -46,7 +46,7 @@ const AddLeaveData = ({ setOpen }) => {
                         )
                     })}
 
-                    <button>{isSubmitting ? 'Loading...' : 'Send'}</button>
+                    <button>{isSubmitting ? 'Loading...' : 'Add'}</button>
                 </form>
             </div>
         </div>

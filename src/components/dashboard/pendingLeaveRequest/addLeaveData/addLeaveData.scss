@@ -10,12 +10,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 998;
 
   .modal {
     padding: 50px;
     border-radius: 10px;
     background-color: $main-bg;
     position: relative;
+    z-index: 999;
 
     h1 {
       margin-bottom: 40px;

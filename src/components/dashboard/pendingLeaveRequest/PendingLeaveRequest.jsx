@@ -27,7 +27,6 @@ const PendingLeaveRequest = () => {
 
   useEffect(() => {
     fetchData('leaves', 'pending')
-    console.log("fetching Pending leaves");
   }, [])
 
   return (
