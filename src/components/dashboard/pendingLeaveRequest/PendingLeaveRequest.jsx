@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import toast from 'react-hot-toast'
 import './pendingLeaveRequest.scss'
-import { getData } from "@/services";
+import { addIdToDataGridRows, getData } from "@/services";
 import { leaveDataColums } from '@/data'
 import DataTableWithActions from "../shared/dataTableWithActions/DataTableWithActions";
 import AddLeaveData from "./addLeaveData/AddLeaveData";
@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPendingLeave } from "@/redux/slices/commonSlice";
 
 const PendingLeaveRequest = () => {
-  const { pendingLeave } = useSelector(state => state.common) 
+  const { pendingLeave } = useSelector(state => state.common)
   const [open, setOpen] = useState(false)
   const dispatch = useDispatch()
 
@@ -20,13 +20,14 @@ const PendingLeaveRequest = () => {
 
     if (res.error) return toast.error("An Error Occured While Fetching Data")
     if (res.data) {
-      const idAddedData = res.data.map((item, index) => ({ id: index + 1, ...item }))
+      const idAddedData = addIdToDataGridRows(res.data)
       dispatch(setPendingLeave(idAddedData))
     }
   }
 
   useEffect(() => {
     fetchData('leaves', 'pending')
+    console.log("fetching Pending leaves");
   }, [])
 
   return (

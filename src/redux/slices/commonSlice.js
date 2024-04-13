@@ -1,14 +1,16 @@
 "use client"
 
+import { addIdToDataGridRows } from "@/services";
+
 const { createSlice } = require("@reduxjs/toolkit");
 
 const initialState = {
     isSidebarOpen: false,
     isPageLoading: false,
-    pendingLeave:[],
-    employee:{
-        regular:[],
-        substitute:[],
+    pendingLeave: [],
+    employee: {
+        regular: [],
+        substitute: [],
     }
 }
 
@@ -32,7 +34,8 @@ const commonSlice = createSlice({
             state.pendingLeave = data
         },
         deletePendingLeave: (state, action) => {
-            state.pendingLeave = state.pendingLeave.filter((item) => item._id !== action.payload._id)
+            const leaveData = state.pendingLeave.filter((item) => item._id !== action.payload)
+            state.pendingLeave = addIdToDataGridRows(leaveData)
         },
         setRegularEmployee: (state, action) => {
             state.employee.regular = action.payload
@@ -61,7 +64,7 @@ const commonSlice = createSlice({
 
 export const {
     setSideBarOpen, setPageLoading, setPendingLeave, editPendingLeave, deletePendingLeave,
-    setRegularEmployee, editRegularEmployee, deleteRegularEmployee, setSubstituteEmployee, 
+    setRegularEmployee, editRegularEmployee, deleteRegularEmployee, setSubstituteEmployee,
     editSubstituteEmployee, deleteSubstituteEmployee,
 } = commonSlice.actions
 export default commonSlice.reducer

@@ -42,7 +42,7 @@ const menu = [
       },
       {
         id: 6,
-        title: "Vacant Place",
+        title: "SGA",
         url: "/dashboard/data-page?type=leaves&&cat=Stop Gap Arrangement",
         icon: <PiFlagPennantFill size={18} />,
       },

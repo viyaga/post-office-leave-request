@@ -5,11 +5,30 @@ import {
 import "./dataTableWithActions.scss";
 import Link from "next/link";
 import { MdDelete, MdEdit } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { deletePendingLeaveData } from "@/services";
+import toast from "react-hot-toast";
+import { deletePendingLeave } from "@/redux/slices/commonSlice";
+import { useState } from "react";
 
-const DataTableWithActions = (props) => {
+const DataTableWithActions = ({ columns, rows}) => {
+  const dispatch = useDispatch()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleDelete = (id) => {
-    console.log(id)
+  const handleDelete = async (id) => {
+    setIsLoading(true)
+    const res = await deletePendingLeaveData(id)
+
+    if (res.error) {
+      setIsLoading(false)
+      return toast.error(res.error)
+    }
+
+    if (res.success) {
+      dispatch(deletePendingLeave(id))
+      setIsLoading(false)
+    }
+    
   };
 
   const actionColumn = {
@@ -19,10 +38,10 @@ const DataTableWithActions = (props) => {
     renderCell: (params) => {
       return (
         <div className="action">
-          <Link href={`/${props.slug}/${params.row.id}`}>
+          <Link href={`/${params.row.id}`}>
             <MdEdit size={20} />
           </Link>
-          <div className="delete" onClick={() => handleDelete(params.row.id)}>
+          <div className="delete" onClick={() => handleDelete(params.row._id)}>
             <MdDelete size={20} />
           </div>
         </div>
@@ -34,8 +53,8 @@ const DataTableWithActions = (props) => {
     <div className="dataTable">
       <DataGrid
         className="dataGrid"
-        rows={props.rows}
-        columns={[...props.columns, actionColumn]}
+        rows={rows}
+        columns={[...columns, actionColumn]}
         initialState={{
           pagination: {
             paginationModel: {
@@ -53,6 +72,7 @@ const DataTableWithActions = (props) => {
         }}
         //rowCount={100}
         // paginationMode="server"
+        loading={isLoading}
         pageSizeOptions={[5, 10, 25]}
         checkboxSelection
         disableRowSelectionOnClick

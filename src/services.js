@@ -8,6 +8,10 @@ const errResponse = (error) => {
     return message
 }
 
+const addIdToDataGridRows = (data) => {
+    return data.map((item, index) => ({ ...item, id: index + 1 }))
+}
+
 const getData = async (type, category) => {
     try {
         const response = await axios.get(`${PUBLIC_SERVER_ONE}/${type}/${category}`)
@@ -18,6 +22,16 @@ const getData = async (type, category) => {
     }
 }
 
+const deletePendingLeaveData = async (id) => {
+    try {
+        const response = await axios.delete(`${PUBLIC_SERVER_ONE}/leaves/${id}`)
+        const leaveId = response.data.leaveId
+        return { success: "Deleted Successfully", leaveId }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
 export {
-    errResponse, getData
+    errResponse, addIdToDataGridRows, getData, deletePendingLeaveData
 }
