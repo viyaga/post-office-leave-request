@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import './addLeaveData.scss'
+import './addRegularEmployee.scss'
 import ZodSelectInput from "@/components/shared/zodSelectInput/ZodSelectInput"
 import { BranchOfficeNames } from "@/data"
 
@@ -11,16 +11,9 @@ const leaveSchema = z.object({
     name: z.string().min(1, { message: "Name Required" }).max(50),
     designation: z.string().min(1, { message: "Designation Required" }).max(10),
     officeName: z.string().min(1, { message: "Office Required" }).max(50),
-    from: z.string().max(20),
-    to: z.string().max(20),
-    substituteName: z.string().max(50),
-    accountNo: z.string().max(20),
-    remarks: z.string().max(100),
-    leaveType: z.string().max(100),
-    status: z.string().min(1, { message: "Status Required" }).max(20),
 })
 
-const AddLeaveData = ({ setOpen }) => {
+const AddRegularEmployee = ({ setOpen }) => {
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(leaveSchema) })
 
     const formInputs = [
@@ -48,7 +41,7 @@ const AddLeaveData = ({ setOpen }) => {
                 <span className="close" onClick={() => setOpen(false)}>
                     X
                 </span>
-                <h1>Add New Request</h1>
+                <h1>Add New Regular Employee</h1>
                 <form onSubmit={handleSubmit(onLeaveDataSubmit)}>
 
                     <div className="item">
@@ -66,30 +59,6 @@ const AddLeaveData = ({ setOpen }) => {
                         <ZodFormInput type="text" name="name" register={register} placeholder="Name" error={errors["name"]} />
                     </div>
 
-                    <div className="item">
-                        <label>Remarks</label>
-                        <ZodSelectInput name="remarks" register={register} defaultValue="Select" options={remarkOptions} error={errors['remarks']} />
-                    </div>
-
-                    {formInputs.map(item => {
-                        return (
-                            <div className="item" key={item.label}>
-                                <label>{item.label}</label>
-                                <ZodFormInput type={item.type} name={item.name} register={register} placeholder={item.placeholder} error={errors[item.name]} />
-                            </div>
-                        )
-                    })}
-
-
-                    <div className="item">
-                        <label>Leave Type</label>
-                        <ZodSelectInput name="leaveType" register={register} defaultValue="Select" options={leaveTypeOptions} error={errors['leaveType']} />
-                    </div>
-                    <div className="item">
-                        <label>Status *</label>
-                        <ZodSelectInput name="status" register={register} defaultValue="Select" options={leaveStatusOptions} error={errors['status']} />
-                    </div>
-
                     <input type="submit" defaultValue={isSubmitting ? "Adding..." : "Add"} />
                 </form>
             </div>
@@ -97,4 +66,4 @@ const AddLeaveData = ({ setOpen }) => {
     )
 }
 
-export default AddLeaveData
+export default AddRegularEmployee

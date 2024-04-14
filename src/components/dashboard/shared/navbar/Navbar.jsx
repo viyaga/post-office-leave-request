@@ -4,11 +4,11 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="logo">
-        <img src="logo.svg" alt="" />
+        <img src="/logo.svg" alt="" />
         <span>DOP Tech Blazers</span>
       </div>
       <div className="icons">
-        <img src="/search.svg" alt="" className="icon" />
+        {/* <img src="/search.svg" alt="" className="icon" />
         <img src="/app.svg" alt="" className="icon" />
         <img src="/expand.svg" alt="" className="icon" />
         <div className="notification">
@@ -22,7 +22,7 @@ const Navbar = () => {
           />
           <span>Jane</span>
         </div>
-        <img src="/settings.svg" alt="" className="icon" />
+        <img src="/settings.svg" alt="" className="icon" /> */}
       </div>
     </div>
   );

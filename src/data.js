@@ -69,14 +69,14 @@ const menu = [
 ];
 
 const regularEmployeeColumns = [
-  { field: "id", headerName: "ID", width: 90, filterable: false },
+  { field: "id", headerName: "S.No.", width: 90, filterable: false },
   { field: "name", type: "string", headerName: "Name", width: 250 },
   { field: "designation", type: "string", headerName: "Designation", width: 150 },
   { field: "officeName", type: "string", headerName: "Office Name", width: 180 },
 ];
 
 const substituteEmployeeColums = [
-  { field: "id", headerName: "ID", width: 90, filterable: false },
+  { field: "id", headerName: "S.No.", width: 90, filterable: false },
   { field: "name", type: "string", headerName: "Name", width: 250 },
   { field: "accountNo", type: "string", headerName: "Account Number", width: 250 },
 ];
@@ -93,6 +93,18 @@ const leaveDataColums = [
   { field: "accountNo", type: "string", headerName: "Account Number", width: 160, valueFormatter: params => params ? params : '-' },
   { field: "remarks", type: "string", headerName: "Remarks", width: 200, valueFormatter: params => params ? params : '-' },
 ]
+
+const BranchOfficeNames = ["A.Ammapatti", "A.Thottiapatti", "Achampatti", "Alagappan Nagar So", "Alampatti", "Alapalachery", "Appakarai",
+  "Arasapatti", "Austinpatti", "Avalsurampatti", "Chittur", "Deivanayagapuram", "Genjampatti", "Harveypatti", "Jari Usilampatti", "K.Sennampatti",
+  "Kadaneri", "Kalligudi So", "Kangeyanatham", "Kappalur", "Kappalur Bo", "Kappalur Indl Estate So", "Karadikal", "Karaikeni", "Kilavaneri",
+  "Koothiargundu", "Koovalapuram", "Kopinayakanpatti", "Kuraiyur", "Lalapuram", "M.Pudupatti", "M.Puliyankulam", "Madipanur", "Mangalrevu", "Marudangudi",
+  "Melakottai", "Msubbulapuram", "Nallamaram", "Nedungulam", "Nilaiyur", "Odaipatti", "P.Thottiapatti", "Pappayapuram", "Pappunaickanpatti", "Pasumalai So",
+  "Peraiyur So", "Periyapoolampatti", "Ponnamangalam", "Pudunagar So", "Royapalayam", "S.P.Natham", "Sandaiyur", "Sathangudi", "Sengapadai", "Sevarakottai",
+  "Sidhireddipatti", "Silamalaipatti", "Silarapatti", "Sithalai", "Sivanandanagar", "Solaipatti", "Sowdarpatti", "T.E.College So", "T.Kallupatti So",
+  "T.Kunnathur So", "T.Pudupatti So", "Thanakkankulam", "Thangalacheri", "Thoppur", "Tirali", "Tirumangalam So", "Tirunagar So", "Tmm South So",
+  "Tvs Nagar So", "Urappanur", "Urappanur Bo", "Vadakkampatti", "Vagaikulam", "Vannivelampatti", "Veeraperumalpuram", "Velambur", "Velambur Bo",
+  "Vellakulam", "Vidathakulam", "Vilachery", "Villur So"]
+
 const subDivisionOptions = ['Tirumangalam']
 
-export { menu, regularEmployeeColumns, substituteEmployeeColums, leaveDataColums, subDivisionOptions }
+export { menu, regularEmployeeColumns, substituteEmployeeColums, leaveDataColums, BranchOfficeNames, subDivisionOptions }

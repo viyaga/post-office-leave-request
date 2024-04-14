@@ -35,6 +35,7 @@ const DataTableWithActions = ({ columns, rows}) => {
     field: "action",
     headerName: "Action",
     width: 200,
+    disableExport: true,
     renderCell: (params) => {
       return (
         <div className="action">

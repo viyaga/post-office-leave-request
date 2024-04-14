@@ -1,5 +1,5 @@
-@import "../../../../styles/variables.scss";
-@import "../../../../styles/responsive.scss";
+@import "../../../../../styles/variables.scss";
+@import "../../../../../styles/responsive.scss";
 
 .add {
   width: 100vw;
@@ -13,10 +13,6 @@
   justify-content: center;
   z-index: 998;
   
-  @include sm {
-    background-color: white;
-  }
-
   .modal {
     padding: 50px;
     border-radius: 10px;
@@ -25,7 +21,6 @@
     z-index: 999;
 
     @include sm {
-      margin-top: 300px;
       width: 90%;
     }
 
