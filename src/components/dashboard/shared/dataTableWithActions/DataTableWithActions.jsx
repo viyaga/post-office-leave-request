@@ -11,25 +11,9 @@ import toast from "react-hot-toast";
 import { deletePendingLeave } from "@/redux/slices/commonSlice";
 import { useState } from "react";
 
-const DataTableWithActions = ({ columns, rows}) => {
+const DataTableWithActions = ({ columns, rows, setDeleteData}) => {
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
-
-  const handleDelete = async (id) => {
-    setIsLoading(true)
-    const res = await deletePendingLeaveData(id)
-
-    if (res.error) {
-      setIsLoading(false)
-      return toast.error(res.error)
-    }
-
-    if (res.success) {
-      dispatch(deletePendingLeave(id))
-      setIsLoading(false)
-    }
-    
-  };
 
   const actionColumn = {
     field: "action",
@@ -42,7 +26,7 @@ const DataTableWithActions = ({ columns, rows}) => {
           <Link href={`/${params.row.id}`}>
             <MdEdit size={20} />
           </Link>
-          <div className="delete" onClick={() => handleDelete(params.row._id)}>
+          <div className="delete" onClick={() => setDeleteData(params.row)}>
             <MdDelete size={20} />
           </div>
         </div>

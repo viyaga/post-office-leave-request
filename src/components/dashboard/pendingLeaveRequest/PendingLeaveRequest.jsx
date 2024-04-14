@@ -9,10 +9,12 @@ import DataTableWithActions from "../shared/dataTableWithActions/DataTableWithAc
 import AddLeaveData from "./addLeaveData/AddLeaveData";
 import { useDispatch, useSelector } from "react-redux";
 import { setPendingLeave } from "@/redux/slices/commonSlice";
+import DeleteLeaveData from "./deleteLeaveData/DeleteLeaveData";
 
 const PendingLeaveRequest = () => {
   const { pendingLeave } = useSelector(state => state.common)
   const [open, setOpen] = useState(false)
+  const [deleteData, setDeleteData] = useState(null)
   const dispatch = useDispatch()
 
   const fetchData = async (type, category) => {
@@ -36,12 +38,13 @@ const PendingLeaveRequest = () => {
         <button onClick={() => setOpen(true)}>Add New</button>
       </div>
       {(pendingLeave && pendingLeave.length > 0)
-        ? < DataTableWithActions columns={leaveDataColums} rows={pendingLeave} />
+        ? < DataTableWithActions columns={leaveDataColums} rows={pendingLeave} setDeleteData={setDeleteData} />
         : pendingLeave
           ? <p>No Data Found</p>
           : <p>Loading...</p>
       }
       {open && <AddLeaveData setOpen={setOpen} />}
+      {deleteData && <DeleteLeaveData deleteData={deleteData} setDeleteData={setDeleteData} />}
     </div>
   )
 }

@@ -55,13 +55,13 @@ const menu = [
       {
         id: 1,
         title: "Regular",
-        url: "/dashboard/employee/regular?type=employees&&cat=regular",
+        url: "/dashboard/employee/regular",
         icon: <MdPerson size={18} />,
       },
       {
         id: 2,
         title: "Substitute",
-        url: "/dashboard/employee/substitute?type=employees&&cat=substitute",
+        url: "/dashboard/employee/substitute",
         icon: <BsFillPersonLinesFill size={18} />,
       },
     ],

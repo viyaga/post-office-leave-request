@@ -1,66 +1,38 @@
-import ZodFormInput from "@/components/shared/zodFormInput/ZodFormInput"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-
+import { deletePendingLeaveData } from '@/services'
 import './deleteLeaveData.scss'
-import ZodSelectInput from "@/components/shared/zodSelectInput/ZodSelectInput"
-import { BranchOfficeNames } from "@/data"
+import { deletePendingLeave } from '@/redux/slices/commonSlice'
+import { useDispatch } from 'react-redux'
+import { useTransition } from 'react'
+import toast from 'react-hot-toast'
 
-const leaveSchema = z.object({
-    name: z.string().min(1, { message: "Name Required" }).max(50),
-    designation: z.string().min(1, { message: "Designation Required" }).max(10),
-    officeName: z.string().min(1, { message: "Office Required" }).max(50),
-})
+const DeleteLeaveData = ({ deleteData, setDeleteData }) => {
+    const [isLoading, startTransiton] = useTransition()
+    const dispatch = useDispatch()
 
-const DeleteLeaveData = ({ setOpen }) => {
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(leaveSchema) })
+    const handleDelete = () => {
 
-    const formInputs = [
-        { type: "date", name: "from", placeholder: "From", label: "From" },
-        { type: "date", name: "to", placeholder: "To", label: "To" },
-        { type: "text", name: "substituteName", placeholder: "Substitute", label: "Substitute" },
-        { type: "text", name: "accountNo", placeholder: "Account", label: "Account" },
-    ]
+        startTransiton(async () => {
+            const res = await deletePendingLeaveData(deleteData._id)
 
-    const designationOptions = ['BPM', 'ABPM', 'ABPM I', 'ABPM II', 'DAK SEVAK']
-    const remarkOptions = ['Personal affairs', 'Officiating', 'Stop Gap arrangement', 'POD', 'Induction training', 'Maternity leave', 'Medical affairs']
-    const leaveTypeOptions = ['Paid Leave', 'LWA', 'Stop Gap Arrangement', 'Maternity', 'Training', 'Others']
-    const leaveStatusOptions = ['Approved', 'Pending']
+            if (res.error) {
+                return toast.error(res.error)
+            }
 
-    const onLeaveDataSubmit = async (props) => {
-
-        console.log({ props });
-
-
+            if (res.success) {
+                dispatch(deletePendingLeave(deleteData._id))
+                setDeleteData(null)
+            }
+        })
     }
 
     return (
-        <div className="add">
+        <div className="deleteLeave">
             <div className="modal">
-                <span className="close" onClick={() => setOpen(false)}>
-                    X
-                </span>
-                <h1>Add New Regular Employee</h1>
-                <form onSubmit={handleSubmit(onLeaveDataSubmit)}>
-
-                    <div className="item">
-                        <label>Office *</label>
-                        <ZodSelectInput name="officeName" register={register} defaultValue="Select" options={BranchOfficeNames} error={errors['officeName']} />
-                    </div>
-
-                    <div className="item">
-                        <label>Designation *</label>
-                        <ZodSelectInput name="designation" register={register} defaultValue="Select" options={designationOptions} error={errors['designation']} />
-                    </div>
-
-                    <div className="item">
-                        <label>Name *</label>
-                        <ZodFormInput type="text" name="name" register={register} placeholder="Name" error={errors["name"]} />
-                    </div>
-
-                    <input type="submit" defaultValue={isSubmitting ? "Adding..." : "Add"} />
-                </form>
+                <h1>Are you sure you want to delete {deleteData.name}&apos;s data? This action cannot be undone</h1>
+                <div className="buttons">
+                    <button  className="deleteBtn" onClick={handleDelete}>{isLoading ? "Deleting..." : "Delete"}</button>
+                    <button onClick={() => setDeleteData(null)}>Cancel</button>
+                </div>
             </div>
         </div>
     )
