@@ -4,28 +4,40 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import './addLeaveData.scss'
+import ZodSelectInput from "@/components/shared/zodSelectInput/ZodSelectInput"
 
 const leaveSchema = z.object({
-    email: z.string().email().min(1, { message: "Email Required" }).max(75, { message: "Email must contain at most 75 characters" }),
-    password: z.string().min(6, { message: "Password  must contain at least 6 characters" }).max(20, { message: "Password must contain at most 20 characters" }),
-    subdivisionName: z.string().min(1, { message: "Subdivision Required" }).max(75, { message: "Subdivision must contain at most 75 characters" })
+    name: z.string().min(1, { message: "Name Required" }).max(50),
+    designation: z.string().min(1, { message: "Designation Required" }).max(10),
+    officeName: z.string().min(1, { message: "Office Required" }).max(50),
+    from: z.string().max(20),
+    to: z.string().max(20),
+    substituteName: z.string().max(50),
+    accountNo: z.string().max(20),
+    remarks: z.string().max(100),
+    leaveType: z.string().max(100),
+    status: z.string().min(1, { message: "Status Required" }).max(20),
 })
 
 const AddLeaveData = ({ setOpen }) => {
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(leaveSchema) })
 
     const formInputs = [
-        { type: "text", name: "name", placeholder: "Name", label: "Name" },
-        { type: "text", name: "designation", placeholder: "Designation", label: "Designation" },
         { type: "date", name: "from", placeholder: "From", label: "From" },
         { type: "date", name: "to", placeholder: "To", label: "To" },
-        { type: "text", name: "officeName", placeholder: "Office", label: "Office" },
         { type: "text", name: "substituteName", placeholder: "Substitute", label: "Substitute" },
-        { type: "text", name: "AccountNo", placeholder: "Account", label: "Account" },
-        { type: "text", name: "remarks", placeholder: "Remarks", label: "Remarks" },
+        { type: "text", name: "accountNo", placeholder: "Account", label: "Account" },
     ]
 
-    const onLeaveDataSubmit = async () => {
+    const designationOptions = ['BPM', 'ABPM', 'ABPM I', 'ABPM II', 'DAK SEVAK']
+    const remarkOptions = ['Personal affairs', 'Officiating', 'Stop Gap arrangement', 'POD', 'Induction training', 'Maternity leave', 'Medical affairs']
+    const leaveTypeOptions = ['Paid Leave', 'LWA', 'Stop Gap Arrangement', 'Maternity', 'Training', 'Others']
+    const leaveStatusOptions = ['Approved', 'Pending']
+
+    const onLeaveDataSubmit = async (props) => {
+
+        console.log({ props });
+
 
     }
 
@@ -37,6 +49,27 @@ const AddLeaveData = ({ setOpen }) => {
                 </span>
                 <h1>Add New Request</h1>
                 <form onSubmit={handleSubmit(onLeaveDataSubmit)}>
+
+                    <div className="item">
+                        <label>Office *</label>
+                        <ZodSelectInput name="officeName" register={register} defaultValue="Select" options={remarkOptions} error={errors['officeName']} />
+                    </div>
+
+                    <div className="item">
+                        <label>Designation *</label>
+                        <ZodSelectInput name="designation" register={register} defaultValue="Select" options={designationOptions} error={errors['designation']} />
+                    </div>
+
+                    <div className="item">
+                        <label>Name *</label>
+                        <ZodFormInput type="text" name="name" register={register} placeholder="Name" error={errors["name"]} />
+                    </div>
+
+                    <div className="item">
+                        <label>Remarks</label>
+                        <ZodSelectInput name="remarks" register={register} defaultValue="Select" options={remarkOptions} error={errors['remarks']} />
+                    </div>
+
                     {formInputs.map(item => {
                         return (
                             <div className="item" key={item.label}>
@@ -46,7 +79,17 @@ const AddLeaveData = ({ setOpen }) => {
                         )
                     })}
 
-                    <button>{isSubmitting ? 'Loading...' : 'Add'}</button>
+
+                    <div className="item">
+                        <label>Leave Type</label>
+                        <ZodSelectInput name="leaveType" register={register} defaultValue="Select" options={leaveTypeOptions} error={errors['leaveType']} />
+                    </div>
+                    <div className="item">
+                        <label>Status *</label>
+                        <ZodSelectInput name="status" register={register} defaultValue="Select" options={leaveStatusOptions} error={errors['status']} />
+                    </div>
+
+                    <input type="submit" defaultValue={isSubmitting ? "Adding..." : "Add"} />
                 </form>
             </div>
         </div>

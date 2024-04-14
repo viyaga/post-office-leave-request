@@ -7,11 +7,11 @@ const ZodSelectInput = (props) => {
             <select {...register(name)} className={className}>
                 <option value="">{defaultValue}</option>
                 {options && options.map((item, index) =>
-                    <option key={index} value={item}>{item}</option>
+                    <option key={index} value={item.toLowerCase()}>{item}</option>
                 )}
             </select>
             {error && (
-                <p className='text-danger font-w600'>{error.message}</p>
+                <p style={{ paddingTop: '5px', fontWeight: 600, color: 'orange' }}>{error.message}</p>
             )}
         </div>
     )
