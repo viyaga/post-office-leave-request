@@ -1,3 +1,5 @@
+"use client"
+
 import ZodFormInput from "@/components/shared/zodFormInput/ZodFormInput"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -6,6 +8,7 @@ import { z } from "zod"
 import './addRegularEmployee.scss'
 import ZodSelectInput from "@/components/shared/zodSelectInput/ZodSelectInput"
 import { BranchOfficeNames } from "@/data"
+import { useEffect } from "react"
 
 const regularEmployeeSchema = z.object({
     name: z.string().min(1, { message: "Name Required" }).max(50),
@@ -13,8 +16,8 @@ const regularEmployeeSchema = z.object({
     officeName: z.string().min(1, { message: "Office Required" }).max(50),
 })
 
-const AddRegularEmployee = ({ setOpen }) => {
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(regularEmployeeSchema) })
+const AddRegularEmployee = ({ editData, setOpen }) => {
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({ resolver: zodResolver(regularEmployeeSchema) })
 
     const designationOptions = ['BPM', 'ABPM', 'ABPM I', 'ABPM II', 'DAK SEVAK']
 
@@ -24,6 +27,13 @@ const AddRegularEmployee = ({ setOpen }) => {
 
 
     }
+
+    useEffect(() => {
+        if (editData) {
+            //reset(...editData)
+            console.log({editData});
+        }
+    }, [editData])
 
     return (
         <div className="addRegularEmployee">

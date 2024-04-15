@@ -14,6 +14,7 @@ import DeleteRegularEmployee from "./deleteRegularEmployee/DeleteRegularEmployee
 const RegularEmployee = () => {
     const { regular } = useSelector(state => state.common.employee)
     const [deleteData, setDeleteData] = useState(null)
+    const [editData, setEditData] = useState(null)
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
 
@@ -39,12 +40,12 @@ const RegularEmployee = () => {
                 <button onClick={() => setOpen(true)}>Add New</button>
             </div>
             {(regular && regular.length > 0)
-                ? < DataTableWithActions columns={regularEmployeeColumns} rows={regular} setDeleteData={setDeleteData} />
+                ? < DataTableWithActions columns={regularEmployeeColumns} rows={regular} setOpen={setOpen} setEditData={setEditData} setDeleteData={setDeleteData} />
                 : regular
                     ? <p>No Data Found</p>
                     : <p>Loading...</p>
             }
-            {open && <AddRegularEmployee setOpen={setOpen} />}
+            {open && <AddRegularEmployee editData={editData} setOpen={setOpen} />}
             {deleteData && <DeleteRegularEmployee deleteData={deleteData} setDeleteData={setDeleteData} />}
         </div>
     )

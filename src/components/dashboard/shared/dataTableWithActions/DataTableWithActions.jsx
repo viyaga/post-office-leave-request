@@ -11,9 +11,14 @@ import toast from "react-hot-toast";
 import { deletePendingLeave } from "@/redux/slices/commonSlice";
 import { useState } from "react";
 
-const DataTableWithActions = ({ columns, rows, setDeleteData}) => {
+const DataTableWithActions = ({ columns, rows, setOpen, setEditData, setDeleteData }) => {
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
+
+  const handleEdit = (data) => {
+    setEditData(data)
+    setOpen(true)
+  }
 
   const actionColumn = {
     field: "action",
@@ -23,13 +28,13 @@ const DataTableWithActions = ({ columns, rows, setDeleteData}) => {
     renderCell: (params) => {
       return (
         <div className="action">
-          <Link href={`/${params.row.id}`}>
+          <div className="edit" onClick={() => handleEdit(params.row)}>
             <MdEdit size={20} />
-          </Link>
+          </div>
           <div className="delete" onClick={() => setDeleteData(params.row)}>
             <MdDelete size={20} />
           </div>
-        </div>
+        </div >
       );
     },
   };
@@ -55,8 +60,6 @@ const DataTableWithActions = ({ columns, rows, setDeleteData}) => {
             printOptions: { disableToolbarButton: true }
           },
         }}
-        //rowCount={100}
-        // paginationMode="server"
         loading={isLoading}
         pageSizeOptions={[5, 10, 25]}
         checkboxSelection
