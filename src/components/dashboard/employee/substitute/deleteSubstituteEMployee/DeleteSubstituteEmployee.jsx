@@ -1,11 +1,11 @@
 import { deletePendingLeaveData } from '@/services'
-import './deleteLeaveData.scss'
+import './deleteSubstituteEmployee.scss'
 import { deletePendingLeave } from '@/redux/slices/commonSlice'
 import { useDispatch } from 'react-redux'
 import { useTransition } from 'react'
 import toast from 'react-hot-toast'
 
-const DeleteLeaveData = ({ deleteData, setDeleteData }) => {
+const DeleteSubstituteEmployee = ({ deleteData, setDeleteData }) => {
     const [isLoading, startTransiton] = useTransition()
     const dispatch = useDispatch()
 
@@ -26,7 +26,7 @@ const DeleteLeaveData = ({ deleteData, setDeleteData }) => {
     }
 
     return (
-        <div className="deleteLeave">
+        <div className="deleteSubstitute">
             <div className="modal">
                 <h1>Are you sure you want to delete {deleteData.name}&apos;s data? This action cannot be undone</h1>
                 <div className="buttons">
@@ -38,4 +38,4 @@ const DeleteLeaveData = ({ deleteData, setDeleteData }) => {
     )
 }
 
-export default DeleteLeaveData
+export default DeleteSubstituteEmployee

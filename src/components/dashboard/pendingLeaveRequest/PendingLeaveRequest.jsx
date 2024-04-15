@@ -32,7 +32,7 @@ const PendingLeaveRequest = () => {
   }, [])
 
   return (
-    <div className="leave-requests">
+    <div className="pendingLeave">
       <div className="info">
         <h2>Pending</h2>
         <button onClick={() => setOpen(true)}>Add New</button>

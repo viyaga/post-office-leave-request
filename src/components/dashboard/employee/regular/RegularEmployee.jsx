@@ -9,9 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setRegularEmployee } from "@/redux/slices/commonSlice";
 import DataTableWithActions from "../../shared/dataTableWithActions/DataTableWithActions";
 import AddRegularEmployee from "./addRegularEmployee/AddRegularEmployee";
+import DeleteRegularEmployee from "./deleteRegularEmployee/DeleteRegularEmployee";
 
 const RegularEmployee = () => {
     const { regular } = useSelector(state => state.common.employee)
+    const [deleteData, setDeleteData] = useState(null)
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
 
@@ -31,18 +33,19 @@ const RegularEmployee = () => {
     }, [])
 
     return (
-        <div className="leave-requests">
+        <div className="regularEmployee">
             <div className="info">
                 <h2>Pending</h2>
                 <button onClick={() => setOpen(true)}>Add New</button>
             </div>
             {(regular && regular.length > 0)
-                ? < DataTableWithActions columns={regularEmployeeColumns} rows={regular} />
+                ? < DataTableWithActions columns={regularEmployeeColumns} rows={regular} setDeleteData={setDeleteData} />
                 : regular
                     ? <p>No Data Found</p>
                     : <p>Loading...</p>
             }
             {open && <AddRegularEmployee setOpen={setOpen} />}
+            {deleteData && <DeleteRegularEmployee deleteData={deleteData} setDeleteData={setDeleteData} />}
         </div>
     )
 }

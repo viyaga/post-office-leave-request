@@ -1,11 +1,11 @@
 import { deletePendingLeaveData } from '@/services'
-import './deleteLeaveData.scss'
+import './deleteRegularEmployee.scss'
 import { deletePendingLeave } from '@/redux/slices/commonSlice'
 import { useDispatch } from 'react-redux'
 import { useTransition } from 'react'
 import toast from 'react-hot-toast'
 
-const DeleteLeaveData = ({ deleteData, setDeleteData }) => {
+const DeleteRegularEmployee = ({ deleteData, setDeleteData }) => {
     const [isLoading, startTransiton] = useTransition()
     const dispatch = useDispatch()
 
@@ -26,16 +26,16 @@ const DeleteLeaveData = ({ deleteData, setDeleteData }) => {
     }
 
     return (
-        <div className="deleteLeave">
+        <div className="deleteRegularEmployee">
             <div className="modal">
-                <h1>Are you sure you want to delete {deleteData.name}&apos;s data? This action cannot be undone</h1>
+                <h1>Are you sure you want to delete regular employee {deleteData.name}? This action cannot be undone</h1>
                 <div className="buttons">
-                    <button  className="deleteBtn" onClick={handleDelete}>{isLoading ? "Deleting..." : "Delete"}</button>
-                    <button className="cancelBtn" onClick={() => setDeleteData(null)}>Cancel</button>
+                    <button  onClick={handleDelete}>{isLoading ? "Deleting..." : "Delete"}</button>
+                    <button onClick={() => setDeleteData(null)}>Cancel</button>
                 </div>
             </div>
         </div>
     )
 }
 
-export default DeleteLeaveData
+export default DeleteRegularEmployee

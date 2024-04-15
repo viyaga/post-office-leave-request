@@ -43,7 +43,7 @@ const AddLeaveData = ({ setOpen }) => {
     }
 
     return (
-        <div className="add">
+        <div className="addLeaveRequest">
             <div className="modal">
                 <span className="close" onClick={() => setOpen(false)}>
                     X

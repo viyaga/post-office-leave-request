@@ -7,26 +7,16 @@ import './addRegularEmployee.scss'
 import ZodSelectInput from "@/components/shared/zodSelectInput/ZodSelectInput"
 import { BranchOfficeNames } from "@/data"
 
-const leaveSchema = z.object({
+const regularEmployeeSchema = z.object({
     name: z.string().min(1, { message: "Name Required" }).max(50),
     designation: z.string().min(1, { message: "Designation Required" }).max(10),
     officeName: z.string().min(1, { message: "Office Required" }).max(50),
 })
 
 const AddRegularEmployee = ({ setOpen }) => {
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(leaveSchema) })
-
-    const formInputs = [
-        { type: "date", name: "from", placeholder: "From", label: "From" },
-        { type: "date", name: "to", placeholder: "To", label: "To" },
-        { type: "text", name: "substituteName", placeholder: "Substitute", label: "Substitute" },
-        { type: "text", name: "accountNo", placeholder: "Account", label: "Account" },
-    ]
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(regularEmployeeSchema) })
 
     const designationOptions = ['BPM', 'ABPM', 'ABPM I', 'ABPM II', 'DAK SEVAK']
-    const remarkOptions = ['Personal affairs', 'Officiating', 'Stop Gap arrangement', 'POD', 'Induction training', 'Maternity leave', 'Medical affairs']
-    const leaveTypeOptions = ['Paid Leave', 'LWA', 'Stop Gap Arrangement', 'Maternity', 'Training', 'Others']
-    const leaveStatusOptions = ['Approved', 'Pending']
 
     const onLeaveDataSubmit = async (props) => {
 
@@ -36,7 +26,7 @@ const AddRegularEmployee = ({ setOpen }) => {
     }
 
     return (
-        <div className="add">
+        <div className="addRegularEmployee">
             <div className="modal">
                 <span className="close" onClick={() => setOpen(false)}>
                     X
