@@ -19,6 +19,49 @@ const addIdToDataGridRows = (data) => {
     return data.map((item, index) => ({ ...item, id: index + 1 }))
 }
 
+// Regular Employees ====================================================================
+const getAllRegularEmployees = async () => {
+    try {
+        const response = await axios.get(`${PUBLIC_SERVER_ONE}/employee/regular`)
+        const employees = response.data.employees
+        return { employees }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
+const createRegularEmployee = async (regularEmployeeData) => {
+    try {
+        const response = await axios.post(`${PUBLIC_SERVER_ONE}/employee/regular`, regularEmployeeData)
+        const message = response.data.message
+        return { success: message }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
+
+const updateRegularEmployee = async (id, regularEmployeeData) => {
+    try {
+        const response = await axios.put(`${PUBLIC_SERVER_ONE}/employee/regular/${id}`, regularEmployeeData)
+        const message = response.data.message
+        return { success: message }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
+
+const deleteRegularEmployee = async (id) => {
+    try {
+        const response = await axios.delete(`${PUBLIC_SERVER_ONE}/employee/regular/${id}`)
+        const message = response.data.message
+        return { success: message }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
 const getData = async (type, category) => {
     try {
         const response = await axios.get(`${PUBLIC_SERVER_ONE}/${type}/${category}`)
@@ -40,5 +83,7 @@ const deletePendingLeaveData = async (id) => {
 }
 
 export {
-    errResponse, textCapitalize, addIdToDataGridRows, getData, deletePendingLeaveData
+    errResponse, textCapitalize, addIdToDataGridRows,
+    getAllRegularEmployees, createRegularEmployee, updateRegularEmployee, deleteRegularEmployee,
+    getData, deletePendingLeaveData
 }

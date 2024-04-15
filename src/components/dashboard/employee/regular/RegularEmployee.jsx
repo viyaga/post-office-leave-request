@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import toast from 'react-hot-toast'
 import './regularEmployee.scss'
-import { addIdToDataGridRows, getData } from "@/services";
+import { addIdToDataGridRows, getAllRegularEmployees, getData } from "@/services";
 import { regularEmployeeColumns } from '@/data'
 import { useDispatch, useSelector } from "react-redux";
 import { setRegularEmployee } from "@/redux/slices/commonSlice";
@@ -19,12 +19,10 @@ const RegularEmployee = () => {
     const dispatch = useDispatch()
 
     const fetchData = async (type, category) => {
-        const res = await getData(type, category)
+        const res = await getAllRegularEmployees()
         if (res.error) return toast.error("An Error Occured While Fetching Data")
-        if (res.data) {
-            const idAddedData = addIdToDataGridRows(res.data)
-            const BOs = idAddedData.map(item => item.officeName)
-            console.log({ BOs })
+        if (res.employees) {
+            const idAddedData = addIdToDataGridRows(res.employees)
             dispatch(setRegularEmployee(idAddedData))
         }
     }

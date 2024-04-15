@@ -9,6 +9,8 @@ import './addRegularEmployee.scss'
 import ZodSelectInput from "@/components/shared/zodSelectInput/ZodSelectInput"
 import { BranchOfficeNames } from "@/data"
 import { useEffect } from "react"
+import { createRegularEmployee, updateRegularEmployee } from "@/services"
+import toast from "react-hot-toast"
 
 const regularEmployeeSchema = z.object({
     name: z.string().min(1, { message: "Name Required" }).max(50),
@@ -26,11 +28,20 @@ const AddRegularEmployee = ({ editData, setEditData, setOpen }) => {
         setEditData(null)
     }
 
-    const onLeaveDataSubmit = async (props) => {
+    const onEmployeeDataSubmit = async ({ name, designation, officeName }) => {
 
-        console.log({ props });
+        let res = null
+        if (editData) {
+            res = await updateRegularEmployee(editData._id, { name, designation, officeName })
+        } else {
+            res = await createRegularEmployee({ name, designation, officeName })
+        }
 
-        
+        if (res.error) return toast.error(res.error)
+
+        toast.success(res.success)
+        setOpen(false)
+        setEditData(null)
     }
 
     useEffect(() => {
@@ -47,7 +58,7 @@ const AddRegularEmployee = ({ editData, setEditData, setOpen }) => {
                     X
                 </span>
                 <h1>{editData ? "Update " : "Add New Regular"} Employee</h1>
-                <form onSubmit={handleSubmit(onLeaveDataSubmit)}>
+                <form onSubmit={handleSubmit(onEmployeeDataSubmit)}>
 
                     <div className="item">
                         <label>Office *</label>

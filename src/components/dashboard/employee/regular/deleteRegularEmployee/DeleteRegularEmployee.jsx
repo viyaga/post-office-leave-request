@@ -1,4 +1,4 @@
-import { deletePendingLeaveData } from '@/services'
+import { deletePendingLeaveData, deleteRegularEmployee } from '@/services'
 import './deleteRegularEmployee.scss'
 import { deletePendingLeave } from '@/redux/slices/commonSlice'
 import { useDispatch } from 'react-redux'
@@ -12,14 +12,14 @@ const DeleteRegularEmployee = ({ deleteData, setDeleteData }) => {
     const handleDelete = () => {
 
         startTransiton(async () => {
-            const res = await deletePendingLeaveData(deleteData._id)
+            const res = await deleteRegularEmployee(deleteData._id)
 
             if (res.error) {
                 return toast.error(res.error)
             }
 
             if (res.success) {
-                dispatch(deletePendingLeave(deleteData._id))
+                toast.success(res.success)
                 setDeleteData(null)
             }
         })
