@@ -8,6 +8,13 @@ const errResponse = (error) => {
     return message
 }
 
+const textCapitalize = (text) => {
+    // .split(/[ .]/)
+    var sentence = text.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+    sentence = sentence.split('.').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('.')
+    return sentence
+}
+
 const addIdToDataGridRows = (data) => {
     return data.map((item, index) => ({ ...item, id: index + 1 }))
 }
@@ -33,5 +40,5 @@ const deletePendingLeaveData = async (id) => {
 }
 
 export {
-    errResponse, addIdToDataGridRows, getData, deletePendingLeaveData
+    errResponse, textCapitalize, addIdToDataGridRows, getData, deletePendingLeaveData
 }

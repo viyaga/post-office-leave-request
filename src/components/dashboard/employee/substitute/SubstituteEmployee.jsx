@@ -8,12 +8,13 @@ import { substituteEmployeeColums } from '@/data'
 import { useDispatch, useSelector } from "react-redux";
 import { setSubstituteEmployee } from "@/redux/slices/commonSlice";
 import DataTableWithActions from "../../shared/dataTableWithActions/DataTableWithActions";
-import AddRegularEmployee from "./addSubstituteEmployee/AddSubstituteEmployee";
 import DeleteSubstituteEmployee from "./deleteSubstituteEMployee/DeleteSubstituteEMployee";
+import AddSubstituteEmployee from "./addSubstituteEmployee/AddSubstituteEmployee";
 
 const SubstituteEmployee = () => {
     const { substitute } = useSelector(state => state.common.employee)
     const [deleteData, setDeleteData] = useState(null)
+    const [editData, setEditData] = useState(null)
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
 
@@ -39,12 +40,12 @@ const SubstituteEmployee = () => {
                 <button onClick={() => setOpen(true)}>Add New</button>
             </div>
             {(substitute && substitute.length > 0)
-                ? < DataTableWithActions columns={substituteEmployeeColums} rows={substitute} setDeleteData={setDeleteData} />
+                ? < DataTableWithActions columns={substituteEmployeeColums} rows={substitute} setOpen={setOpen} setEditData={setEditData} setDeleteData={setDeleteData} />
                 : substitute
                     ? <p>No Data Found</p>
                     : <p>Loading...</p>
             }
-            {open && <AddRegularEmployee setOpen={setOpen} />}
+            {open && <AddSubstituteEmployee editData={editData} setOpen={setOpen} />}
             {deleteData && <DeleteSubstituteEmployee deleteData={deleteData} setDeleteData={setDeleteData} />}
         </div>
     )

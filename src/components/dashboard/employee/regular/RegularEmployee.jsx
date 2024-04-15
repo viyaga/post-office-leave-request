@@ -45,7 +45,7 @@ const RegularEmployee = () => {
                     ? <p>No Data Found</p>
                     : <p>Loading...</p>
             }
-            {open && <AddRegularEmployee editData={editData} setOpen={setOpen} />}
+            {open && <AddRegularEmployee editData={editData} setEditData={setEditData} setOpen={setOpen} />}
             {deleteData && <DeleteRegularEmployee deleteData={deleteData} setDeleteData={setDeleteData} />}
         </div>
     )

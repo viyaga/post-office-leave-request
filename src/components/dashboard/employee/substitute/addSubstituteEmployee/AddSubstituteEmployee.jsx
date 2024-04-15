@@ -4,17 +4,18 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import './addSubstituteEmployee.scss'
+import { useEffect } from "react"
 
 const substituteSchema = z.object({
     substituteName: z.string().min(1, { message: "Name Required" }).max(50),
     accountNo: z.string().min(1, { message: "Account Number Required" }).max(20),
 })
 
-const AddSubstituteEmployee = ({ setOpen }) => {
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(substituteSchema) })
+const AddSubstituteEmployee = ({ editData, setOpen }) => {
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({ resolver: zodResolver(substituteSchema) })
 
     const formInputs = [
-        { type: "text", name: "substituteName", placeholder: "Name", label: "Name" },
+        { type: "text", name: "name", placeholder: "Name", label: "Name" },
         { type: "text", name: "accountNo", placeholder: "Account Number", label: "Account Number" },
     ]
 
@@ -24,6 +25,12 @@ const AddSubstituteEmployee = ({ setOpen }) => {
 
 
     }
+
+    useEffect(() => {
+        if (editData) {
+            reset(editData)
+        }
+    }, [editData])
 
     return (
         <div className="addSubstituteEmployee">

@@ -4,6 +4,7 @@ import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { PiFlagPennantFill } from "react-icons/pi";
 import { MdLocalLibrary, MdOutlineMoneyOffCsred, MdOutlinePendingActions, MdPerson } from "react-icons/md";
 import moment from "moment";
+import { textCapitalize } from "./services";
 
 const menu = [
   {
@@ -70,14 +71,14 @@ const menu = [
 
 const regularEmployeeColumns = [
   { field: "id", headerName: "S.No.", width: 90, filterable: false },
-  { field: "name", type: "string", headerName: "Name", width: 250 },
-  { field: "designation", type: "string", headerName: "Designation", width: 150 },
-  { field: "officeName", type: "string", headerName: "Office Name", width: 180 },
+  { field: "name", type: "string", headerName: "Name", width: 250, valueFormatter: (params) => textCapitalize(params) },
+  { field: "designation", type: "string", headerName: "Designation", width: 150, valueFormatter: (params) => params.toUpperCase() },
+  { field: "officeName", type: "string", headerName: "Office Name", width: 180, valueFormatter: (params) => textCapitalize(params) },
 ];
 
 const substituteEmployeeColums = [
   { field: "id", headerName: "S.No.", width: 90, filterable: false },
-  { field: "name", type: "string", headerName: "Name", width: 250 },
+  { field: "name", type: "string", headerName: "Name", width: 250, valueFormatter: (params) => textCapitalize(params) },
   { field: "accountNo", type: "string", headerName: "Account Number", width: 250 },
 ];
 

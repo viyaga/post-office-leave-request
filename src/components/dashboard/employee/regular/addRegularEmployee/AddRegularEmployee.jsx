@@ -16,32 +16,37 @@ const regularEmployeeSchema = z.object({
     officeName: z.string().min(1, { message: "Office Required" }).max(50),
 })
 
-const AddRegularEmployee = ({ editData, setOpen }) => {
+const AddRegularEmployee = ({ editData, setEditData, setOpen }) => {
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({ resolver: zodResolver(regularEmployeeSchema) })
 
     const designationOptions = ['BPM', 'ABPM', 'ABPM I', 'ABPM II', 'DAK SEVAK']
+
+    const handleClose = () => {
+        setOpen(false)
+        setEditData(null)
+    }
 
     const onLeaveDataSubmit = async (props) => {
 
         console.log({ props });
 
-
+        
     }
 
     useEffect(() => {
         if (editData) {
-            //reset(...editData)
-            console.log({editData});
+            reset(editData)
+            console.log({ editData });
         }
     }, [editData])
 
     return (
         <div className="addRegularEmployee">
             <div className="modal">
-                <span className="close" onClick={() => setOpen(false)}>
+                <span className="close" onClick={handleClose}>
                     X
                 </span>
-                <h1>Add New Regular Employee</h1>
+                <h1>{editData ? "Update " : "Add New Regular"} Employee</h1>
                 <form onSubmit={handleSubmit(onLeaveDataSubmit)}>
 
                     <div className="item">
@@ -58,8 +63,11 @@ const AddRegularEmployee = ({ editData, setOpen }) => {
                         <label>Name *</label>
                         <ZodFormInput type="text" name="name" register={register} placeholder="Name" error={errors["name"]} />
                     </div>
+                    {editData
+                        ? <input type="submit" defaultValue={isSubmitting ? "Updating..." : "Update"} />
+                        : <input type="submit" defaultValue={isSubmitting ? "Adding..." : "Add"} />
+                    }
 
-                    <input type="submit" defaultValue={isSubmitting ? "Adding..." : "Add"} />
                 </form>
             </div>
         </div>
