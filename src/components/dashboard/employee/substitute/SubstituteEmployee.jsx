@@ -8,7 +8,7 @@ import { substituteEmployeeColums } from '@/data'
 import { useDispatch, useSelector } from "react-redux";
 import { setSubstituteEmployee } from "@/redux/slices/commonSlice";
 import DataTableWithActions from "../../shared/dataTableWithActions/DataTableWithActions";
-import AddRegularEmployee from "./addSubstituteEmployee/AddSubstituteEmployee";
+import AddSubstituteEmployee from "./addSubstituteEmployee/AddSubstituteEmployee";
 import DeleteSubstituteEmployee from "./deleteSubstituteEmployee/DeleteSubstituteEmployee";
 
 const SubstituteEmployee = () => {
