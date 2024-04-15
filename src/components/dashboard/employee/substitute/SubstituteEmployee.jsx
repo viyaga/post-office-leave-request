@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSubstituteEmployee } from "@/redux/slices/commonSlice";
 import DataTableWithActions from "../../shared/dataTableWithActions/DataTableWithActions";
 import AddRegularEmployee from "./addSubstituteEmployee/AddSubstituteEmployee";
-import DeleteSubstituteEmployee from "./deleteSubstituteEmployee/DeleteSubstituteEmployee";
+import DeleteSubstituteEmployee from "./deleteSubstituteEMployee/DeleteSubstituteEmployee";
 
 const SubstituteEmployee = () => {
     const { substitute } = useSelector(state => state.common.employee)
