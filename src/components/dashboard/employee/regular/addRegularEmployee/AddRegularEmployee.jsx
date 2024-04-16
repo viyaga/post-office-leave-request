@@ -9,8 +9,10 @@ import './addRegularEmployee.scss'
 import ZodSelectInput from "@/components/shared/zodSelectInput/ZodSelectInput"
 import { BranchOfficeNames } from "@/data"
 import { useEffect } from "react"
-import { createRegularEmployee, updateRegularEmployee } from "@/services"
+import { createRegularEmployeeData, updateRegularEmployeeData } from "@/services"
 import toast from "react-hot-toast"
+import { addRegularEmployee, editRegularEmployee } from "@/redux/slices/commonSlice"
+import { useDispatch } from "react-redux"
 
 const regularEmployeeSchema = z.object({
     name: z.string().min(1, { message: "Name Required" }).max(50),
@@ -20,7 +22,7 @@ const regularEmployeeSchema = z.object({
 
 const AddRegularEmployee = ({ editData, setEditData, setOpen }) => {
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({ resolver: zodResolver(regularEmployeeSchema) })
-
+    const dispatch = useDispatch()
     const designationOptions = ['BPM', 'ABPM', 'ABPM I', 'ABPM II', 'DAK SEVAK']
 
     const handleClose = () => {
@@ -32,22 +34,30 @@ const AddRegularEmployee = ({ editData, setEditData, setOpen }) => {
 
         let res = null
         if (editData) {
-            res = await updateRegularEmployee(editData._id, { name, designation, officeName })
+            res = await updateRegularEmployeeData(editData._id, { name, designation, officeName })
+            if (res.success) {
+                toast.success(res.success)
+                setOpen(false)
+                setEditData(null)
+                dispatch(editRegularEmployee(res.employee))
+            }
         } else {
-            res = await createRegularEmployee({ name, designation, officeName })
+            res = await createRegularEmployeeData({ name, designation, officeName })
+            if (res.success) {
+                toast.success(res.success)
+                setOpen(false)
+                dispatch(addRegularEmployee(res.employee))
+            }
         }
 
         if (res.error) return toast.error(res.error)
 
-        toast.success(res.success)
-        setOpen(false)
-        setEditData(null)
+
     }
 
     useEffect(() => {
         if (editData) {
             reset(editData)
-            console.log({ editData });
         }
     }, [editData])
 

@@ -1,9 +1,9 @@
-import { deletePendingLeaveData, deleteRegularEmployee } from '@/services'
+import { deleteRegularEmployeeData } from '@/services'
 import './deleteRegularEmployee.scss'
-import { deletePendingLeave } from '@/redux/slices/commonSlice'
 import { useDispatch } from 'react-redux'
 import { useTransition } from 'react'
 import toast from 'react-hot-toast'
+import { deleteRegularEmployee } from '@/redux/slices/commonSlice'
 
 const DeleteRegularEmployee = ({ deleteData, setDeleteData }) => {
     const [isLoading, startTransiton] = useTransition()
@@ -12,7 +12,7 @@ const DeleteRegularEmployee = ({ deleteData, setDeleteData }) => {
     const handleDelete = () => {
 
         startTransiton(async () => {
-            const res = await deleteRegularEmployee(deleteData._id)
+            const res = await deleteRegularEmployeeData(deleteData._id)
 
             if (res.error) {
                 return toast.error(res.error)
@@ -21,6 +21,7 @@ const DeleteRegularEmployee = ({ deleteData, setDeleteData }) => {
             if (res.success) {
                 toast.success(res.success)
                 setDeleteData(null)
+                dispatch(deleteRegularEmployee(deleteData))
             }
         })
     }
@@ -30,7 +31,7 @@ const DeleteRegularEmployee = ({ deleteData, setDeleteData }) => {
             <div className="modal">
                 <h1>Are you sure you want to delete regular employee {deleteData.name}? This action cannot be undone</h1>
                 <div className="buttons">
-                    <button  onClick={handleDelete}>{isLoading ? "Deleting..." : "Delete"}</button>
+                    <button onClick={handleDelete}>{isLoading ? "Deleting..." : "Delete"}</button>
                     <button onClick={() => setDeleteData(null)}>Cancel</button>
                 </div>
             </div>

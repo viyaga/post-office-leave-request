@@ -1,6 +1,6 @@
 "use client"
 
-import { addIdToDataGridRows } from "@/services";
+import { addIdToDataGridRows, formatRegularEmployeeData } from "@/services";
 
 const { createSlice } = require("@reduxjs/toolkit");
 
@@ -28,6 +28,9 @@ const commonSlice = createSlice({
         setPendingLeave: (state, action) => {
             state.pendingLeave = action.payload
         },
+        addPendingLeave: (state, action) => {
+            state.pendingLeave = state.pendingLeave.push(action.payload)
+        },
         editPendingLeave: (state, action) => {
             const data = state.pendingLeave.filter((item) => item._id !== action.payload._id)
             data.push(action.payload)
@@ -38,18 +41,30 @@ const commonSlice = createSlice({
             state.pendingLeave = addIdToDataGridRows(leaveData)
         },
         setRegularEmployee: (state, action) => {
-            state.employee.regular = action.payload
+            const formatedData = formatRegularEmployeeData(action.payload)
+            state.employee.regular = formatedData
+        },
+        addRegularEmployee: (state, action) => {
+            state.employee.regular.push(action.payload)
+            const formatedData = formatRegularEmployeeData(state.employee.regular)
+            state.employee.regular = formatedData
         },
         editRegularEmployee: (state, action) => {
             const data = state.employee.regular.filter((item) => item._id !== action.payload._id)
             data.push(action.payload)
-            state.employee.regular = data
+            const formatedData = formatRegularEmployeeData(data)
+            state.employee.regular = formatedData
         },
         deleteRegularEmployee: (state, action) => {
-            state.employee.regular = state.employee.regular.filter((item) => item._id !== action.payload._id)
+            const data = state.employee.regular.filter((item) => item._id !== action.payload._id)
+            const formatedData = formatRegularEmployeeData(data)
+            state.employee.regular = formatedData
         },
         setSubstituteEmployee: (state, action) => {
             state.employee.substitute = action.payload
+        },
+        addSubstituteEmployee: (state, action) => {
+            state.employee.substitute = state.employee.substitute.push(action.payload)
         },
         editSubstituteEmployee: (state, action) => {
             const data = state.employee.substitute.filter((item) => item._id !== action.payload._id)
@@ -63,8 +78,9 @@ const commonSlice = createSlice({
 })
 
 export const {
-    setSideBarOpen, setPageLoading, setPendingLeave, editPendingLeave, deletePendingLeave,
-    setRegularEmployee, editRegularEmployee, deleteRegularEmployee, setSubstituteEmployee,
-    editSubstituteEmployee, deleteSubstituteEmployee,
+    setSideBarOpen, setPageLoading,
+    setPendingLeave, addPendingLeave, editPendingLeave, deletePendingLeave,
+    setRegularEmployee, addRegularEmployee, editRegularEmployee, deleteRegularEmployee,
+    setSubstituteEmployee, addSubstituteEmployee, editSubstituteEmployee, deleteSubstituteEmployee,
 } = commonSlice.actions
 export default commonSlice.reducer

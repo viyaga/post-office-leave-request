@@ -20,7 +20,7 @@ const addIdToDataGridRows = (data) => {
 }
 
 // Regular Employees ====================================================================
-const getAllRegularEmployees = async () => {
+const getAllRegularEmployeesData = async () => {
     try {
         const response = await axios.get(`${PUBLIC_SERVER_ONE}/employee/regular`)
         const employees = response.data.employees
@@ -30,38 +30,47 @@ const getAllRegularEmployees = async () => {
     }
 }
 
-const createRegularEmployee = async (regularEmployeeData) => {
+const createRegularEmployeeData = async (regularEmployeeData) => {
     try {
         const response = await axios.post(`${PUBLIC_SERVER_ONE}/employee/regular`, regularEmployeeData)
-        const message = response.data.message
-        return { success: message }
+        const { message, employee } = response.data
+        return { success: message, employee }
     } catch (error) {
         return { error: errResponse(error) }
     }
 }
 
 
-const updateRegularEmployee = async (id, regularEmployeeData) => {
+const updateRegularEmployeeData = async (id, regularEmployeeData) => {
     try {
         const response = await axios.put(`${PUBLIC_SERVER_ONE}/employee/regular/${id}`, regularEmployeeData)
-        const message = response.data.message
-        return { success: message }
+        const { message, employee } = response.data
+        return { success: message, employee }
     } catch (error) {
         return { error: errResponse(error) }
     }
 }
 
 
-const deleteRegularEmployee = async (id) => {
+const deleteRegularEmployeeData = async (id) => {
     try {
         const response = await axios.delete(`${PUBLIC_SERVER_ONE}/employee/regular/${id}`)
-        const message = response.data.message
-        return { success: message }
+        const { message, employee } = response.data
+        return { success: message, employee }
     } catch (error) {
         return { error: errResponse(error) }
     }
 }
 
+const formatRegularEmployeeData = (regularEmployeeData) => {
+    const sortedData = regularEmployeeData.sort((a, b) => {
+        return a.officeName.localeCompare(b.officeName);
+    });
+
+    const idAddedData = addIdToDataGridRows(sortedData)
+    return idAddedData
+}
+// ===============================
 const getData = async (type, category) => {
     try {
         const response = await axios.get(`${PUBLIC_SERVER_ONE}/${type}/${category}`)
@@ -84,6 +93,6 @@ const deletePendingLeaveData = async (id) => {
 
 export {
     errResponse, textCapitalize, addIdToDataGridRows,
-    getAllRegularEmployees, createRegularEmployee, updateRegularEmployee, deleteRegularEmployee,
+    getAllRegularEmployeesData, createRegularEmployeeData, updateRegularEmployeeData, deleteRegularEmployeeData, formatRegularEmployeeData,
     getData, deletePendingLeaveData
 }
