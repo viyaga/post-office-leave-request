@@ -20,9 +20,11 @@ const addIdToDataGridRows = (data) => {
 }
 
 // Regular Employees ====================================================================
+const REGULAR_EMPLOYEE_API = PUBLIC_SERVER_ONE + '/employee/regular'
+
 const getAllRegularEmployeesData = async () => {
     try {
-        const response = await axios.get(`${PUBLIC_SERVER_ONE}/employee/regular`)
+        const response = await axios.get(REGULAR_EMPLOYEE_API)
         const employees = response.data.employees
         return { employees }
     } catch (error) {
@@ -32,7 +34,7 @@ const getAllRegularEmployeesData = async () => {
 
 const createRegularEmployeeData = async (regularEmployeeData) => {
     try {
-        const response = await axios.post(`${PUBLIC_SERVER_ONE}/employee/regular`, regularEmployeeData)
+        const response = await axios.post(REGULAR_EMPLOYEE_API, regularEmployeeData)
         const { message, employee } = response.data
         return { success: message, employee }
     } catch (error) {
@@ -43,7 +45,7 @@ const createRegularEmployeeData = async (regularEmployeeData) => {
 
 const updateRegularEmployeeData = async (id, regularEmployeeData) => {
     try {
-        const response = await axios.put(`${PUBLIC_SERVER_ONE}/employee/regular/${id}`, regularEmployeeData)
+        const response = await axios.put(`${REGULAR_EMPLOYEE_API}/${id}`, regularEmployeeData)
         const { message, employee } = response.data
         return { success: message, employee }
     } catch (error) {
@@ -54,7 +56,7 @@ const updateRegularEmployeeData = async (id, regularEmployeeData) => {
 
 const deleteRegularEmployeeData = async (id) => {
     try {
-        const response = await axios.delete(`${PUBLIC_SERVER_ONE}/employee/regular/${id}`)
+        const response = await axios.delete(`${REGULAR_EMPLOYEE_API}/${id}`)
         const { message, employee } = response.data
         return { success: message, employee }
     } catch (error) {
@@ -70,7 +72,116 @@ const formatRegularEmployeeData = (regularEmployeeData) => {
     const idAddedData = addIdToDataGridRows(sortedData)
     return idAddedData
 }
-// ===============================
+
+// Substitute services ======================================================
+const SUBSTITUTE_API = PUBLIC_SERVER_ONE + '/employee/substitute'
+
+const getAllSubstituteEmployeesData = async () => {
+    try {
+        const response = await axios.get(SUBSTITUTE_API)
+        const employees = response.data.employees
+        return { employees }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
+const createSubstituteEmployeeData = async (substituteEmployeeData) => {
+    try {
+        const response = await axios.post(SUBSTITUTE_API, substituteEmployeeData)
+        const { message, employee } = response.data
+        return { success: message, employee }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
+
+const updateSubstituteEmployeeData = async (id, substituteEmployeeData) => {
+    try {
+        const response = await axios.put(`${SUBSTITUTE_API}/${id}`, substituteEmployeeData)
+        const { message, employee } = response.data
+        return { success: message, employee }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
+
+const deleteSubstituteEmployeeData = async (id) => {
+    try {
+        const response = await axios.delete(`${SUBSTITUTE_API}/${id}`)
+        const { message, employee } = response.data
+        return { success: message, employee }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
+const formatSubstituteEmployeeData = (substituteEmployeeData) => {
+    const sortedData = substituteEmployeeData.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+    });
+
+    const idAddedData = addIdToDataGridRows(sortedData)
+    return idAddedData
+}
+
+// Holidays ======================================================
+const HOLIDAY_API = PUBLIC_SERVER_ONE + '/holiday'
+
+const getAllHolidayData = async () => {
+    try {
+        const response = await axios.get(HOLIDAY_API)
+        const employees = response.data.employees
+        return { employees }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
+const createHolidayData = async (HolidayData) => {
+    try {
+        const response = await axios.post(HOLIDAY_API, HolidayData)
+        const { message, employee } = response.data
+        return { success: message, employee }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
+
+const updateHolidayData = async (id, HolidayData) => {
+    try {
+        const response = await axios.put(`${HOLIDAY_API}/${id}`, HolidayData)
+        const { message, employee } = response.data
+        return { success: message, employee }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
+
+const deleteHolidayData = async (id) => {
+    try {
+        const response = await axios.delete(`${HOLIDAY_API}/${id}`)
+        const { message, employee } = response.data
+        return { success: message, employee }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
+const formatHolidayData = (HolidayData) => {
+    const sortedData = HolidayData.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+    });
+
+    const idAddedData = addIdToDataGridRows(sortedData)
+    return idAddedData
+}
+
+//  ===============================
 const getData = async (type, category) => {
     try {
         const response = await axios.get(`${PUBLIC_SERVER_ONE}/${type}/${category}`)
@@ -94,5 +205,7 @@ const deletePendingLeaveData = async (id) => {
 export {
     errResponse, textCapitalize, addIdToDataGridRows,
     getAllRegularEmployeesData, createRegularEmployeeData, updateRegularEmployeeData, deleteRegularEmployeeData, formatRegularEmployeeData,
+    getAllSubstituteEmployeesData, createSubstituteEmployeeData, updateSubstituteEmployeeData, deleteSubstituteEmployeeData, formatSubstituteEmployeeData,
+    getAllHolidayData, createHolidayData, updateHolidayData, deleteHolidayData, formatHolidayData,
     getData, deletePendingLeaveData
 }

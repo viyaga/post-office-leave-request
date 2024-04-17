@@ -2,7 +2,7 @@ import { BsFillPersonLinesFill } from "react-icons/bs";
 import { FaBaby } from "react-icons/fa";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { PiFlagPennantFill } from "react-icons/pi";
-import { MdLocalLibrary, MdOutlineMoneyOffCsred, MdOutlinePendingActions, MdPerson } from "react-icons/md";
+import { MdDateRange, MdLocalLibrary, MdOutlineMoneyOffCsred, MdOutlinePendingActions, MdPerson } from "react-icons/md";
 import moment from "moment";
 import { textCapitalize } from "./services";
 
@@ -67,6 +67,18 @@ const menu = [
       },
     ],
   },
+  {
+    id: 3,
+    title: "Holidays",
+    listItems: [
+      {
+        id: 1,
+        title: "Holidays",
+        url: "/dashboard/holidays",
+        icon: <MdDateRange size={18} />,
+      },
+    ],
+  },
 ];
 
 const regularEmployeeColumns = [
@@ -95,6 +107,12 @@ const leaveDataColums = [
   { field: "remarks", type: "string", headerName: "Remarks", width: 200, valueFormatter: params => params ? params : '-' },
 ]
 
+const HolidayColums = [
+  { field: "id", headerName: "S.No.", width: 90, filterable: false },
+  { field: "holiday", type: "string", headerName: "Holiday", width: 250, valueFormatter: (params) => textCapitalize(params) },
+  { field: "date", type: "string", headerName: "Date", width: 250 },
+];
+
 const BranchOfficeNames = ["A.Ammapatti", "A.Thottiapatti", "Achampatti", "Alagappan Nagar So", "Alampatti", "Alapalachery", "Appakarai",
   "Arasapatti", "Austinpatti", "Avalsurampatti", "Chittur", "Deivanayagapuram", "Genjampatti", "Harveypatti", "Jari Usilampatti", "K.Sennampatti",
   "Kadaneri", "Kalligudi So", "Kangeyanatham", "Kappalur", "Kappalur Bo", "Kappalur Indl Estate So", "Karadikal", "Karaikeni", "Kilavaneri",
@@ -108,4 +126,7 @@ const BranchOfficeNames = ["A.Ammapatti", "A.Thottiapatti", "Achampatti", "Alaga
 
 const subDivisionOptions = ['Tirumangalam']
 
-export { menu, regularEmployeeColumns, substituteEmployeeColums, leaveDataColums, BranchOfficeNames, subDivisionOptions }
+export {
+  menu, regularEmployeeColumns, substituteEmployeeColums, leaveDataColums,
+  HolidayColums, BranchOfficeNames, subDivisionOptions
+}

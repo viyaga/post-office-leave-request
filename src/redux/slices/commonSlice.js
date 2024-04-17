@@ -1,6 +1,6 @@
 "use client"
 
-import { addIdToDataGridRows, formatRegularEmployeeData } from "@/services";
+import { addIdToDataGridRows, formatRegularEmployeeData, formatSubstituteEmployeeData, formatHolidayData } from "@/services";
 
 const { createSlice } = require("@reduxjs/toolkit");
 
@@ -40,6 +40,8 @@ const commonSlice = createSlice({
             const leaveData = state.pendingLeave.filter((item) => item._id !== action.payload)
             state.pendingLeave = addIdToDataGridRows(leaveData)
         },
+
+        // regular employee =============================
         setRegularEmployee: (state, action) => {
             const formatedData = formatRegularEmployeeData(action.payload)
             state.employee.regular = formatedData
@@ -60,19 +62,49 @@ const commonSlice = createSlice({
             const formatedData = formatRegularEmployeeData(data)
             state.employee.regular = formatedData
         },
+
+        // substitute employee ================================================
         setSubstituteEmployee: (state, action) => {
-            state.employee.substitute = action.payload
+            const formatedData = formatSubstituteEmployeeData(action.payload)
+            state.employee.substitute = formatedData
         },
         addSubstituteEmployee: (state, action) => {
-            state.employee.substitute = state.employee.substitute.push(action.payload)
+            state.employee.substitute.push(action.payload)
+            const formatedData = formatSubstituteEmployeeData(state.employee.substitute)
+            state.employee.substitute = formatedData
         },
         editSubstituteEmployee: (state, action) => {
             const data = state.employee.substitute.filter((item) => item._id !== action.payload._id)
             data.push(action.payload)
-            state.employee.substitute = data
+            const formatedData = formatSubstituteEmployeeData(data)
+            state.employee.substitute = formatedData
         },
         deleteSubstituteEmployee: (state, action) => {
-            state.employee.substitute = state.employee.substitute.filter((item) => item._id !== action.payload._id)
+            const data = state.employee.substitute.filter((item) => item._id !== action.payload._id)
+            const formatedData = formatSubstituteEmployeeData(data)
+            state.employee.substitute = formatedData
+        },
+
+        //holidays ============================================================
+        setHoliday: (state, action) => {
+            const formatedData = formatHolidayData(action.payload)
+            state.employee.substitute = formatedData
+        },
+        addHoliday: (state, action) => {
+            state.employee.substitute.push(action.payload)
+            const formatedData = formatHolidayData(state.employee.substitute)
+            state.employee.substitute = formatedData
+        },
+        editHoliday: (state, action) => {
+            const data = state.employee.substitute.filter((item) => item._id !== action.payload._id)
+            data.push(action.payload)
+            const formatedData = formatHolidayData(data)
+            state.employee.substitute = formatedData
+        },
+        deleteHoliday: (state, action) => {
+            const data = state.employee.substitute.filter((item) => item._id !== action.payload._id)
+            const formatedData = formatHolidayData(data)
+            state.employee.substitute = formatedData
         },
     }
 })
@@ -82,5 +114,6 @@ export const {
     setPendingLeave, addPendingLeave, editPendingLeave, deletePendingLeave,
     setRegularEmployee, addRegularEmployee, editRegularEmployee, deleteRegularEmployee,
     setSubstituteEmployee, addSubstituteEmployee, editSubstituteEmployee, deleteSubstituteEmployee,
+    setHoliday, addHoliday, editHoliday, deleteHoliday,
 } = commonSlice.actions
 export default commonSlice.reducer

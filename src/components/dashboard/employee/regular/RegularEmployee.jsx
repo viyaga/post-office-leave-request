@@ -13,23 +13,20 @@ import DeleteRegularEmployee from "./deleteRegularEmployee/DeleteRegularEmployee
 
 const RegularEmployee = () => {
     const { regular } = useSelector(state => state.common.employee)
-    const [isLoading, startTransiton] = useTransition()
+    const [isLoading, setIsLoading] = useState(true)
     const [deleteData, setDeleteData] = useState(null)
     const [editData, setEditData] = useState(null)
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
 
-    const fetchData = () => {
+    const fetchData = async () => {
 
-        startTransiton(async () => {
-            const res = await getAllRegularEmployeesData()
-            if (res.error) return toast.error("An Error Occured While Fetching Data")
-            if (res.employees) {
-                dispatch(setRegularEmployee(res.employees))
-            }
-        })
-
-        console.log("fetch regular employee");
+        const res = await getAllRegularEmployeesData()
+        if (res.error) return toast.error("An Error Occured While Fetching Data")
+        if (res.employees) {
+            dispatch(setRegularEmployee(res.employees))
+        }
+        setIsLoading(false)
 
     }
 
@@ -40,7 +37,7 @@ const RegularEmployee = () => {
     return (
         <div className="regularEmployee">
             <div className="info">
-                <h2>Pending</h2>
+                <h2>Regular</h2>
                 <button onClick={() => setOpen(true)}>Add New</button>
             </div>
             {(regular && regular.length > 0)

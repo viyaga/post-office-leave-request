@@ -2,16 +2,16 @@
 
 import { useEffect, useState } from "react";
 import toast from 'react-hot-toast'
-import './substituteEmployee.scss'
-import { getAllSubstituteEmployeesData } from "@/services";
-import { substituteEmployeeColums } from '@/data'
+import './holidays.scss'
+import { getAllHolidayData } from "@/services";
+import { HolidayColums } from '@/data'
 import { useDispatch, useSelector } from "react-redux";
-import { setSubstituteEmployee } from "@/redux/slices/commonSlice";
-import DataTableWithActions from "../../shared/dataTableWithActions/DataTableWithActions";
+import { setHoliday } from "@/redux/slices/commonSlice";
 import AddSubstituteEmployee from "./addSubstituteEmployee/AddSubstituteEmployee";
 import DeleteSubstituteEmployee from "./deleteSubstitute/DeleteSubstituteEmployee";
+import DataTableWithActions from "../shared/dataTableWithActions/DataTableWithActions";
 
-const SubstituteEmployee = () => {
+const Holidays = () => {
     const { substitute } = useSelector(state => state.common.employee)
     const [isLoading, setIsLoading] = useState(true)
     const [deleteData, setDeleteData] = useState(null)
@@ -20,10 +20,10 @@ const SubstituteEmployee = () => {
     const dispatch = useDispatch()
 
     const fetchData = async () => {
-        const res = await getAllSubstituteEmployeesData()
-        if (res.error) return toast.error("An Error Occured While Fetching Data")
+        const res = await getAllHolidayData()
+        if (res.error) toast.error("An Error Occured While Fetching Data")
         if (res.employees) {
-            dispatch(setSubstituteEmployee(res.employees))
+            dispatch(setHoliday(res.employees))
         }
         setIsLoading(false)
     }
@@ -33,13 +33,13 @@ const SubstituteEmployee = () => {
     }, [])
 
     return (
-        <div className="substituteEmployee">
+        <div className="holidays">
             <div className="info">
-                <h2>Substitute</h2>
+                <h2>Holidays</h2>
                 <button onClick={() => setOpen(true)}>Add New</button>
             </div>
             {(substitute && substitute.length > 0)
-                ? < DataTableWithActions columns={substituteEmployeeColums} rows={substitute} setOpen={setOpen} setEditData={setEditData} setDeleteData={setDeleteData} />
+                ? < DataTableWithActions columns={HolidayColums} rows={substitute} setOpen={setOpen} setEditData={setEditData} setDeleteData={setDeleteData} />
                 : isLoading
                     ? <p>Loading...</p>
                     : <p>No Data Found</p>
@@ -50,4 +50,4 @@ const SubstituteEmployee = () => {
     )
 }
 
-export default SubstituteEmployee
+export default Holidays

@@ -12,8 +12,6 @@ import { deletePendingLeave } from "@/redux/slices/commonSlice";
 import { useState } from "react";
 
 const DataTableWithActions = ({ columns, rows, setOpen, setEditData, setDeleteData }) => {
-  const dispatch = useDispatch()
-  const [isLoading, setIsLoading] = useState(false)
 
   const handleEdit = (data) => {
     setEditData(data)
@@ -60,7 +58,6 @@ const DataTableWithActions = ({ columns, rows, setOpen, setEditData, setDeleteDa
             printOptions: { disableToolbarButton: true }
           },
         }}
-        loading={isLoading}
         pageSizeOptions={[5, 10, 25]}
         checkboxSelection
         disableRowSelectionOnClick
