@@ -109,8 +109,8 @@ const leaveDataColums = [
 
 const HolidayColums = [
   { field: "id", headerName: "S.No.", width: 90, filterable: false },
-  { field: "holiday", type: "string", headerName: "Holiday", width: 250, valueFormatter: (params) => textCapitalize(params) },
-  { field: "date", type: "string", headerName: "Date", width: 250, valueFormatter: (params) => moment(params).format('DD/MM/YYYY') },
+  { field: "holiday", type: "string", headerName: "Holiday", width: 150, valueFormatter: (params) => textCapitalize(params) },
+  { field: "date", type: "string", headerName: "Date", width: 100, valueFormatter: (params) => moment(params).format('DD/MM/YYYY') },
 ];
 
 const BranchOfficeNames = ["A.Ammapatti", "A.Thottiapatti", "Achampatti", "Alagappan Nagar So", "Alampatti", "Alapalachery", "Appakarai",

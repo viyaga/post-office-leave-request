@@ -12,7 +12,7 @@ import { addSubstituteEmployee, editSubstituteEmployee } from "@/redux/slices/co
 
 const substituteSchema = z.object({
     name: z.string().min(1, { message: "Name Required" }).max(50),
-    accountNo: z.string().min(1, { message: "Account Number Required" }).max(20),
+    accountNo: z.string().min(1, { message: "Invalid" }).max(20),
 })
 
 const AddSubstituteEmployee = ({ editData, setEditData, setOpen }) => {

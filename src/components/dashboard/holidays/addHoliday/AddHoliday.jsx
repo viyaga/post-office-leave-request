@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux"
 import { createHolidayData, updateHolidayData } from "@/services"
 import toast from "react-hot-toast"
 import { addHoliday, editHoliday } from "@/redux/slices/commonSlice"
+import moment from "moment"
 
 const holidaySchema = z.object({
     holiday: z.string().min(1, { message: "Holiday Required" }).max(50),
@@ -55,7 +56,7 @@ const AddHoliday = ({ editData, setEditData, setOpen }) => {
 
     useEffect(() => {
         if (editData) {
-            reset(editData)
+            reset({ holiday: editData.holiday, date: moment(editData.date).format('YYYY-MM-DD') })
         }
     }, [editData])
 
