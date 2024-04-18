@@ -12,7 +12,6 @@ const DataPage = ({ type, category }) => {
 
   const fetchData = async (type, category) => {
     const res = await getData(type, category)
-    console.log({ data: res?.data || res.error });
     if (res.error) return toast.error("An Error Occured While Fetching Data")
     if (res.data) {
       const idAddedData = res.data.map((item, index) => ({ id: index + 1, ...item }))

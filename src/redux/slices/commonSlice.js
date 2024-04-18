@@ -1,6 +1,6 @@
 "use client"
 
-import { addIdToDataGridRows, formatRegularEmployeeData, formatSubstituteEmployeeData, formatHolidayData } from "@/services";
+import { formatRegularEmployeeData, formatSubstituteEmployeeData, formatHolidayData, formatPendingLeaveData } from "@/services";
 
 const { createSlice } = require("@reduxjs/toolkit");
 
@@ -26,23 +26,30 @@ const commonSlice = createSlice({
         setPageLoading: (state, action) => {
             state.isPageLoading = action.payload
         },
-        setPendingLeave: (state, action) => {
-            state.pendingLeave = action.payload
+
+        // Pending Leave Data ==========================================================
+        setPendingLeaves: (state, action) => {
+            const formatedData = formatPendingLeaveData(action.payload)
+            state.pendingLeave = formatedData
         },
         addPendingLeave: (state, action) => {
-            state.pendingLeave = state.pendingLeave.push(action.payload)
+            state.pendingLeave.push(action.payload)
+            const formatedData = formatPendingLeaveData(state.pendingLeave)
+            state.pendingLeave = formatedData
         },
         editPendingLeave: (state, action) => {
             const data = state.pendingLeave.filter((item) => item._id !== action.payload._id)
             data.push(action.payload)
-            state.pendingLeave = data
+            const formatedData = formatPendingLeaveData(data)
+            state.pendingLeave = formatedData
         },
         deletePendingLeave: (state, action) => {
-            const leaveData = state.pendingLeave.filter((item) => item._id !== action.payload)
-            state.pendingLeave = addIdToDataGridRows(leaveData)
+            const data = state.pendingLeave.filter((item) => item._id !== action.payload._id)
+            const formatedData = formatPendingLeaveData(data)
+            state.pendingLeave = formatedData
         },
 
-        // regular employee =============================
+        // Regular employee =============================
         setRegularEmployee: (state, action) => {
             const formatedData = formatRegularEmployeeData(action.payload)
             state.employee.regular = formatedData
@@ -94,7 +101,6 @@ const commonSlice = createSlice({
         addHoliday: (state, action) => {
             state.holiday.push(action.payload)
             const formatedData = formatHolidayData(state.holiday)
-            console.log({ formatedData: action.payload });
             state.holiday = formatedData
         },
         editHoliday: (state, action) => {
@@ -113,7 +119,7 @@ const commonSlice = createSlice({
 
 export const {
     setSideBarOpen, setPageLoading,
-    setPendingLeave, addPendingLeave, editPendingLeave, deletePendingLeave,
+    setPendingLeaves, addPendingLeave, editPendingLeave, deletePendingLeave,
     setRegularEmployee, addRegularEmployee, editRegularEmployee, deleteRegularEmployee,
     setSubstituteEmployee, addSubstituteEmployee, editSubstituteEmployee, deleteSubstituteEmployee,
     setHoliday, addHoliday, editHoliday, deleteHoliday,

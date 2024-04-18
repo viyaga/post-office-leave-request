@@ -20,31 +20,31 @@ const menu = [
       {
         id: 2,
         title: "Paid",
-        url: "/dashboard/data-page?type=leaves&&cat=Paid Leave",
+        url: "/dashboard/data-page?type=leaves&&cat=paid leave",
         icon: <FaMoneyCheckDollar size={18} />,
       },
       {
         id: 3,
         title: "Training",
-        url: "/dashboard/data-page?type=leaves&&cat=Training",
+        url: "/dashboard/data-page?type=leaves&&cat=training",
         icon: <MdLocalLibrary size={18} />,
       },
       {
         id: 4,
         title: "LWA",
-        url: "/dashboard/data-page?type=leaves&&cat=Lwa",
+        url: "/dashboard/data-page?type=leaves&&cat=lwa",
         icon: <MdOutlineMoneyOffCsred size={20} />,
       },
       {
         id: 5,
         title: "Maternity",
-        url: "/dashboard/data-page?type=leaves&&cat=Maternity",
+        url: "/dashboard/data-page?type=leaves&&cat=maternity",
         icon: <FaBaby size={18} />,
       },
       {
         id: 6,
         title: "SGA",
-        url: "/dashboard/data-page?type=leaves&&cat=Stop Gap Arrangement",
+        url: "/dashboard/data-page?type=leaves&&cat=stop gap arrangement",
         icon: <PiFlagPennantFill size={18} />,
       },
     ],
@@ -96,9 +96,9 @@ const substituteEmployeeColums = [
 
 const leaveDataColums = [
   { field: "id", headerName: "S.No.", width: 90, filterable: false },
-  { field: "name", type: "string", headerName: "Name", width: 200 },
-  { field: "designation", type: "string", headerName: "Designation", width: 120 },
-  { field: "officeName", type: "string", headerName: "Office Name", width: 180 },
+  { field: "name", type: "string", headerName: "Name", width: 200, valueFormatter: (params) => textCapitalize(params) },
+  { field: "designation", type: "string", headerName: "Designation", width: 120, valueFormatter: (params) => params.toUpperCase() },
+  { field: "officeName", type: "string", headerName: "Office Name", width: 180, valueFormatter: (params) => textCapitalize(params) },
   { field: "from", type: "Date", headerName: "From", width: 120, valueFormatter: params => params ? moment(params).format("DD/MM/YYYY") : "-" },
   { field: "to", type: "Date", headerName: "To", width: 100, valueFormatter: params => params ? moment(params).format("DD/MM/YYYY") : "-" },
   { field: "days", type: "number", headerName: "Days", width: 100, valueFormatter: params => params ? params : '-' },
@@ -109,7 +109,7 @@ const leaveDataColums = [
 
 const HolidayColums = [
   { field: "id", headerName: "S.No.", width: 90, filterable: false },
-  { field: "holiday", type: "string", headerName: "Holiday", width: 150, valueFormatter: (params) => textCapitalize(params) },
+  { field: "holiday", type: "string", headerName: "Holiday", width: 200, valueFormatter: (params) => textCapitalize(params) },
   { field: "date", type: "string", headerName: "Date", width: 100, valueFormatter: (params) => moment(params).format('DD/MM/YYYY') },
 ];
 
