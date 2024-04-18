@@ -133,8 +133,8 @@ const HOLIDAY_API = PUBLIC_SERVER_ONE + '/holiday'
 const getAllHolidayData = async () => {
     try {
         const response = await axios.get(HOLIDAY_API)
-        const employees = response.data.employees
-        return { employees }
+        const holidays = response.data.holidays
+        return { holidays }
     } catch (error) {
         return { error: errResponse(error) }
     }
@@ -143,8 +143,8 @@ const getAllHolidayData = async () => {
 const createHolidayData = async (HolidayData) => {
     try {
         const response = await axios.post(HOLIDAY_API, HolidayData)
-        const { message, employee } = response.data
-        return { success: message, employee }
+        const { message, holiday } = response.data
+        return { success: message, holiday }
     } catch (error) {
         return { error: errResponse(error) }
     }
@@ -154,8 +154,8 @@ const createHolidayData = async (HolidayData) => {
 const updateHolidayData = async (id, HolidayData) => {
     try {
         const response = await axios.put(`${HOLIDAY_API}/${id}`, HolidayData)
-        const { message, employee } = response.data
-        return { success: message, employee }
+        const { message, holiday } = response.data
+        return { success: message, holiday }
     } catch (error) {
         return { error: errResponse(error) }
     }
@@ -165,8 +165,8 @@ const updateHolidayData = async (id, HolidayData) => {
 const deleteHolidayData = async (id) => {
     try {
         const response = await axios.delete(`${HOLIDAY_API}/${id}`)
-        const { message, employee } = response.data
-        return { success: message, employee }
+        const { message, holiday } = response.data
+        return { success: message, holiday }
     } catch (error) {
         return { error: errResponse(error) }
     }
@@ -174,7 +174,7 @@ const deleteHolidayData = async (id) => {
 
 const formatHolidayData = (HolidayData) => {
     const sortedData = HolidayData.sort((a, b) => {
-        return a.name.localeCompare(b.name);
+        return new Date(a.date) - new Date(b.date)
     });
 
     const idAddedData = addIdToDataGridRows(sortedData)

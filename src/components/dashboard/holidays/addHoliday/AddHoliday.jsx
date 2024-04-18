@@ -3,25 +3,25 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import './addSubstituteEmployee.scss'
+import './addHoliday.scss'
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { createSubstituteEmployeeData, updateSubstituteEmployeeData } from "@/services"
+import { createHolidayData, updateHolidayData } from "@/services"
 import toast from "react-hot-toast"
-import { addSubstituteEmployee, editSubstituteEmployee } from "@/redux/slices/commonSlice"
+import { addHoliday, editHoliday } from "@/redux/slices/commonSlice"
 
-const substituteSchema = z.object({
-    name: z.string().min(1, { message: "Name Required" }).max(50),
-    accountNo: z.string().min(1, { message: "Account Number Required" }).max(20),
+const holidaySchema = z.object({
+    holiday: z.string().min(1, { message: "Holiday Required" }).max(50),
+    date: z.string().min(1, { message: "Date Required" }).max(20),
 })
 
-const AddSubstituteEmployee = ({ editData, setEditData, setOpen }) => {
-    const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({ resolver: zodResolver(substituteSchema) })
+const AddHoliday = ({ editData, setEditData, setOpen }) => {
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({ resolver: zodResolver(holidaySchema) })
     const dispatch = useDispatch()
 
     const formInputs = [
-        { type: "text", name: "name", placeholder: "Name", label: "Name" },
-        { type: "text", name: "accountNo", placeholder: "Account Number", label: "Account Number" },
+        { type: "text", name: "holiday", placeholder: "Holiday Name", label: "Holiday" },
+        { type: "date", name: "date", placeholder: "Date", label: "Date" },
     ]
 
     const handleClose = () => {
@@ -29,23 +29,23 @@ const AddSubstituteEmployee = ({ editData, setEditData, setOpen }) => {
         setEditData(null)
     }
 
-    const onEmployeeDataSubmit = async ({ name, accountNo }) => {
+    const onHolidayDataSubmit = async ({ holiday, date }) => {
 
         let res = null
         if (editData) {
-            res = await updateSubstituteEmployeeData(editData._id, { name, accountNo })
+            res = await updateHolidayData(editData._id, { holiday, date })
             if (res.success) {
                 toast.success(res.success)
                 setOpen(false)
                 setEditData(null)
-                dispatch(editSubstituteEmployee(res.employee))
+                dispatch(editHoliday(res.holiday))
             }
         } else {
-            res = await createSubstituteEmployeeData({ name, accountNo })
+            res = await createHolidayData({ holiday, date })
             if (res.success) {
                 toast.success(res.success)
                 setOpen(false)
-                dispatch(addSubstituteEmployee(res.employee))
+                dispatch(addHoliday(res.holiday))
             }
         }
 
@@ -60,13 +60,13 @@ const AddSubstituteEmployee = ({ editData, setEditData, setOpen }) => {
     }, [editData])
 
     return (
-        <div className="addSubstituteEmployee">
+        <div className="addHoliday">
             <div className="modal">
                 <span className="close" onClick={handleClose}>
                     X
                 </span>
-                <h1>{editData ? "Update Substitute Employee" : "Add New Substitute"}</h1>
-                <form onSubmit={handleSubmit(onEmployeeDataSubmit)}>
+                <h1>{editData ? "Update" : "Add New"} Holiday</h1>
+                <form onSubmit={handleSubmit(onHolidayDataSubmit)}>
 
                     {formInputs.map(item => {
                         return (
@@ -86,4 +86,4 @@ const AddSubstituteEmployee = ({ editData, setEditData, setOpen }) => {
     )
 }
 
-export default AddSubstituteEmployee
+export default AddHoliday

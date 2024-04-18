@@ -1,18 +1,18 @@
-import { deleteSubstituteEmployeeData } from '@/services'
-import './deleteSubstituteEmployee.scss'
-import { deleteSubstituteEmployee } from '@/redux/slices/commonSlice'
+import { deleteHolidayData } from '@/services'
+import './deleteHoliday.scss'
+import { deleteHoliday } from '@/redux/slices/commonSlice'
 import { useDispatch } from 'react-redux'
 import { useTransition } from 'react'
 import toast from 'react-hot-toast'
 
-const DeleteSubstituteEmployee = ({ deleteData, setDeleteData }) => {
+const DeleteHoliday = ({ deleteData, setDeleteData }) => {
     const [isLoading, startTransiton] = useTransition()
     const dispatch = useDispatch()
 
     const handleDelete = () => {
 
         startTransiton(async () => {
-            const res = await deleteSubstituteEmployeeData(deleteData._id)
+            const res = await deleteHolidayData(deleteData._id)
 
             if (res.error) {
                 return toast.error(res.error)
@@ -21,7 +21,7 @@ const DeleteSubstituteEmployee = ({ deleteData, setDeleteData }) => {
             if (res.success) {
                 toast.success(res.success)
                 setDeleteData(null)
-                dispatch(deleteSubstituteEmployee(deleteData))
+                dispatch(deleteHoliday(deleteData))
             }
         })
     }
@@ -39,4 +39,4 @@ const DeleteSubstituteEmployee = ({ deleteData, setDeleteData }) => {
     )
 }
 
-export default DeleteSubstituteEmployee
+export default DeleteHoliday

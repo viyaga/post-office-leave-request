@@ -11,7 +11,8 @@ const initialState = {
     employee: {
         regular: [],
         substitute: [],
-    }
+    },
+    holiday: [],
 }
 
 
@@ -88,23 +89,24 @@ const commonSlice = createSlice({
         //holidays ============================================================
         setHoliday: (state, action) => {
             const formatedData = formatHolidayData(action.payload)
-            state.employee.substitute = formatedData
+            state.holiday = formatedData
         },
         addHoliday: (state, action) => {
-            state.employee.substitute.push(action.payload)
-            const formatedData = formatHolidayData(state.employee.substitute)
-            state.employee.substitute = formatedData
+            state.holiday.push(action.payload)
+            const formatedData = formatHolidayData(state.holiday)
+            console.log({ formatedData: action.payload });
+            state.holiday = formatedData
         },
         editHoliday: (state, action) => {
-            const data = state.employee.substitute.filter((item) => item._id !== action.payload._id)
+            const data = state.holiday.filter((item) => item._id !== action.payload._id)
             data.push(action.payload)
             const formatedData = formatHolidayData(data)
-            state.employee.substitute = formatedData
+            state.holiday = formatedData
         },
         deleteHoliday: (state, action) => {
-            const data = state.employee.substitute.filter((item) => item._id !== action.payload._id)
+            const data = state.holiday.filter((item) => item._id !== action.payload._id)
             const formatedData = formatHolidayData(data)
-            state.employee.substitute = formatedData
+            state.holiday = formatedData
         },
     }
 })
