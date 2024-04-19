@@ -10,6 +10,8 @@ import toast from "react-hot-toast"
 import { createLeaveData, findNumberOfDays, updatePendingLeaveData } from "@/services"
 import { useDispatch } from "react-redux"
 import { addPendingLeave, editPendingLeave } from "@/redux/slices/commonSlice"
+import { useEffect } from "react"
+import moment from "moment"
 
 const leaveSchema = z.object({
     name: z.string().min(1, { message: "Name Required" }).max(50),
@@ -25,7 +27,7 @@ const leaveSchema = z.object({
 })
 
 const AddLeaveData = ({ editData, setEditData, setOpen }) => {
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(leaveSchema) })
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({ resolver: zodResolver(leaveSchema) })
     const dispatch = useDispatch()
 
     const formInputs = [
@@ -85,13 +87,19 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
 
     }
 
+    useEffect(() => {
+        if (editData) {
+            reset({ ...editData, status: editData.status === 1 ? 'approved' : 'pending', from: moment(editData.from).format('YYYY-MM-DD'), to: moment(editData.to).format('YYYY-MM-DD') })
+        }
+    }, [editData])
+
     return (
         <div className="addLeaveRequest">
             <div className="modal">
                 <span className="close" onClick={handleClose}>
                     X
                 </span>
-                <h1>Add New Request</h1>
+                <h1>{editData ? "Update" : "Add New"} Request</h1>
                 <form onSubmit={handleSubmit(onLeaveDataSubmit)}>
 
                     <div className="item">
@@ -133,7 +141,10 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
                         <ZodSelectInput name="status" register={register} defaultValue="Select" options={leaveStatusOptions} error={errors['status']} />
                     </div>
 
-                    <input type="submit" defaultValue={isSubmitting ? "Adding..." : "Add"} />
+                    {editData
+                        ? <input type="submit" defaultValue={isSubmitting ? "Updating..." : "Update"} />
+                        : <input type="submit" defaultValue={isSubmitting ? "Adding..." : "Add"} />
+                    }
                 </form>
             </div>
         </div>

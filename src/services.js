@@ -214,9 +214,9 @@ const createLeaveData = async (leaveData) => {
 
 const updatePendingLeaveData = async (id, leaveData) => {
     try {
-        const response = await axios.put(`${HOLIDAY_API}/${id}`, leaveData)
-        const { message, holiday } = response.data
-        return { success: message, holiday }
+        const response = await axios.put(`${LEAVE_API}/pending/${id}`, leaveData)
+        const { message, leave } = response.data
+        return { success: message, leave }
     } catch (error) {
         return { error: errResponse(error) }
     }
@@ -224,9 +224,9 @@ const updatePendingLeaveData = async (id, leaveData) => {
 
 const deletePendingLeaveData = async (id) => {
     try {
-        const response = await axios.delete(`${PUBLIC_SERVER_ONE}/leaves/${id}`)
-        const leaveId = response.data.leaveId
-        return { success: "Deleted Successfully", leaveId }
+        const response = await axios.delete(`${LEAVE_API}/pending/${id}`)
+        const message = response.data.message
+        return { success: message }
     } catch (error) {
         return { error: errResponse(error) }
     }

@@ -19,7 +19,8 @@ const DeleteLeaveData = ({ deleteData, setDeleteData }) => {
             }
 
             if (res.success) {
-                dispatch(deletePendingLeave(deleteData._id))
+                toast.success(res.success)
+                dispatch(deletePendingLeave(deleteData))
                 setDeleteData(null)
             }
         })

@@ -56,7 +56,7 @@ const AddHoliday = ({ editData, setEditData, setOpen }) => {
 
     useEffect(() => {
         if (editData) {
-            reset({ holiday: editData.holiday, date: moment(editData.date).format('YYYY-MM-DD') })
+            reset({ ...editData, date: moment(editData.date).format('YYYY-MM-DD') })
         }
     }, [editData])
 
