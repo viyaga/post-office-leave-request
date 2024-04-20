@@ -47,7 +47,12 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
         setEditData(null)
     }
 
-    const fetchOffices = async () => {
+    const fetchOffices = async (e) => {
+        if (!e.target.value) {
+            setOffices([])
+            reset({ name: '' })
+        }
+
         if (offices.length > 0) return
         const res = await getAllOffices()
         if (res.error) return toast.error(res.error)
@@ -58,11 +63,11 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
     }
 
     const fetchEmployeeName = async (e) => {
-        console.log({ des: getValues('designation'), off: e.target.value });
+        if(!e.target.value) reset({ name: '' })
+
         if (!getValues('designation') || !e.target.value) return
 
-
-        const res = await getEmployeeName()
+        const res = await getEmployeeName(e.target.value, getValues('designation'))
         if (res.error) return toast.error(res.error)
 
         if (res.employeeName) {

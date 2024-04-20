@@ -75,6 +75,7 @@
           border: 1px solid $soft-color;
           border-radius: 3px;
           width: 100%;
+          text-transform: capitalize;
         }
 
         select {
@@ -93,6 +94,10 @@
             text-transform: capitalize;
           }
         }
+      }
+
+      input[type='date'] {
+       text-transform: none;
       }
 
       input[type='submit'] {
