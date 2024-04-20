@@ -5,12 +5,11 @@ import { z } from "zod"
 
 import './addLeaveData.scss'
 import ZodSelectInput from "@/components/shared/zodSelectInput/ZodSelectInput"
-import { BranchOfficeNames } from "@/data"
 import toast from "react-hot-toast"
-import { createLeaveData, findNumberOfDays, updatePendingLeaveData } from "@/services"
+import { createLeaveData, findNumberOfDays, getAllOffices, getEmployeeName, updatePendingLeaveData } from "@/services"
 import { useDispatch } from "react-redux"
 import { addPendingLeave, editPendingLeave } from "@/redux/slices/commonSlice"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import moment from "moment"
 
 const leaveSchema = z.object({
@@ -27,7 +26,8 @@ const leaveSchema = z.object({
 })
 
 const AddLeaveData = ({ editData, setEditData, setOpen }) => {
-    const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({ resolver: zodResolver(leaveSchema) })
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, getValues } = useForm({ resolver: zodResolver(leaveSchema) })
+    const [offices, setOffices] = useState([])
     const dispatch = useDispatch()
 
     const formInputs = [
@@ -45,6 +45,30 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
     const handleClose = () => {
         setOpen(false)
         setEditData(null)
+    }
+
+    const fetchOffices = async () => {
+        if (offices.length > 0) return
+        const res = await getAllOffices()
+        if (res.error) return toast.error(res.error)
+
+        if (res.offices) {
+            setOffices(res.offices)
+        }
+    }
+
+    const fetchEmployeeName = async (e) => {
+        console.log({ des: getValues('designation'), off: e.target.value });
+        if (!getValues('designation') || !e.target.value) return
+
+
+        const res = await getEmployeeName()
+        if (res.error) return toast.error(res.error)
+
+        if (res.employeeName) {
+            reset({ name: res.employeeName })
+        }
+        console.log({ des: getValues('designation'), off: getValues('officeName'), name: res.employeeName });
     }
 
     const onLeaveDataSubmit = async (props) => {
@@ -103,14 +127,27 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
                 <form onSubmit={handleSubmit(onLeaveDataSubmit)}>
 
                     <div className="item">
-                        <label>Office *</label>
-                        <ZodSelectInput name="officeName" register={register} defaultValue="Select" options={BranchOfficeNames} error={errors['officeName']} />
+                        <label>Designation *</label>
+                        <ZodSelectInput name="designation" register={register} onChangeFunction={fetchOffices} defaultValue="Select" options={designationOptions} error={errors['designation']} />
                     </div>
 
                     <div className="item">
-                        <label>Designation *</label>
-                        <ZodSelectInput name="designation" register={register} defaultValue="Select" options={designationOptions} error={errors['designation']} />
+                        <label>Office *</label>
+                        <select {...register("officeName")} onChange={fetchEmployeeName}>
+                            <option value="">Select</option>
+                            {offices && offices.map((item, index) =>
+                                <option key={index} value={item._id}>{item.officeName}</option>
+                            )}
+                        </select>
+                        {errors.officeName && (
+                            <p style={{ paddingTop: '5px', fontWeight: 600, color: 'orange' }}>{errors.officeName.message}</p>
+                        )}
                     </div>
+
+                    {/* <div className="item">
+                        <label>Office *</label>
+                        <ZodSelectInput name="officeName" register={register} defaultValue="Select" options={offices} error={errors['officeName']} />
+                    </div> */}
 
                     <div className="item">
                         <label>Name *</label>
@@ -130,7 +167,6 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
                             </div>
                         )
                     })}
-
 
                     <div className="item">
                         <label>Leave Type</label>

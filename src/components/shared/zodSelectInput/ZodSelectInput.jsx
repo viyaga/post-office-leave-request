@@ -1,10 +1,10 @@
 
 const ZodSelectInput = (props) => {
-    const { name, className = '', register, defaultValue, options, error } = props
+    const { name, className = '', onChangeFunction, register, defaultValue, options, error } = props
 
     return (
         <div>
-            <select {...register(name)} className={className}>
+            <select {...register(name)} className={className} onChange={onChangeFunction}>
                 <option value="">{defaultValue}</option>
                 {options && options.map((item, index) =>
                     <option key={index} value={item.toLowerCase()}>{item}</option>

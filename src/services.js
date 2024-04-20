@@ -71,6 +71,16 @@ const deleteRegularEmployeeData = async (id) => {
     }
 }
 
+const getEmployeeName = async (officeId, designation) => {
+    try {
+        const response = await axios.get(`${REGULAR_EMPLOYEE_API}/name/${officeId}/${designation}`)
+        const employeeName = response.data.employeeName
+        return { employeeName }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
 const formatRegularEmployeeData = (regularEmployeeData) => {
     const sortedData = regularEmployeeData.sort((a, b) => {
         return a.officeName.localeCompare(b.officeName);
@@ -188,7 +198,7 @@ const formatHolidayData = (HolidayData) => {
     return idAddedData
 }
 
-// Holidays ======================================================
+// Leave Services ======================================================
 const LEAVE_API = PUBLIC_SERVER_ONE + '/leaves'
 
 const getPendngLeaveData = async () => {
@@ -240,6 +250,20 @@ const formatPendingLeaveData = (leaveData) => {
     const idAddedData = addIdToDataGridRows(sortedData)
     return idAddedData
 }
+
+//office services ======================================
+const OFFICE_API = PUBLIC_SERVER_ONE + '/office'
+
+const getAllOffices = async () => {
+    try {
+        const response = await axios.get(OFFICE_API)
+        const offices = response.data.offices
+        return { offices }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
 //  ===============================
 const getData = async (type, category) => {
     try {
@@ -255,9 +279,9 @@ const getData = async (type, category) => {
 
 export {
     errResponse, textCapitalize, addIdToDataGridRows, findNumberOfDays,
-    getAllRegularEmployeesData, createRegularEmployeeData, updateRegularEmployeeData, deleteRegularEmployeeData, formatRegularEmployeeData,
+    getAllRegularEmployeesData, createRegularEmployeeData, updateRegularEmployeeData, deleteRegularEmployeeData, getEmployeeName, formatRegularEmployeeData,
     getAllSubstituteEmployeesData, createSubstituteEmployeeData, updateSubstituteEmployeeData, deleteSubstituteEmployeeData, formatSubstituteEmployeeData,
     getAllHolidayData, createHolidayData, updateHolidayData, deleteHolidayData, formatHolidayData,
     getPendngLeaveData, createLeaveData, updatePendingLeaveData, deletePendingLeaveData, formatPendingLeaveData,
-    getData,
+    getAllOffices, getData,
 }
