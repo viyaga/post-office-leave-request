@@ -53,7 +53,23 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
             reset({ name: '' })
         }
 
-        if (offices.length > 0) return
+        if (offices.length > 0) {
+            if (getValues('officeName')) {
+                const res = await getEmployeeName(getValues('officeName'), e.target.value)
+                if (res.error) {
+                    reset({ name: '' })
+                    toast.error(res.error)
+                    return
+                }
+
+                if (res.employeeName) {
+                    reset({ name: res.employeeName })
+                }
+            }
+
+            return
+        }
+
         const res = await getAllOffices()
         if (res.error) return toast.error(res.error)
 
@@ -63,17 +79,20 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
     }
 
     const fetchEmployeeName = async (e) => {
-        if(!e.target.value) reset({ name: '' })
+        if (!e.target.value) reset({ name: '' })
 
         if (!getValues('designation') || !e.target.value) return
 
         const res = await getEmployeeName(e.target.value, getValues('designation'))
-        if (res.error) return toast.error(res.error)
+        if (res.error) {
+            reset({ name: '' })
+            toast.error(res.error)
+            return
+        }
 
         if (res.employeeName) {
             reset({ name: res.employeeName })
         }
-        console.log({ des: getValues('designation'), off: getValues('officeName'), name: res.employeeName });
     }
 
     const onLeaveDataSubmit = async (props) => {
@@ -156,7 +175,7 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
 
                     <div className="item">
                         <label>Name *</label>
-                        <ZodFormInput type="text" name="name" register={register} placeholder="Name" error={errors["name"]} />
+                        <ZodFormInput type="text" disabled={true} name="name" register={register} placeholder="Name" error={errors["name"]} />
                     </div>
 
                     <div className="item">
