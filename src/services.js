@@ -33,6 +33,15 @@ const getMonthAndYear = (date) => {
     return months[month] + year
 }
 
+const isHoliday = (holidays, date) => {
+    let holiday = holidays.find((item) => new Date(item.date).getTime() === new Date(date).getTime())?.holiday
+    if (!holiday) {
+        holiday = new Date(date).getDay() === 0 ? "Sunday" : null
+    }
+
+    return holiday
+}
+
 // Regular Employees ====================================================================
 const REGULAR_EMPLOYEE_API = PUBLIC_SERVER_ONE + '/employee/regular'
 
@@ -297,7 +306,7 @@ const getData = async (type, category) => {
 
 
 export {
-    errResponse, textCapitalize, addIdToDataGridRows, findNumberOfDays, getMonthAndYear,
+    errResponse, textCapitalize, addIdToDataGridRows, findNumberOfDays, getMonthAndYear, isHoliday,
     getAllRegularEmployeesData, createRegularEmployeeData, updateRegularEmployeeData, deleteRegularEmployeeData, getEmployeeName, formatRegularEmployeeData,
     getAllSubstituteEmployeesData, getNonWorkingSubstitute, createSubstituteEmployeeData, updateSubstituteEmployeeData, deleteSubstituteEmployeeData, formatSubstituteEmployeeData,
     getAllHolidayData, createHolidayData, updateHolidayData, deleteHolidayData, formatHolidayData,

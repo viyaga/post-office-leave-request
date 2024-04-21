@@ -6,7 +6,7 @@ import { z } from "zod"
 import './addLeaveData.scss'
 import ZodSelectInput from "@/components/shared/zodSelectInput/ZodSelectInput"
 import toast from "react-hot-toast"
-import { createLeaveData, findNumberOfDays, getAllOffices, getEmployeeName, getMonthAndYear, getNonWorkingSubstitute, updatePendingLeaveData } from "@/services"
+import { createLeaveData, findNumberOfDays, getEmployeeName, getMonthAndYear, getNonWorkingSubstitute, isHoliday, updatePendingLeaveData } from "@/services"
 import { useDispatch } from "react-redux"
 import { addPendingLeave, editPendingLeave } from "@/redux/slices/commonSlice"
 import { useEffect, useState } from "react"
@@ -25,10 +25,8 @@ const leaveSchema = z.object({
     status: z.string().min(1, { message: "Status Required" }).max(20),
 })
 
-const AddLeaveData = ({ editData, setEditData, setOpen }) => {
+const AddLeaveData = ({ substitutes, offices, holidays, editData, setEditData, setOpen }) => {
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset, getValues, setValue } = useForm({ resolver: zodResolver(leaveSchema) })
-    const [substitutes, setSubstitutes] = useState([])
-    const [offices, setOffices] = useState([])
     const dispatch = useDispatch()
 
     const designationOptions = ['BPM', 'ABPM', 'ABPM I', 'ABPM II', 'DAK SEVAK']
@@ -41,38 +39,27 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
         setEditData(null)
     }
 
-    const fetchOffices = async (e) => {
+    const fetchEmployeeName = async (e) => {
         if (!editData && !e?.target?.value) {
-            setOffices([])
             setValue('name', '')
         }
 
-        if (offices.length > 0) {
-            if (getValues('officeName')) {
-                const res = await getEmployeeName(getValues('officeName'), e.target.value)
-                if (res.error) {
-                    setValue('name', '')
-                    toast.error(res.error)
-                    return
-                }
-
-                if (res.employeeName) {
-                    setValue('name', res.employeeName)
-                }
+        if (getValues('officeName')) {
+            const res = await getEmployeeName(getValues('officeName'), e.target.value)
+            if (res.error) {
+                setValue('name', '')
+                toast.error(res.error)
+                return
             }
 
-            return
+            if (res.employeeName) {
+                setValue('name', res.employeeName)
+            }
         }
 
-        const res = await getAllOffices()
-        if (res.error) return toast.error(res.error)
-
-        if (res.offices) {
-            setOffices(res.offices)
-        }
     }
 
-    const fetchEmployeeName = async (e) => {
+    const fetchEmployeeName1 = async (e) => {
         if (!e.target.value) return setValue('name', '')
 
         if (!getValues('designation') || !e.target.value) return
@@ -87,36 +74,22 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
         if (res.employeeName) {
             setValue('name', res.employeeName)
         }
-    }
 
-    const fetchSubstitute = async (e) => {
-
-        if (!editData && (!getValues('from') || !e?.target?.value)) return setSubstitutes([])
-
-        const formDateString = editData?.from || new Date(getValues('from'))
-        const endDateString = editData?.to || new Date(e.target.value)
-        const res = await getNonWorkingSubstitute(formDateString, endDateString)
-
-        if (res.error) {
-            setValue('substituteName', '')
-            toast.error(res.error)
-            return
-        }
-
-        if (res.employees) {
-            setSubstitutes(res.employees)
-        }
     }
 
     const getEmployeeAccount = (e) => {
-        const accountNo = substitutes.filter((item) => item._id === e.target.value)[0]?.accountNo
+        const accountNo = substitutes.filter((item) => item.accountNo === e.target.value)[0]?.accountNo
         setValue('accountNo', accountNo)
+    }
+
+    const checkIsHoliday = (e) => {
+        const holiday = isHoliday(holidays, e.target.value) //date
+        console.log({ holiday });
     }
 
     const onLeaveDataSubmit = async (props) => {
         const { from, to } = props
 
-        // calculate days ========================
         const fromDate = new Date(from)
         const toDate = new Date(to)
         const days = findNumberOfDays(fromDate, toDate)
@@ -131,7 +104,7 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
             from: fromDate,
             to: toDate,
             days: days,
-            substituteName: substitutes.find((item) => item._id === props.substituteName)?.name,
+            substituteName: substitutes.find((item) => item.accountNo === props.substituteName)?.name,
             accountNo: props.accountNo,
             remarks: props.remarks,
             leaveType: props.leaveType,
@@ -162,9 +135,12 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
 
     useEffect(() => {
         if (editData) {
-            fetchOffices()
-            fetchSubstitute()
-            reset({ ...editData, status: editData.status === 1 ? 'approved' : 'pending', from: moment(editData.from).format('YYYY-MM-DD'), to: moment(editData.to).format('YYYY-MM-DD') })
+            console.log({ editData });
+            reset({
+                ...editData, status: editData.status === 1 ? 'approved' : 'pending',
+                from: moment(editData.from).format('YYYY-MM-DD'), to: moment(editData.to).format('YYYY-MM-DD'),
+                officeName: editData.officeId, substituteName: editData.accountNo,
+            })
         }
     }, [editData])
 
@@ -179,20 +155,20 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
 
                     <div className="item">
                         <label>Designation *</label>
-                        <ZodSelectInput name="designation" register={register} onChangeFunction={fetchOffices} defaultValue="Select" options={designationOptions} error={errors['designation']} />
+                        <ZodSelectInput name="designation" register={register} onChangeFunction={fetchEmployeeName} defaultValue="Select" options={designationOptions} error={errors['designation']} />
                     </div>
 
                     <div className="item">
                         <label>Office *</label>
                         <div>
-                            <select {...register("officeName")} onChange={fetchEmployeeName}>
+                            <select {...register("officeName")} onChange={fetchEmployeeName1}>
                                 <option value="">Select</option>
                                 {offices && offices.map((item, index) =>
                                     <option key={index} value={item._id}>{item.officeName}</option>
                                 )}
                             </select>
                             {errors.officeName && (
-                                <p style={{ paddingTop: '5px', fontWeight: 600, color: 'orange' }}>{errors.officeName.message}</p>
+                                <p style={{ paddingTop: '5px', fontWeight: 600, color: 'orange' }} >{errors.officeName.message}</p>
                             )}
                         </div>
                     </div>
@@ -209,12 +185,12 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
 
                     <div className="item">
                         <label>From *</label>
-                        <ZodFormInput type="date" name="from" register={register} placeholder="From *" error={errors["from"]} />
+                        <ZodFormInput type="date" name="from" register={register} placeholder="From *" error={errors["from"]} onChangeFunction={checkIsHoliday} />
                     </div>
 
                     <div className="item">
                         <label>To *</label>
-                        <ZodFormInput type="date" name="to" register={register} placeholder="To *" error={errors["to"]} onChangeFunction={fetchSubstitute} />
+                        <ZodFormInput type="date" name="to" register={register} placeholder="To *" error={errors["to"]} onChangeFunction={checkIsHoliday} />
                     </div>
 
                     <div className="item">
@@ -223,7 +199,7 @@ const AddLeaveData = ({ editData, setEditData, setOpen }) => {
                             <select {...register("substituteName")} onChange={getEmployeeAccount}>
                                 <option value="">Select</option>
                                 {substitutes && substitutes.map((item, index) =>
-                                    <option key={index} value={item._id}>{item.name}</option>
+                                    <option key={index} value={item.accountNo}>{item.name}</option>
                                 )}
                             </select>
                             {errors.substituteName && (
