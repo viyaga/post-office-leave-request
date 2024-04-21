@@ -99,12 +99,12 @@ const leaveDataColums = [
   { field: "name", type: "string", headerName: "Name", width: 200, valueFormatter: (params) => textCapitalize(params) },
   { field: "designation", type: "string", headerName: "Designation", width: 120, valueFormatter: (params) => params.toUpperCase() },
   { field: "officeName", type: "string", headerName: "Office Name", width: 180, valueFormatter: (params) => textCapitalize(params) },
-  { field: "from", type: "Date", headerName: "From", width: 120, valueFormatter: params => params ? moment(params).format("DD/MM/YYYY") : "-" },
-  { field: "to", type: "Date", headerName: "To", width: 100, valueFormatter: params => params ? moment(params).format("DD/MM/YYYY") : "-" },
-  { field: "days", type: "number", headerName: "Days", width: 100, valueFormatter: params => params ? params : '-' },
-  { field: "substituteName", type: "string", headerName: "Substitute Name", width: 200, valueFormatter: params => params ? params : '-' },
-  { field: "accountNo", type: "string", headerName: "Account Number", width: 160, valueFormatter: params => params ? params : '-' },
-  { field: "remarks", type: "string", headerName: "Remarks", width: 200, valueFormatter: params => params ? params : '-' },
+  { field: "from", type: "Date", headerName: "From", width: 120, valueFormatter: params => moment(params).format("DD/MM/YYYY") },
+  { field: "to", type: "Date", headerName: "To", width: 100, valueFormatter: params => moment(params).format("DD/MM/YYYY") },
+  { field: "days", type: "number", headerName: "Days", width: 100 },
+  { field: "substituteName", type: "string", headerName: "Substitute Name", width: 200, valueFormatter: params => textCapitalize(params) },
+  { field: "accountNo", type: "string", headerName: "Account Number", width: 160 },
+  { field: "remarks", type: "string", headerName: "Remarks", width: 200, valueFormatter: params => textCapitalize(params) },
 ]
 
 const HolidayColums = [

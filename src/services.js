@@ -26,6 +26,13 @@ const findNumberOfDays = (fromDate, toDate) => {
     return days
 }
 
+const getMonthAndYear = (date) => {
+    const month = date.getMonth()
+    const year = date.getFullYear()
+    const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+    return months[month] + year
+}
+
 // Regular Employees ====================================================================
 const REGULAR_EMPLOYEE_API = PUBLIC_SERVER_ONE + '/employee/regular'
 
@@ -96,6 +103,16 @@ const SUBSTITUTE_API = PUBLIC_SERVER_ONE + '/employee/substitute'
 const getAllSubstituteEmployeesData = async () => {
     try {
         const response = await axios.get(SUBSTITUTE_API)
+        const employees = response.data.employees
+        return { employees }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
+const getNonWorkingSubstitute = async (fromDate, toDate) => {
+    try {
+        const response = await axios.get(`${SUBSTITUTE_API}/non-working/${fromDate}/${toDate}`)
         const employees = response.data.employees
         return { employees }
     } catch (error) {
@@ -264,7 +281,7 @@ const getAllOffices = async () => {
     }
 }
 
-//  ===============================
+//  common ===============================
 const getData = async (type, category) => {
     try {
         const response = await axios.get(`${PUBLIC_SERVER_ONE}/${type}/${category}`)
@@ -277,10 +294,12 @@ const getData = async (type, category) => {
 
 
 
+
+
 export {
-    errResponse, textCapitalize, addIdToDataGridRows, findNumberOfDays,
+    errResponse, textCapitalize, addIdToDataGridRows, findNumberOfDays, getMonthAndYear,
     getAllRegularEmployeesData, createRegularEmployeeData, updateRegularEmployeeData, deleteRegularEmployeeData, getEmployeeName, formatRegularEmployeeData,
-    getAllSubstituteEmployeesData, createSubstituteEmployeeData, updateSubstituteEmployeeData, deleteSubstituteEmployeeData, formatSubstituteEmployeeData,
+    getAllSubstituteEmployeesData, getNonWorkingSubstitute, createSubstituteEmployeeData, updateSubstituteEmployeeData, deleteSubstituteEmployeeData, formatSubstituteEmployeeData,
     getAllHolidayData, createHolidayData, updateHolidayData, deleteHolidayData, formatHolidayData,
     getPendngLeaveData, createLeaveData, updatePendingLeaveData, deletePendingLeaveData, formatPendingLeaveData,
     getAllOffices, getData,
