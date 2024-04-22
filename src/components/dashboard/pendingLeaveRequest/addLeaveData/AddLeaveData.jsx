@@ -129,7 +129,7 @@ const AddLeaveData = ({ substitutes, offices, holidays, editData, setEditData, s
             }
         }
 
-        if (res.error) return toast.error(res.error)
+        if (res.error) return toast.error(res.error, {duration: 7000})
 
     }
 
