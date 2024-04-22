@@ -82,9 +82,13 @@ const AddLeaveData = ({ substitutes, offices, holidays, editData, setEditData, s
         setValue('accountNo', accountNo)
     }
 
-    const checkIsHoliday = (e) => {
-        const holiday = isHoliday(holidays, e.target.value) //date
-        console.log({ holiday });
+    const checkIsHoliday = (date, elementId) => {
+        const holiday = isHoliday(holidays, date) 
+        if(holiday) {
+           return document.getElementById(elementId).innerHTML = holiday
+        }
+        
+        document.getElementById(elementId).innerHTML = ""
     }
 
     const onLeaveDataSubmit = async (props) => {
@@ -184,13 +188,13 @@ const AddLeaveData = ({ substitutes, offices, holidays, editData, setEditData, s
                     </div>
 
                     <div className="item">
-                        <label>From *</label>
-                        <ZodFormInput type="date" name="from" register={register} placeholder="From *" error={errors["from"]} onChangeFunction={checkIsHoliday} />
+                        <label><p>From *</p><span id="fromDate"></span></label>
+                        <ZodFormInput type="date" name="from" register={register} placeholder="From *" error={errors["from"]} onChangeFunction={(e) => checkIsHoliday(e.target.value, "fromDate")} />
                     </div>
 
                     <div className="item">
-                        <label>To *</label>
-                        <ZodFormInput type="date" name="to" register={register} placeholder="To *" error={errors["to"]} onChangeFunction={checkIsHoliday} />
+                        <label><p>To *</p><span id="toDate"></span></label>
+                        <ZodFormInput type="date" name="to" register={register} placeholder="To *" error={errors["to"]} onChangeFunction={(e) => checkIsHoliday(e.target.value, "toDate")} />
                     </div>
 
                     <div className="item">
