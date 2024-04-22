@@ -11,7 +11,7 @@ import DataTableWithActions from "../../shared/dataTableWithActions/DataTableWit
 import AddRegularEmployee from "./addRegularEmployee/AddRegularEmployee";
 import DeleteRegularEmployee from "./deleteRegularEmployee/DeleteRegularEmployee";
 
-const RegularEmployee = () => {
+const RegularEmployee = ({ offices }) => {
     const { regular } = useSelector(state => state.common.employee)
     const [isLoading, setIsLoading] = useState(true)
     const [deleteData, setDeleteData] = useState(null)
@@ -46,7 +46,7 @@ const RegularEmployee = () => {
                     ? <p>Loading...</p>
                     : <p>No Data Found</p>
             }
-            {open && <AddRegularEmployee editData={editData} setEditData={setEditData} setOpen={setOpen} />}
+            {open && <AddRegularEmployee offices={offices} editData={editData} setEditData={setEditData} setOpen={setOpen} />}
             {deleteData && <DeleteRegularEmployee deleteData={deleteData} setDeleteData={setDeleteData} />}
         </div>
     )

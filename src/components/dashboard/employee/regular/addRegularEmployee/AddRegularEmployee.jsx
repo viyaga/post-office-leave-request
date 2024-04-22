@@ -7,7 +7,6 @@ import { z } from "zod"
 
 import './addRegularEmployee.scss'
 import ZodSelectInput from "@/components/shared/zodSelectInput/ZodSelectInput"
-import { BranchOfficeNames } from "@/data"
 import { useEffect } from "react"
 import { createRegularEmployeeData, updateRegularEmployeeData } from "@/services"
 import toast from "react-hot-toast"
@@ -20,7 +19,7 @@ const regularEmployeeSchema = z.object({
     officeName: z.string().min(1, { message: "Office Required" }).max(50),
 })
 
-const AddRegularEmployee = ({ editData, setEditData, setOpen }) => {
+const AddRegularEmployee = ({ offices, editData, setEditData, setOpen }) => {
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({ resolver: zodResolver(regularEmployeeSchema) })
     const dispatch = useDispatch()
     const designationOptions = ['BPM', 'ABPM', 'ABPM I', 'ABPM II', 'DAK SEVAK']
@@ -32,9 +31,16 @@ const AddRegularEmployee = ({ editData, setEditData, setOpen }) => {
 
     const onEmployeeDataSubmit = async ({ name, designation, officeName }) => {
 
+        const employeeData = {
+            name,
+            designation,
+            officeId: officeName,
+            officeName: offices.find((item) => item._id === officeName).officeName,
+        }
+
         let res = null
         if (editData) {
-            res = await updateRegularEmployeeData(editData._id, { name, designation, officeName })
+            res = await updateRegularEmployeeData(editData._id, employeeData)
             if (res.success) {
                 toast.success(res.success)
                 setOpen(false)
@@ -42,7 +48,7 @@ const AddRegularEmployee = ({ editData, setEditData, setOpen }) => {
                 dispatch(editRegularEmployee(res.employee))
             }
         } else {
-            res = await createRegularEmployeeData({ name, designation, officeName })
+            res = await createRegularEmployeeData(employeeData)
             if (res.success) {
                 toast.success(res.success)
                 setOpen(false)
@@ -57,7 +63,7 @@ const AddRegularEmployee = ({ editData, setEditData, setOpen }) => {
 
     useEffect(() => {
         if (editData) {
-            reset(editData)
+            reset({ ...editData, officeName: editData.officeId })
         }
     }, [editData])
 
@@ -72,7 +78,17 @@ const AddRegularEmployee = ({ editData, setEditData, setOpen }) => {
 
                     <div className="item">
                         <label>Office *</label>
-                        <ZodSelectInput name="officeName" register={register} defaultValue="Select" options={BranchOfficeNames} error={errors['officeName']} />
+                        <div>
+                            <select {...register("officeName")}>
+                                <option value="">Select</option>
+                                {offices && offices.map((item, index) =>
+                                    <option key={index} value={item._id}>{item.officeName}</option>
+                                )}
+                            </select>
+                            {errors.officeName && (
+                                <p style={{ paddingTop: '5px', fontWeight: 600, color: 'orange' }} >{errors.officeName.message}</p>
+                            )}
+                        </div>
                     </div>
 
                     <div className="item">
