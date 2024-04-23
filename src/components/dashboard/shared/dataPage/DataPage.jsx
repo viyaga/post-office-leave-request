@@ -6,8 +6,10 @@ import './data-page.scss'
 import DataTable from "./dataTable/DataTable";
 import { getData } from "@/services";
 import { leaveDataColums, regularEmployeeColumns, substituteEmployeeColums } from '@/data'
+import FilterByDate from "./filterByDate/FilterByDate";
 
 const DataPage = ({ type, category }) => {
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [rows, setRows] = useState(null)
 
   const fetchData = async (type, category) => {
@@ -44,7 +46,7 @@ const DataPage = ({ type, category }) => {
     <div className="leave-requests">
       <div className="info">
         <h2>{category}</h2>
-        {/* <button onClick={() => setOpen(true)}>Add New</button> */}
+        <button onClick={() => setIsFilterOpen(true)}>Filter</button>
       </div>
       {(rows && rows.length > 0)
         ? < DataTable columns={columns} rows={rows} />
@@ -52,6 +54,7 @@ const DataPage = ({ type, category }) => {
           ? <p>No Data Found</p>
           : <p>Loading...</p>
       }
+      {isFilterOpen && <FilterByDate setIsFilterOpen={setIsFilterOpen} />}
     </div>
   )
 }
