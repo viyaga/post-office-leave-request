@@ -33,6 +33,12 @@ const getMonthAndYear = (date) => {
     return months[month] + year
 }
 
+const dateToIsoString = (date) => {
+    const dateObj = new Date(date)
+    const dateIsoString = dateObj.toISOString()
+    return dateIsoString
+}
+
 const isHoliday = (holidays, date) => {
     let holiday = holidays.find((item) => new Date(item.date).getTime() === new Date(date).getTime())?.holiday
     if (!holiday) {
@@ -237,6 +243,16 @@ const getPendngLeaveData = async () => {
     }
 }
 
+const getLeaveDataByCategory = async (category, fromDate, toDate) => {
+    try {
+        const response = await axios.get(`${LEAVE_API}/${category}/${fromDate}/${toDate}`)
+        const leaves = response.data.leaves
+        return { leaves }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
 const createLeaveData = async (leaveData) => {
     try {
         const response = await axios.post(LEAVE_API, leaveData)
@@ -290,26 +306,12 @@ const getAllOffices = async () => {
     }
 }
 
-//  common ===============================
-const getData = async (type, category) => {
-    try {
-        const response = await axios.get(`${PUBLIC_SERVER_ONE}/${type}/${category}`)
-        const data = response.data
-        return { data: data[type] }
-    } catch (error) {
-        return { error: errResponse(error) }
-    }
-}
-
-
-
-
 
 export {
-    errResponse, textCapitalize, addIdToDataGridRows, findNumberOfDays, getMonthAndYear, isHoliday,
+    errResponse, textCapitalize, addIdToDataGridRows, findNumberOfDays, getMonthAndYear, dateToIsoString, isHoliday,
     getAllRegularEmployeesData, createRegularEmployeeData, updateRegularEmployeeData, deleteRegularEmployeeData, getEmployeeName, formatRegularEmployeeData,
     getAllSubstituteEmployeesData, getNonWorkingSubstitute, createSubstituteEmployeeData, updateSubstituteEmployeeData, deleteSubstituteEmployeeData, formatSubstituteEmployeeData,
     getAllHolidayData, createHolidayData, updateHolidayData, deleteHolidayData, formatHolidayData,
-    getPendngLeaveData, createLeaveData, updatePendingLeaveData, deletePendingLeaveData, formatPendingLeaveData,
-    getAllOffices, getData,
+    getPendngLeaveData, getLeaveDataByCategory, createLeaveData, updatePendingLeaveData, deletePendingLeaveData, formatPendingLeaveData,
+    getAllOffices,
 }

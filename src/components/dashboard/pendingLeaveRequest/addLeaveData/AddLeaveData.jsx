@@ -97,7 +97,10 @@ const AddLeaveData = ({ substitutes, offices, holidays, editData, setEditData, s
         const fromDate = new Date(from)
         const toDate = new Date(to)
         const days = findNumberOfDays(fromDate, toDate)
+
         if (days < 1) return toast.error("Invalid Date")
+        if(fromDate.getMonth() !== toDate.getMonth()) return toast.error("Send separate leave letters for different months")
+
 
         const leaveData = {
             name: props.name,

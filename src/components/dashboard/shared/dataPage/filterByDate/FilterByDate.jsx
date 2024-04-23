@@ -4,8 +4,10 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import './filterByDate.scss'
-import { useSearchParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import moment from "moment"
+import { dateToIsoString, findNumberOfDays } from "@/services"
+import toast from "react-hot-toast"
 
 const filterSchema = z.object({
     fromDate: z.string().min(1, { message: "Date Required" }).max(12),
@@ -13,13 +15,13 @@ const filterSchema = z.object({
 })
 
 const FilterByDate = ({ setIsFilterOpen }) => {
+    const pathname = usePathname()
     const searchParams = useSearchParams()
+    const router = useRouter()
 
     const currentDate = new Date()
-    const sevenDaysBeforeDate = new Date()
-    sevenDaysBeforeDate.setDate(currentDate.getDate() - 7)
 
-    const from = searchParams.get('fromDate') || sevenDaysBeforeDate
+    const from = searchParams.get('fromDate') || currentDate
     const fromDate = moment(from).format("YYYY-MM-DD")
 
     const to = searchParams.get('toDate') || currentDate
@@ -34,7 +36,17 @@ const FilterByDate = ({ setIsFilterOpen }) => {
 
     const onFilterSubmit = async ({ fromDate, toDate }) => {
 
-        console.log({ fromDate, toDate })
+        const fromDateIso = dateToIsoString(fromDate)
+        const toDateIso = dateToIsoString(toDate)
+        const days = findNumberOfDays(fromDate, toDate)
+        if(days < 1) return toast.error("Invalid Date")
+
+        console.log({gt: fromDateIso > toDate , month: new Date(fromDateIso).getMonth() === new Date(toDateIso).getMonth() });
+        const category = searchParams.get('cat')
+
+        router.push(`${pathname}/?cat=${category}&&fromDate=${fromDateIso}&&toDate=${toDateIso}`)
+        setIsFilterOpen(false)
+
     }
 
     return (
