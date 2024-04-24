@@ -2,8 +2,8 @@ import { menu } from "@/data";
 import "./menu.scss";
 import { MdLogout } from "react-icons/md";
 import { signOut } from "@/auth";
-import CloseBtn from "./closeBtn/closeBtn";
 import LinkItem from "./linkItem/LinkItem";
+import CloseBtn from "./closeBtn/CloseBtn";
 
 const Menu = () => {
   return (
