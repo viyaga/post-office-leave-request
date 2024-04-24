@@ -8,7 +8,7 @@ import { z } from "zod"
 import './addRegularEmployee.scss'
 import ZodSelectInput from "@/components/shared/zodSelectInput/ZodSelectInput"
 import { useEffect } from "react"
-import { createRegularEmployeeData, updateRegularEmployeeData } from "@/services"
+import { createRegularEmployeeData, isNameEditable, updateRegularEmployeeData } from "@/services"
 import toast from "react-hot-toast"
 import { addRegularEmployee, editRegularEmployee } from "@/redux/slices/commonSlice"
 import { useDispatch } from "react-redux"
@@ -40,6 +40,11 @@ const AddRegularEmployee = ({ offices, editData, setEditData, setOpen }) => {
 
         let res = null
         if (editData) {
+
+            const isEditable = isNameEditable(editData.name, name)
+            if (!isEditable) return toast.error("Names are too different and not editable. If you wish to add a new employee, please provide new data. If you intend to edit an employee's name, kindly consult your database manager.", {duration: 10000})
+            console.log({ isEditable });
+
             res = await updateRegularEmployeeData(editData._id, employeeData)
             if (res.success) {
                 toast.success(res.success)

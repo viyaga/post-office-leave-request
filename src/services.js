@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const PUBLIC_SERVER_ONE = process.env.NEXT_PUBLIC_SERVER_ONE
 
+// common =================================================
 const errResponse = (error) => {
     const message = (error.response && error.response.data && error.response.data.message)
         || error.message || error.toString()
@@ -47,6 +48,36 @@ const isHoliday = (holidays, date) => {
     }
 
     return holiday
+}
+
+const calculateLevenshteinDistance = (a, b) => {
+    const dp = Array(a.length + 1).fill(null).map(() => Array(b.length + 1).fill(0));
+
+    for (let i = 0; i <= a.length; i++) {
+        dp[i][0] = i;
+    }
+
+    for (let j = 0; j <= b.length; j++) {
+        dp[0][j] = j;
+    }
+
+    for (let i = 1; i <= a.length; i++) {
+        for (let j = 1; j <= b.length; j++) {
+            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+            dp[i][j] = Math.min(
+                dp[i - 1][j] + 1, // deletion
+                dp[i][j - 1] + 1, // insertion
+                dp[i - 1][j - 1] + cost // substitution
+            );
+        }
+    }
+
+    return dp[a.length][b.length];
+}
+
+const isNameEditable = (name1, name2) => {
+    const distance = calculateLevenshteinDistance(name1.toLowerCase(), name2.toLowerCase());
+    return distance <= 3 // threshold
 }
 
 // Regular Employees ====================================================================
@@ -309,7 +340,7 @@ const getAllOffices = async () => {
 
 
 export {
-    errResponse, textCapitalize, addIdToDataGridRows, findNumberOfDays, getMonthAndYear, dateToIsoString, isHoliday,
+    errResponse, textCapitalize, addIdToDataGridRows, findNumberOfDays, getMonthAndYear, dateToIsoString, isHoliday, isNameEditable,
     getAllRegularEmployeesData, createRegularEmployeeData, updateRegularEmployeeData, deleteRegularEmployeeData, getEmployeeName, formatRegularEmployeeData,
     getAllSubstituteEmployeesData, getNonWorkingSubstitute, createSubstituteEmployeeData, updateSubstituteEmployeeData, deleteSubstituteEmployeeData, formatSubstituteEmployeeData,
     getAllHolidayData, createHolidayData, updateHolidayData, deleteHolidayData, formatHolidayData,
