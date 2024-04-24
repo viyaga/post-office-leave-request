@@ -35,6 +35,7 @@ const getMonthAndYear = (date) => {
 
 const dateToIsoString = (date) => {
     const dateObj = new Date(date)
+    dateObj.setUTCHours(0, 0, 0, 0)
     const dateIsoString = dateObj.toISOString()
     return dateIsoString
 }

@@ -6,7 +6,7 @@ const page = async ({ searchParams }) => {
   const category = searchParams?.cat || "pending"
   const fromDate = searchParams?.fromDate || dateToIsoString(Date.now())
   const toDate = searchParams?.toDate || dateToIsoString(Date.now())
-
+  
   return (
     <DataPage category={category} fromDate={fromDate} toDate={toDate} />
   )
