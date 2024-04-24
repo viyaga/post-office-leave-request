@@ -97,7 +97,16 @@ const substituteEmployeeColums = [
 const leaveDataColums = [
   { field: "id", headerName: "S.No.", width: 90, filterable: false },
   { field: "name", type: "string", headerName: "Name", width: 200, valueFormatter: (params) => textCapitalize(params) },
-  { field: "designation", type: "string", headerName: "Designation", width: 120, valueFormatter: (params) => params.toUpperCase() },
+  {
+    field: "designation", type: "string", headerName: "Designation", width: 120,
+    valueFormatter: (params) => {
+      let designation = params.toUpperCase()
+      if (params.split(' ')[0] === 'dak') {
+        designation = "DAK SEVAK"
+      }
+      return designation
+    }
+  },
   { field: "officeName", type: "string", headerName: "Office Name", width: 180, valueFormatter: (params) => textCapitalize(params) },
   { field: "from", type: "Date", headerName: "From", width: 120, valueFormatter: params => moment(params).format("DD/MM/YYYY") },
   { field: "to", type: "Date", headerName: "To", width: 100, valueFormatter: params => moment(params).format("DD/MM/YYYY") },
@@ -113,20 +122,11 @@ const HolidayColums = [
   { field: "date", type: "string", headerName: "Date", width: 100, valueFormatter: (params) => moment(params).format('DD/MM/YYYY') },
 ];
 
-const BranchOfficeNames = ["A.Ammapatti", "A.Thottiapatti", "Achampatti", "Alagappan Nagar So", "Alampatti", "Alapalachery", "Appakarai",
-  "Arasapatti", "Austinpatti", "Avalsurampatti", "Chittur", "Deivanayagapuram", "Genjampatti", "Harveypatti", "Jari Usilampatti", "K.Sennampatti",
-  "Kadaneri", "Kalligudi So", "Kangeyanatham", "Kappalur", "Kappalur Bo", "Kappalur Indl Estate So", "Karadikal", "Karaikeni", "Kilavaneri",
-  "Koothiargundu", "Koovalapuram", "Kopinayakanpatti", "Kuraiyur", "Lalapuram", "M.Pudupatti", "M.Puliyankulam", "Madipanur", "Mangalrevu", "Marudangudi",
-  "Melakottai", "Msubbulapuram", "Nallamaram", "Nedungulam", "Nilaiyur", "Odaipatti", "P.Thottiapatti", "Pappayapuram", "Pappunaickanpatti", "Pasumalai So",
-  "Peraiyur So", "Periyapoolampatti", "Ponnamangalam", "Pudunagar So", "Royapalayam", "S.P.Natham", "Sandaiyur", "Sathangudi", "Sengapadai", "Sevarakottai",
-  "Sidhireddipatti", "Silamalaipatti", "Silarapatti", "Sithalai", "Sivanandanagar", "Solaipatti", "Sowdarpatti", "T.E.College So", "T.Kallupatti So",
-  "T.Kunnathur So", "T.Pudupatti So", "Thanakkankulam", "Thangalacheri", "Thoppur", "Tirali", "Tirumangalam So", "Tirunagar So", "Tmm South So",
-  "Tvs Nagar So", "Urappanur", "Urappanur Bo", "Vadakkampatti", "Vagaikulam", "Vannivelampatti", "Veeraperumalpuram", "Velambur", "Velambur Bo",
-  "Vellakulam", "Vidathakulam", "Vilachery", "Villur So"]
+const designationOptions = ['BPM', 'ABPM', 'ABPM I', 'ABPM II', 'DAK SEVAK', 'DAK SEVAK I', 'DAK SEVAK II', 'DAK SEVAK III', 'DAK SEVAK IV', 'DAK SEVAK V', 'DAK SEVAK VI', 'DAK SEVAK VII', 'DAK SEVAK VIII', 'DAK SEVAK IX', 'DAK SEVAK X']
 
 const subDivisionOptions = ['Tirumangalam']
 
 export {
   menu, regularEmployeeColumns, substituteEmployeeColums, leaveDataColums,
-  HolidayColums, BranchOfficeNames, subDivisionOptions
+  HolidayColums, designationOptions, subDivisionOptions
 }

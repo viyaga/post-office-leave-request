@@ -12,17 +12,17 @@ import { createRegularEmployeeData, updateRegularEmployeeData } from "@/services
 import toast from "react-hot-toast"
 import { addRegularEmployee, editRegularEmployee } from "@/redux/slices/commonSlice"
 import { useDispatch } from "react-redux"
+import { designationOptions } from "@/data"
 
 const regularEmployeeSchema = z.object({
     name: z.string().min(1, { message: "Name Required" }).max(50),
-    designation: z.string().min(1, { message: "Designation Required" }).max(10),
+    designation: z.string().min(1, { message: "Designation Required" }).max(20),
     officeName: z.string().min(1, { message: "Office Required" }).max(50),
 })
 
 const AddRegularEmployee = ({ offices, editData, setEditData, setOpen }) => {
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({ resolver: zodResolver(regularEmployeeSchema) })
     const dispatch = useDispatch()
-    const designationOptions = ['BPM', 'ABPM', 'ABPM I', 'ABPM II', 'DAK SEVAK']
 
     const handleClose = () => {
         setOpen(false)

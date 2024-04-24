@@ -26,6 +26,7 @@ export default function RootLayout({ children }) {
           {children}
         </ReduxProvider>
         <Toaster position='top-center' />
+        <div id="backdrop" className="backdrop"></div>
       </body>
     </html>
   );

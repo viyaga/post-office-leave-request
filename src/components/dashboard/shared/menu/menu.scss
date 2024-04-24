@@ -5,6 +5,25 @@
   min-height: 80vh;
   position: relative;
 
+  .header {
+    display: none;
+
+    @include lg {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+
+      .logo {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        gap: 10px;
+      }
+    }
+  }
+
+
   .item {
     display: flex;
     flex-direction: column;
@@ -16,10 +35,6 @@
       font-weight: 200;
       color: $soft-color;
       text-transform: uppercase;
-
-      @include lg {
-        display: none;
-      }
     }
 
     .listItem {
@@ -32,12 +47,6 @@
       &:hover {
         background-color: $soft-bg;
       }
-
-      .listItemTitle {
-        @include lg {
-          display: none;
-        }
-      }
     }
   }
 
@@ -49,18 +58,10 @@
     border-radius: 5px;
     font-size: 16px;
     width: 100%;
-    position: absolute;
-    bottom: 40px;
 
     &:hover {
       background-color: $soft-bg;
       color: white;
-    }
-
-    .logout-title {
-      @include lg {
-        display: none;
-      }
     }
   }
 }

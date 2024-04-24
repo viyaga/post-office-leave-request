@@ -1,20 +1,26 @@
 import { menu } from "@/data";
 import "./menu.scss";
-import Link from "next/link";
 import { MdLogout } from "react-icons/md";
 import { signOut } from "@/auth";
+import CloseBtn from "./closeBtn/closeBtn";
+import LinkItem from "./linkItem/LinkItem";
 
 const Menu = () => {
   return (
     <div className="menu">
+      <div className="header">
+        <div className="logo">
+          <img src="/logo.svg" alt="" />
+          <span>DOPLM</span>
+        </div>
+        <CloseBtn />
+      </div>
+
       {menu.map((item) => (
         <div className="item" key={item.id}>
           <span className="title">{item.title}</span>
           {item.listItems.map((listItem) => (
-            <Link href={listItem.url} className="listItem" key={listItem.id}>
-              {listItem.icon}
-              <span className="listItemTitle">{listItem.title}</span>
-            </Link>
+            <LinkItem key={listItem.id} url={listItem.url} icon={listItem.icon} title={listItem.title} />
           ))}
         </div>
       ))}

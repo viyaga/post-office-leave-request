@@ -9,8 +9,9 @@ import toast from "react-hot-toast"
 import { createLeaveData, findNumberOfDays, getEmployeeName, getMonthAndYear, getNonWorkingSubstitute, isHoliday, updatePendingLeaveData } from "@/services"
 import { useDispatch } from "react-redux"
 import { addPendingLeave, editPendingLeave } from "@/redux/slices/commonSlice"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import moment from "moment"
+import { designationOptions } from "@/data"
 
 const leaveSchema = z.object({
     name: z.string().min(1, { message: "Name Required" }).max(50),
@@ -29,7 +30,6 @@ const AddLeaveData = ({ substitutes, offices, holidays, editData, setEditData, s
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset, getValues, setValue } = useForm({ resolver: zodResolver(leaveSchema) })
     const dispatch = useDispatch()
 
-    const designationOptions = ['BPM', 'ABPM', 'ABPM I', 'ABPM II', 'DAK SEVAK']
     const remarkOptions = ['Personal affairs', 'Officiating', 'Stop Gap arrangement', 'POD', 'Induction training', 'Maternity leave', 'Medical affairs']
     const leaveTypeOptions = ['Paid Leave', 'LWA', 'Stop Gap Arrangement', 'Maternity', 'Training', 'Others']
     const leaveStatusOptions = ['Pending', 'Approved']

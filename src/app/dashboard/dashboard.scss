@@ -8,14 +8,13 @@
     height: 100vh;
     overflow: auto;
 
-    .main-container {
+    .container {
         display: flex;
 
         .menuContainer {
             width: 250px;
             padding: 25px 20px 5PX;
             border-right: 2px solid $soft-bg;
-            height: 100vh;
             position: fixed;
             top: 0;
             left: 0;
@@ -52,10 +51,6 @@
                 margin-left: 0;
             }
 
-            .children {
-                padding: 20px;
-                margin-top: 90px;
-            }
         }
     }
 }

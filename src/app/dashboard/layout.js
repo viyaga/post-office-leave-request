@@ -15,7 +15,7 @@ const layout = async({ children }) => {
         <div className="main">
             <Navbar />
             <div className="container">
-                <div className="menuContainer">
+                <div className="menuContainer" id='menu'>
                     <Menu />
                 </div>
                 <div className="contentContainer">
