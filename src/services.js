@@ -80,6 +80,10 @@ const isNameEditable = (name1, name2) => {
     return distance <= 3 // threshold
 }
 
+const isObjectSame = (obj1, obj2) => {
+    return JSON.stringify(obj1) === JSON.stringify(obj2)
+}
+
 // Regular Employees ====================================================================
 const REGULAR_EMPLOYEE_API = PUBLIC_SERVER_ONE + '/employee/regular'
 
@@ -340,7 +344,7 @@ const getAllOffices = async () => {
 
 
 export {
-    errResponse, textCapitalize, addIdToDataGridRows, findNumberOfDays, getMonthAndYear, dateToIsoString, isHoliday, isNameEditable,
+    errResponse, textCapitalize, addIdToDataGridRows, findNumberOfDays, getMonthAndYear, dateToIsoString, isHoliday, isNameEditable, isObjectSame,
     getAllRegularEmployeesData, createRegularEmployeeData, updateRegularEmployeeData, deleteRegularEmployeeData, getEmployeeName, formatRegularEmployeeData,
     getAllSubstituteEmployeesData, getNonWorkingSubstitute, createSubstituteEmployeeData, updateSubstituteEmployeeData, deleteSubstituteEmployeeData, formatSubstituteEmployeeData,
     getAllHolidayData, createHolidayData, updateHolidayData, deleteHolidayData, formatHolidayData,

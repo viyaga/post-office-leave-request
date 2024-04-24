@@ -6,7 +6,7 @@ import { z } from "zod"
 import './addSubstituteEmployee.scss'
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { createSubstituteEmployeeData, updateSubstituteEmployeeData } from "@/services"
+import { createSubstituteEmployeeData, isNameEditable, isObjectSame, updateSubstituteEmployeeData } from "@/services"
 import toast from "react-hot-toast"
 import { addSubstituteEmployee, editSubstituteEmployee } from "@/redux/slices/commonSlice"
 
@@ -31,9 +31,25 @@ const AddSubstituteEmployee = ({ editData, setEditData, setOpen }) => {
 
     const onEmployeeDataSubmit = async ({ name, accountNo }) => {
 
+        const substituteData =  {
+            name: name.trim(),
+            accountNo: accountNo.trim()
+        }
+
         let res = null
         if (editData) {
-            res = await updateSubstituteEmployeeData(editData._id, { name, accountNo })
+
+            const existingData = {
+                name: editData.name,
+                accountNo: editData.accountNo,
+            }
+
+            if (isObjectSame(existingData, substituteData)) return toast.error("No changes")
+
+            const isEditable = isNameEditable(editData.name, substituteData.name)
+            if (!isEditable) return toast.error("Names are too different and not editable. If you wish to add a new employee, please provide new data. If you intend to edit an employee's name, kindly consult your database manager.", { duration: 10000 })
+
+            res = await updateSubstituteEmployeeData(editData._id, substituteData)
             if (res.success) {
                 toast.success(res.success)
                 setOpen(false)
@@ -41,7 +57,7 @@ const AddSubstituteEmployee = ({ editData, setEditData, setOpen }) => {
                 dispatch(editSubstituteEmployee(res.employee))
             }
         } else {
-            res = await createSubstituteEmployeeData({ name, accountNo })
+            res = await createSubstituteEmployeeData(substituteData)
             if (res.success) {
                 toast.success(res.success)
                 setOpen(false)

@@ -8,7 +8,7 @@ import { z } from "zod"
 import './addRegularEmployee.scss'
 import ZodSelectInput from "@/components/shared/zodSelectInput/ZodSelectInput"
 import { useEffect } from "react"
-import { createRegularEmployeeData, isNameEditable, updateRegularEmployeeData } from "@/services"
+import { createRegularEmployeeData, isNameEditable, isObjectSame, updateRegularEmployeeData } from "@/services"
 import toast from "react-hot-toast"
 import { addRegularEmployee, editRegularEmployee } from "@/redux/slices/commonSlice"
 import { useDispatch } from "react-redux"
@@ -32,8 +32,8 @@ const AddRegularEmployee = ({ offices, editData, setEditData, setOpen }) => {
     const onEmployeeDataSubmit = async ({ name, designation, officeName }) => {
 
         const employeeData = {
-            name,
-            designation,
+            name: name.trim(),
+            designation: designation.trim(),
             officeId: officeName,
             officeName: offices.find((item) => item._id === officeName).officeName,
         }
@@ -41,9 +41,17 @@ const AddRegularEmployee = ({ offices, editData, setEditData, setOpen }) => {
         let res = null
         if (editData) {
 
-            const isEditable = isNameEditable(editData.name, name)
-            if (!isEditable) return toast.error("Names are too different and not editable. If you wish to add a new employee, please provide new data. If you intend to edit an employee's name, kindly consult your database manager.", {duration: 10000})
-            console.log({ isEditable });
+            const existingData = {
+                name: editData.name,
+                designation: editData.designation,
+                officeId: editData.officeId,
+                officeName: editData.officeName,
+            }
+
+            if (isObjectSame(existingData, employeeData)) return toast.error("No changes")
+
+            const isEditable = isNameEditable(editData.name, employeeData.name)
+            if (!isEditable) return toast.error("Names are too different and not editable. If you wish to add a new employee, please provide new data. If you intend to edit an employee's name, kindly consult your database manager.", { duration: 10000 })
 
             res = await updateRegularEmployeeData(editData._id, employeeData)
             if (res.success) {
