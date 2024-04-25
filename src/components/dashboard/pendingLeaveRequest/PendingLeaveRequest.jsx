@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPendingLeaves } from "@/redux/slices/commonSlice";
 import DeleteLeaveData from "./deleteLeaveData/DeleteLeaveData";
 
-const PendingLeaveRequest = ({ substitutes, offices, holidays }) => {
+const PendingLeaveRequest = ({ substitutes, employees, holidays }) => {
   const { pendingLeave } = useSelector(state => state.common)
   const [isLoading, setIsLoading] = useState(true)
   const [deleteData, setDeleteData] = useState(null)
@@ -47,7 +47,7 @@ const PendingLeaveRequest = ({ substitutes, offices, holidays }) => {
           ? <p>Loading...</p>
           : <p>No Data Found</p>
       }
-      {open && <AddLeaveData substitutes={substitutes} offices={offices} holidays={holidays} editData={editData} setEditData={setEditData} setOpen={setOpen} />}
+      {open && <AddLeaveData substitutes={substitutes} employees={employees} holidays={holidays} editData={editData} setEditData={setEditData} setOpen={setOpen} />}
       {deleteData && <DeleteLeaveData deleteData={deleteData} setDeleteData={setDeleteData} />}
     </div>
   )

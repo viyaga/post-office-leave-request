@@ -26,9 +26,18 @@ const leaveSchema = z.object({
     status: z.string().min(1, { message: "Status Required" }).max(20),
 })
 
-const AddLeaveData = ({ substitutes, offices, holidays, editData, setEditData, setOpen }) => {
-    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, getValues, setValue } = useForm({ resolver: zodResolver(leaveSchema) })
+const AddLeaveData = ({ substitutes, employees, holidays, editData, setEditData, setOpen }) => {
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, getValues, setValue } = useForm({ resolver: zodResolver(leaveSchema), defaultValues:{ employeeId: ''}})
     const dispatch = useDispatch()
+
+    // get unique offices =======================================
+    const officesString = employees.map((item) => {
+        const string = JSON.stringify({ _id: item.officeId, officeName: item.officeName })
+        return string
+    })
+    const uniqueOfficeSet = new Set(officesString)
+    const offices = Array.from(uniqueOfficeSet).map((jsonString) => JSON.parse(jsonString)).sort((a, b) => a.officeName.localeCompare(b.officeName))
+    //====================================================
 
     const remarkOptions = ['Personal affairs', 'Officiating', 'Stop Gap arrangement', 'POD', 'Induction training', 'Maternity leave', 'Medical affairs']
     const leaveTypeOptions = ['Paid Leave', 'LWA', 'Stop Gap Arrangement', 'Maternity', 'Training', 'Others']
@@ -45,16 +54,15 @@ const AddLeaveData = ({ substitutes, offices, holidays, editData, setEditData, s
         }
 
         if (getValues('officeName')) {
-            const res = await getEmployeeName(getValues('officeName'), e.target.value)
-            if (res.error) {
+            const employee = employees.find((data) => ((data.officeId === getValues('officeName')) && (data.designation === e.target.value)))
+
+            if (!employee?.name) {
                 setValue('name', '')
-                toast.error(res.error)
+                toast.error("Employee Not Found")
                 return
             }
 
-            if (res.employeeName) {
-                setValue('name', res.employeeName)
-            }
+            setValue('name', employee.name)
         }
 
     }
@@ -64,30 +72,30 @@ const AddLeaveData = ({ substitutes, offices, holidays, editData, setEditData, s
 
         if (!getValues('designation') || !e.target.value) return
 
-        const res = await getEmployeeName(e.target.value, getValues('designation'))
-        if (res.error) {
+        const employee = employees.find((data) => ((data.designation === getValues('designation')) && (data.officeId === e.target.value)))
+
+        if (!employee?.name) {
             setValue('name', '')
-            toast.error(res.error)
+            toast.error("Employee Not Found")
             return
         }
 
-        if (res.employeeName) {
-            setValue('name', res.employeeName)
-        }
+        console.log({employee});
+        setValue('name', employee.name)
 
     }
 
     const getEmployeeAccount = (e) => {
-        const accountNo = substitutes.filter((item) => item.accountNo === e.target.value)[0]?.accountNo
+        const accountNo = substitutes.filter((item) => item._id === e.target.value)[0]?.accountNo
         setValue('accountNo', accountNo)
     }
 
     const checkIsHoliday = (date, elementId) => {
-        const holiday = isHoliday(holidays, date) 
-        if(holiday) {
-           return document.getElementById(elementId).innerHTML = holiday
+        const holiday = isHoliday(holidays, date)
+        if (holiday) {
+            return document.getElementById(elementId).innerHTML = holiday
         }
-        
+
         document.getElementById(elementId).innerHTML = ""
     }
 
@@ -99,10 +107,11 @@ const AddLeaveData = ({ substitutes, offices, holidays, editData, setEditData, s
         const days = findNumberOfDays(fromDate, toDate)
 
         if (days < 1) return toast.error("Invalid Date")
-        if(fromDate.getMonth() !== toDate.getMonth()) return toast.error("Send separate leave letters for different months")
+        if (fromDate.getMonth() !== toDate.getMonth()) return toast.error("Send separate leave letters for different months")
 
 
         const leaveData = {
+            employeeId: employees.find((data) => ((data.designation === props.designation) && (data.officeId === props.officeName)))?._id,
             name: props.name,
             designation: props.designation,
             officeId: props.officeName,
@@ -111,13 +120,15 @@ const AddLeaveData = ({ substitutes, offices, holidays, editData, setEditData, s
             from: fromDate,
             to: toDate,
             days: days,
-            substituteName: substitutes.find((item) => item.accountNo === props.substituteName)?.name,
+            substituteId: props.substituteName,
+            substituteName: substitutes.find((item) => item._id === props.substituteName)?.name,
             accountNo: props.accountNo,
             remarks: props.remarks,
             leaveType: props.leaveType,
             status: props.status === 'approved' ? 1 : 0,
         }
 
+        console.log({leaveData});
         let res = null
         if (editData) {
             res = await updatePendingLeaveData(editData._id, leaveData)
@@ -136,7 +147,7 @@ const AddLeaveData = ({ substitutes, offices, holidays, editData, setEditData, s
             }
         }
 
-        if (res.error) return toast.error(res.error, {duration: 7000})
+        if (res.error) return toast.error(res.error, { duration: 7000 })
 
     }
 
@@ -146,7 +157,7 @@ const AddLeaveData = ({ substitutes, offices, holidays, editData, setEditData, s
             reset({
                 ...editData, status: editData.status === 1 ? 'approved' : 'pending',
                 from: moment(editData.from).format('YYYY-MM-DD'), to: moment(editData.to).format('YYYY-MM-DD'),
-                officeName: editData.officeId, substituteName: editData.accountNo,
+                officeName: editData.officeId, substituteName: editData.substituteId,
             })
         }
     }, [editData])
@@ -206,7 +217,7 @@ const AddLeaveData = ({ substitutes, offices, holidays, editData, setEditData, s
                             <select {...register("substituteName")} onChange={getEmployeeAccount}>
                                 <option value="">Select</option>
                                 {substitutes && substitutes.map((item, index) =>
-                                    <option key={index} value={item.accountNo}>{item.name}</option>
+                                    <option key={index} value={item._id}>{item.name}</option>
                                 )}
                             </select>
                             {errors.substituteName && (
