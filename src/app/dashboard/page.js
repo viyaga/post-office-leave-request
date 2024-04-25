@@ -5,9 +5,9 @@ const fetchOffices = async () => {
   const API_URL = process.env.SERVER_ONE + '/employee/substitute/substitutes-offices-holidays'
   try {
     const response = await fetch(API_URL, { next: { revalidate: 3600 } })
-    const { substitutes, offices, holidays } = await response.json()
+    const { employees, substitutes, offices, holidays } = await response.json()
     
-    return { substitutes, offices, holidays }
+    return { employees, substitutes, offices, holidays }
   } catch (error) {
     return { error: errResponse(error) }
   }

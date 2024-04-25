@@ -1,4 +1,5 @@
 import RegularEmployee from '@/components/dashboard/employee/regular/RegularEmployee'
+import { errResponse } from '@/services'
 
 const fetchAllOffices = async () => {
   const OFFICE_API = process.env.SERVER_ONE + '/office'
@@ -13,6 +14,7 @@ const fetchAllOffices = async () => {
 
 const page = async () => {
   const offices = await fetchAllOffices()
+  if(offices?.error) return <p>An Error Occured While Fetching Data</p>
   
   return (
     <RegularEmployee offices={offices} />

@@ -8,13 +8,14 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import moment from "moment"
 import { dateToIsoString, findNumberOfDays } from "@/services"
 import toast from "react-hot-toast"
+import ZodSelectInput from "@/components/shared/zodSelectInput/ZodSelectInput"
 
 const filterSchema = z.object({
     fromDate: z.string().min(1, { message: "Date Required" }).max(12),
     toDate: z.string().min(1, { message: "Date Required" }).max(12),
 })
 
-const FilterByDate = ({ setIsFilterOpen }) => {
+const FilterByDate = ({ setIsFilterOpen, offices, regularEmployees, substitutes }) => {
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const router = useRouter()
@@ -34,7 +35,9 @@ const FilterByDate = ({ setIsFilterOpen }) => {
         { type: "date", name: "toDate", placeholder: "To", label: "To" },
     ]
 
-    const onFilterSubmit = async ({ fromDate, toDate }) => {
+    const remarkOptions = ['Personal affairs', 'Officiating', 'POD', 'Induction training', 'Maternity leave', 'Medical affairs']
+
+    const onFilterSubmit = async ({ fromDate, toDate, offices,  }) => {
 
         const fromDateIso = dateToIsoString(fromDate)
         const toDateIso = dateToIsoString(toDate)
@@ -66,6 +69,52 @@ const FilterByDate = ({ setIsFilterOpen }) => {
                             </div>
                         )
                     })}
+                     <div className="item">
+                        <label><p>Office</p><span>(optional)</span></label>
+                        <div>
+                            <select {...register("officeId")}>
+                                <option value="">Select</option>
+                                {offices && offices.map((item, index) =>
+                                    <option key={index} value={item._id}>{item.officeName}</option>
+                                )}
+                            </select>
+                            {errors.officeId && (
+                                <p style={{ paddingTop: '5px', fontWeight: 600, color: 'orange' }} >{errors.officeId.message}</p>
+                            )}
+                        </div>
+                    </div>
+                    <div className="item">
+                        <label><p>Employee</p><span>(optional)</span></label>
+                        <div>
+                            <select {...register("employeeId")}>
+                                <option value="">Select</option>
+                                {regularEmployees && regularEmployees.map((item, index) =>
+                                    <option key={index} value={item._id}>{item.name}</option>
+                                )}
+                            </select>
+                            {errors.employeeId && (
+                                <p style={{ paddingTop: '5px', fontWeight: 600, color: 'orange' }} >{errors.employeeId.message}</p>
+                            )}
+                        </div>
+                    </div>
+                    <div className="item">
+                        <label><p>Substitute</p><span>(optional)</span></label>
+                        <div>
+                            <select {...register("substituteId")}>
+                                <option value="">Select</option>
+                                {substitutes && substitutes.map((item, index) =>
+                                    <option key={index} value={item._id}>{item.name}</option>
+                                )}
+                            </select>
+                            {errors.substituteId && (
+                                <p style={{ paddingTop: '5px', fontWeight: 600, color: 'orange' }} >{errors.substituteId.message}</p>
+                            )}
+                        </div>
+                    </div>
+                    <div className="item">
+                        <label><p>Remarks</p><span>(optional)</span></label>
+                        <ZodSelectInput name="remarks" register={register} defaultValue="Select" options={remarkOptions} error={errors['remarks']} />
+                    </div>
                     <input type="submit" defaultValue="Submit" />
                 </form>
             </div>
