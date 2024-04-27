@@ -1,3 +1,5 @@
+"use client"
+
 import ZodFormInput from "@/components/shared/zodFormInput/ZodFormInput"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -9,26 +11,47 @@ import moment from "moment"
 import { dateToIsoString, findNumberOfDays } from "@/services"
 import toast from "react-hot-toast"
 import ZodSelectInput from "@/components/shared/zodSelectInput/ZodSelectInput"
+import { useSelector } from "react-redux"
 
 const filterSchema = z.object({
     fromDate: z.string().min(1, { message: "Date Required" }).max(12),
     toDate: z.string().min(1, { message: "Date Required" }).max(12),
+    officeId: z.string().max(50),
+    employeeId: z.string().max(50),
+    substituteId: z.string().max(50),
+    remarks: z.string().max(100),
 })
 
-const FilterByDate = ({ setIsFilterOpen, offices, regularEmployees, substitutes }) => {
+const FilterByDate = ({ setIsFilterOpen, substitutes, employees }) => {
+
+    // get unique offices =======================================
+    const officesString = employees.map((item) => {
+        const string = JSON.stringify({ _id: item.officeId, officeName: item.officeName })
+        return string
+    })
+    const uniqueOfficeSet = new Set(officesString)
+    const offices = Array.from(uniqueOfficeSet).map((jsonString) => JSON.parse(jsonString)).sort((a, b) => a.officeName.localeCompare(b.officeName))
+
+    //====================================================
+
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const router = useRouter()
 
     const currentDate = new Date()
-
     const from = searchParams.get('fromDate') || currentDate
-    const fromDate = moment(from).format("YYYY-MM-DD")
-
     const to = searchParams.get('toDate') || currentDate
-    const toDate = moment(to).format("YYYY-MM-DD")
 
-    const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(filterSchema), defaultValues: {fromDate, toDate} })
+    const defaultValues = {
+        fromDate: moment(from).format("YYYY-MM-DD"),
+        toDate: moment(to).format("YYYY-MM-DD"),
+        officeId: searchParams.get('officeId') || '',
+        employeeId: searchParams.get('employeeId') || '',
+        substituteId: searchParams.get('substituteId') || '',
+        remarks: searchParams.get('remarks') || ''
+    }
+
+    const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(filterSchema), defaultValues })
 
     const formInputs = [
         { type: "date", name: "fromDate", placeholder: "From", label: "From" },
@@ -37,19 +60,17 @@ const FilterByDate = ({ setIsFilterOpen, offices, regularEmployees, substitutes 
 
     const remarkOptions = ['Personal affairs', 'Officiating', 'POD', 'Induction training', 'Maternity leave', 'Medical affairs']
 
-    const onFilterSubmit = async ({ fromDate, toDate, offices,  }) => {
-
+    const onFilterSubmit = async (props) => {
+        const { fromDate, toDate, officeId, employeeId, substituteId, remarks } = props
         const fromDateIso = dateToIsoString(fromDate)
         const toDateIso = dateToIsoString(toDate)
         const days = findNumberOfDays(fromDate, toDate)
-        if(days < 1) return toast.error("Invalid Date")
+        if (days < 1) return toast.error("Invalid Date")
 
-        console.log({gt: fromDateIso > toDate , month: new Date(fromDateIso).getMonth() === new Date(toDateIso).getMonth() });
         const category = searchParams.get('cat')
 
-        router.push(`${pathname}/?cat=${category}&&fromDate=${fromDateIso}&&toDate=${toDateIso}`)
+        router.push(`${pathname}/?cat=${category}&&fromDate=${fromDateIso}&&toDate=${toDateIso}&officeId=${officeId}&employeeId=${employeeId}&substituteId=${substituteId}&remarks=${remarks}`)
         setIsFilterOpen(false)
-
     }
 
     return (
@@ -69,7 +90,7 @@ const FilterByDate = ({ setIsFilterOpen, offices, regularEmployees, substitutes 
                             </div>
                         )
                     })}
-                     <div className="item">
+                    <div className="item">
                         <label><p>Office</p><span>(optional)</span></label>
                         <div>
                             <select {...register("officeId")}>
@@ -88,7 +109,7 @@ const FilterByDate = ({ setIsFilterOpen, offices, regularEmployees, substitutes 
                         <div>
                             <select {...register("employeeId")}>
                                 <option value="">Select</option>
-                                {regularEmployees && regularEmployees.map((item, index) =>
+                                {employees && employees.sort((a, b) => a.name.localeCompare(b.name)).map((item, index) =>
                                     <option key={index} value={item._id}>{item.name}</option>
                                 )}
                             </select>

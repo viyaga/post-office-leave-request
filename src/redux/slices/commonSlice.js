@@ -12,7 +12,7 @@ const initialState = {
         regular: [],
         substitute: [],
     },
-    holiday: [],
+    holidays: [],
 }
 
 
@@ -45,9 +45,13 @@ const commonSlice = createSlice({
                 data.push(action.payload)
                 const formatedData = formatPendingLeaveData(data)
                 state.pendingLeave = formatedData
+            } else {
+                const data = state.pendingLeave.filter((item) => item._id !== action.payload._id)
+                const formatedData = formatPendingLeaveData(data)
+                state.pendingLeave = formatedData
             }
         },
-        deletePendingLeave: (state, action) => {    
+        deletePendingLeave: (state, action) => {
             const data = state.pendingLeave.filter((item) => item._id !== action.payload._id)
             const formatedData = formatPendingLeaveData(data)
             state.pendingLeave = formatedData
@@ -100,23 +104,23 @@ const commonSlice = createSlice({
         //holidays ============================================================
         setHoliday: (state, action) => {
             const formatedData = formatHolidayData(action.payload)
-            state.holiday = formatedData
+            state.holidays = formatedData
         },
         addHoliday: (state, action) => {
             state.holiday.push(action.payload)
             const formatedData = formatHolidayData(state.holiday)
-            state.holiday = formatedData
+            state.holidays = formatedData
         },
         editHoliday: (state, action) => {
             const data = state.holiday.filter((item) => item._id !== action.payload._id)
             data.push(action.payload)
             const formatedData = formatHolidayData(data)
-            state.holiday = formatedData
+            state.holidays = formatedData
         },
         deleteHoliday: (state, action) => {
             const data = state.holiday.filter((item) => item._id !== action.payload._id)
             const formatedData = formatHolidayData(data)
-            state.holiday = formatedData
+            state.holidays = formatedData
         },
     }
 })

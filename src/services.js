@@ -49,6 +49,39 @@ const isHoliday = (holidays, date) => {
 
     return holiday
 }
+const isIntialChanged = (nameOne, nameTwo) => {
+    let name1 = nameOne
+    let name2 = nameTwo
+    const nameOneArray = nameOne.split(' ')
+    const nameTwoArray = nameTwo.split(' ')
+
+    if (nameOneArray[0].length === 1 && (nameOneArray[0] === nameTwoArray[nameTwoArray.length - 1])) { // if initial in front of the first array and last of the 2nd array same
+        nameOneArray.shift()
+        name1 = nameOneArray.join(' ')
+
+        nameTwoArray.pop()
+        name2 = nameTwoArray.join(' ')
+
+        return { initialDeletedNameOne: name1, initialDeletedNameTwo: name2 }
+    } else if (nameOneArray[nameOneArray.length - 1].length === 1 && (nameOneArray[nameOneArray.length - 1] === nameTwoArray[0])) { // if initial in back of the first array and front of the 2nd array same
+        nameOneArray.pop()
+        name1 = nameOneArray.join(' ')
+
+        nameTwoArray.shift()
+        name2 = nameTwoArray.join(' ')
+
+        return { initialDeletedNameOne: name1, initialDeletedNameTwo: name2 }
+
+    }
+
+    return false
+}
+
+const removeInitialFromName = (name) => {
+    const initialRemovedNameArray = name.split(' ').filter(string => string.length > 1)
+    const newName = initialRemovedNameArray.join(' ')
+    return newName
+}
 
 const calculateLevenshteinDistance = (a, b) => {
     const dp = Array(a.length + 1).fill(null).map(() => Array(b.length + 1).fill(0));
@@ -75,8 +108,15 @@ const calculateLevenshteinDistance = (a, b) => {
     return dp[a.length][b.length];
 }
 
-const isNameEditable = (name1, name2) => {
-    const distance = calculateLevenshteinDistance(name1.toLowerCase(), name2.toLowerCase());
+const isNameEditable = (nameOne, nameTwo) => {
+    let name1 = nameOne.trim().toLowerCase()
+    let name2 = nameTwo.trim().toLowerCase()
+
+    name1 = removeInitialFromName(name1)
+    name2 = removeInitialFromName(name2)
+
+    console.log({ name1, name2 });
+    const distance = calculateLevenshteinDistance(name1, name2);
     return distance <= 3 // threshold
 }
 
@@ -279,9 +319,9 @@ const getPendngLeaveData = async () => {
     }
 }
 
-const getLeaveDataByCategory = async (category, fromDate, toDate) => {
+const getLeaveDataByCategory = async (category, fromDate, toDate, officeId, employeeId, substituteId, remarks) => {
     try {
-        const response = await axios.get(`${LEAVE_API}/${category}/${fromDate}/${toDate}`)
+        const response = await axios.get(`${LEAVE_API}/${category}/${fromDate}/${toDate}/${officeId}/${employeeId}/${substituteId}/${remarks}`)
         const leaves = response.data.leaves
         return { leaves }
     } catch (error) {

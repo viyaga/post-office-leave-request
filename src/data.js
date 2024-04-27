@@ -95,10 +95,31 @@ const substituteEmployeeColums = [
 ];
 
 const leaveDataColums = [
-  { field: "id", headerName: "S.No.", width: 90, filterable: false },
+  { field: "id", headerName: "SL.No", width: 70, filterable: false },
   { field: "name", type: "string", headerName: "Name", width: 200, valueFormatter: (params) => textCapitalize(params) },
   {
     field: "designation", type: "string", headerName: "Designation", width: 120,
+    valueFormatter: (params) => {
+      let designation = params.toUpperCase()
+      if (params.split(' ')[0] === 'dak') {
+        designation = "DAK SEVAK"
+      }
+      return designation
+    }
+  },
+  { field: "officeName", type: "string", headerName: "Office Name", width: 180, valueFormatter: (params) => textCapitalize(params) },
+  { field: "from", type: "Date", headerName: "From", width: 120, valueFormatter: params => moment(params).format("DD/MM/YYYY") },
+  { field: "to", type: "Date", headerName: "To", width: 100, valueFormatter: params => moment(params).format("DD/MM/YYYY") },
+  { field: "days", type: "number", headerName: "Days", width: 100 },
+  { field: "substituteName", type: "string", headerName: "Substitute Name", width: 200, valueFormatter: params => textCapitalize(params) },
+  { field: "accountNo", type: "string", headerName: "Account Number", width: 160 },
+  { field: "remarks", type: "string", headerName: "Remarks", width: 200, valueFormatter: params => textCapitalize(params) },
+]
+
+const stopGapArrangementColums = [
+  { field: "id", headerName: "SL.No", width: 70, filterable: false },
+  {
+    field: "designation", type: "string", headerName: "Name Of The Vacant Post", width: 180,
     valueFormatter: (params) => {
       let designation = params.toUpperCase()
       if (params.split(' ')[0] === 'dak') {
@@ -128,5 +149,5 @@ const subDivisionOptions = ['Tirumangalam']
 
 export {
   menu, regularEmployeeColumns, substituteEmployeeColums, leaveDataColums,
-  HolidayColums, designationOptions, subDivisionOptions
+  stopGapArrangementColums, HolidayColums, designationOptions, subDivisionOptions
 }
