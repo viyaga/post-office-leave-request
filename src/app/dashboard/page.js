@@ -6,7 +6,7 @@ const fetchData = async () => {
   try {
     const response = await fetch(API_URL, { next: { revalidate: 3600 } })
     const { employees, substitutes, holidays } = await response.json()
-    
+
     return { employees, substitutes, holidays }
   } catch (error) {
     return { error: errResponse(error) }

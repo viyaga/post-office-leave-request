@@ -1,5 +1,5 @@
 import DataPage from "@/components/dashboard/shared/dataPage/DataPage"
-import { dateToIsoString } from "@/services"
+import { addIdToDataGridRows, dateToIsoString, errResponse } from "@/services"
 
 const fetchData = async () => {
   const API_URL = process.env.SERVER_ONE + '/employee/substitute/substitutes-employees'
@@ -8,6 +8,17 @@ const fetchData = async () => {
     const { employees, substitutes } = await response.json()
 
     return { employees, substitutes }
+  } catch (error) {
+    return { error: errResponse(error) }
+  }
+}
+
+const getLeaveDataByCategory = async (category, fromDate, toDate, officeId, employeeId, substituteId, remarks) => {
+  const LEAVE_API = process.env.SERVER_ONE + '/leaves'
+  try {
+    const response = await fetch(`${LEAVE_API}/${category}/${fromDate}/${toDate}/${officeId}/${employeeId}/${substituteId}/${remarks}`, { next: { revalidate: 20 } })
+    const { leaves } = await response.json()
+    return leaves
   } catch (error) {
     return { error: errResponse(error) }
   }
@@ -26,11 +37,13 @@ const page = async ({ searchParams }) => {
   const substituteId = searchParams?.substituteId || 0
   const remarks = searchParams?.remarks || 0
 
+  const leaves = await getLeaveDataByCategory(category, fromDate, toDate, officeId, employeeId, substituteId, remarks)
+  const idAddedLeaveData = addIdToDataGridRows(leaves)
+
   return (
     <DataPage
       substitutes={res.substitutes} employees={res.employees}
-      category={category} fromDate={fromDate} toDate={toDate} officeId={officeId}
-      employeeId={employeeId} substituteId={substituteId} remarks={remarks}
+      category={category} rows={idAddedLeaveData}
     />
   )
 }
