@@ -1,10 +1,13 @@
 "use client"
 
 import { ScaleLoader } from "react-spinners"
+import './dashboardLoading.scss'
 
 const DashboardLoading = () => {
     return (
-        <ScaleLoader color="#36d7b7" />
+        <div className="dashboard-loading">
+            <ScaleLoader color="#36d7b7" />
+        </div>
     )
 }
 

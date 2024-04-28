@@ -10,10 +10,10 @@ import { setRegularEmployee } from "@/redux/slices/commonSlice";
 import DataTableWithActions from "../../shared/dataTableWithActions/DataTableWithActions";
 import AddRegularEmployee from "./addRegularEmployee/AddRegularEmployee";
 import DeleteRegularEmployee from "./deleteRegularEmployee/DeleteRegularEmployee";
+import DashboardLoading from "@/components/shared/dashboardLoading/DashboardLoading";
 
 const RegularEmployee = ({ offices }) => {
     const { regular } = useSelector(state => state.common.employee)
-    const [isLoading, setIsLoading] = useState(true)
     const [deleteData, setDeleteData] = useState(null)
     const [editData, setEditData] = useState(null)
     const [open, setOpen] = useState(false)
@@ -26,8 +26,6 @@ const RegularEmployee = ({ offices }) => {
         if (res.employees) {
             dispatch(setRegularEmployee(res.employees))
         }
-        setIsLoading(false)
-
     }
 
     useEffect(() => {
@@ -40,11 +38,11 @@ const RegularEmployee = ({ offices }) => {
                 <h2>Regular</h2>
                 <button onClick={() => setOpen(true)}>Add New</button>
             </div>
-            {(regular && regular.length > 0)
+            {(regular?.length > 0)
                 ? < DataTableWithActions columns={regularEmployeeColumns} rows={regular} setOpen={setOpen} setEditData={setEditData} setDeleteData={setDeleteData} />
-                : isLoading
-                    ? <p>Loading...</p>
-                    : <p>No Data Found</p>
+                : (regular?.length === 0)
+                    ? <p>No Data Found</p>
+                    : <DashboardLoading />
             }
             {open && <AddRegularEmployee offices={offices} editData={editData} setEditData={setEditData} setOpen={setOpen} />}
             {deleteData && <DeleteRegularEmployee deleteData={deleteData} setDeleteData={setDeleteData} />}

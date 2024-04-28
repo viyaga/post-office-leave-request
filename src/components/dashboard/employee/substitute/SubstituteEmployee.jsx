@@ -10,10 +10,10 @@ import { setSubstituteEmployee } from "@/redux/slices/commonSlice";
 import DataTableWithActions from "../../shared/dataTableWithActions/DataTableWithActions";
 import AddSubstituteEmployee from "./addSubstituteEmployee/AddSubstituteEmployee";
 import DeleteSubstituteEmployee from "./deleteSubstitute/DeleteSubstituteEmployee";
+import DashboardLoading from "@/components/shared/dashboardLoading/DashboardLoading";
 
 const SubstituteEmployee = () => {
     const { substitute } = useSelector(state => state.common.employee)
-    const [isLoading, setIsLoading] = useState(true)
     const [deleteData, setDeleteData] = useState(null)
     const [editData, setEditData] = useState(null)
     const [open, setOpen] = useState(false)
@@ -25,7 +25,6 @@ const SubstituteEmployee = () => {
         if (res.employees) {
             dispatch(setSubstituteEmployee(res.employees))
         }
-        setIsLoading(false)
     }
 
     useEffect(() => {
@@ -38,11 +37,11 @@ const SubstituteEmployee = () => {
                 <h2>Substitute</h2>
                 <button onClick={() => setOpen(true)}>Add New</button>
             </div>
-            {(substitute && substitute.length > 0)
+            {(substitute?.length > 0)
                 ? < DataTableWithActions columns={substituteEmployeeColums} rows={substitute} setOpen={setOpen} setEditData={setEditData} setDeleteData={setDeleteData} />
-                : isLoading
-                    ? <p>Loading...</p>
-                    : <p>No Data Found</p>
+                : (substitute?.length === 0)
+                    ? <p>No Data Found</p>
+                    : <DashboardLoading />
             }
             {open && <AddSubstituteEmployee editData={editData} setEditData={setEditData} setOpen={setOpen} />}
             {deleteData && <DeleteSubstituteEmployee deleteData={deleteData} setDeleteData={setDeleteData} />}

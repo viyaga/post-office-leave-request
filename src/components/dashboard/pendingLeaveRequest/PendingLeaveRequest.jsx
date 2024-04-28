@@ -10,10 +10,10 @@ import AddLeaveData from "./addLeaveData/AddLeaveData";
 import { useDispatch, useSelector } from "react-redux";
 import { setPendingLeaves } from "@/redux/slices/commonSlice";
 import DeleteLeaveData from "./deleteLeaveData/DeleteLeaveData";
+import DashboardLoading from "@/components/shared/dashboardLoading/DashboardLoading";
 
 const PendingLeaveRequest = ({ substitutes, employees, holidays }) => {
   const { pendingLeave } = useSelector(state => state.common)
-  const [isLoading, setIsLoading] = useState(true)
   const [deleteData, setDeleteData] = useState(null)
   const [editData, setEditData] = useState(null)
   const [open, setOpen] = useState(false)
@@ -27,8 +27,6 @@ const PendingLeaveRequest = ({ substitutes, employees, holidays }) => {
       console.log({ leaves: res.leaves });
       dispatch(setPendingLeaves(res.leaves))
     }
-
-    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -41,11 +39,11 @@ const PendingLeaveRequest = ({ substitutes, employees, holidays }) => {
         <h2>Pending</h2>
         <button onClick={() => setOpen(true)}>Add New</button>
       </div>
-      {(pendingLeave && pendingLeave.length > 0)
+      {(pendingLeave?.length > 0)
         ? < DataTableWithActions columns={leaveDataColums} rows={pendingLeave} setOpen={setOpen} setEditData={setEditData} setDeleteData={setDeleteData} />
-        : isLoading
-          ? <p>Loading...</p>
-          : <p>No Data Found</p>
+        : (pendingLeave?.length === 0)
+          ? <p>No Data Found</p>
+          : <DashboardLoading />
       }
       {open && <AddLeaveData substitutes={substitutes} employees={employees} holidays={holidays} editData={editData} setEditData={setEditData} setOpen={setOpen} />}
       {deleteData && <DeleteLeaveData deleteData={deleteData} setDeleteData={setDeleteData} />}

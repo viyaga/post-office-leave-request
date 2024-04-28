@@ -25,11 +25,12 @@
       }
     }
 
-    .notification {
+    .menu-bar {
       display: none;
 
       @include lg {
         display: block;
+        cursor: pointer;
       }
     }
   }

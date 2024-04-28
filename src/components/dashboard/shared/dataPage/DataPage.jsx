@@ -9,6 +9,7 @@ import { leaveDataColums, stopGapArrangementColums } from '@/data'
 import FilterByDate from "./filterByDate/FilterByDate";
 import { MdFilterList } from "react-icons/md";
 import jsPDF from "jspdf";
+import DashboardLoading from "@/components/shared/dashboardLoading/DashboardLoading";
 
 const DataPage = (props) => {
   const { substitutes, employees, category, rows } = props
@@ -32,20 +33,20 @@ const DataPage = (props) => {
 
     const pdfColumns = columns.map(item => item.headerName)
     doc.autoTable({
-        head: [pdfColumns], // Replace with your column headers
-        body: rows,
+      head: [pdfColumns], // Replace with your column headers
+      body: rows,
     });
 
     // Add Footer Signature
     const totalPages = doc.internal.getNumberOfPages();
     for (let i = 1; i <= totalPages; i++) {
-        doc.setPage(i);
-        doc.setFontSize(10);
-        doc.text('Your Footer Signature', doc.internal.pageSize.getWidth() / 2, doc.internal.pageSize.getHeight() - 10, { align: 'center' });
+      doc.setPage(i);
+      doc.setFontSize(10);
+      doc.text('Your Footer Signature', doc.internal.pageSize.getWidth() / 2, doc.internal.pageSize.getHeight() - 10, { align: 'center' });
     }
 
     doc.save('data.pdf');
-};
+  };
 
 
   return (
@@ -59,7 +60,9 @@ const DataPage = (props) => {
       </div>
       {(rows?.length > 0)
         ? < DataTable columns={columns} rows={rows} />
-        : <p>No Data Found</p>
+        : (rows?.length === 0)
+          ? <p>No Data Found</p>
+          : <DashboardLoading />
       }
       {isFilterOpen && <FilterByDate setIsFilterOpen={setIsFilterOpen} substitutes={substitutes} employees={employees} />}
     </div>

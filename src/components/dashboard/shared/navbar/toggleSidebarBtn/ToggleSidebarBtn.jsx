@@ -8,7 +8,7 @@ const ToggleSidebarBtn = () => {
         document.getElementById('backdrop').classList.add('active')
     }
     return (
-        <div className="notification" onClick={openSideBar}>
+        <div className="menu-bar" onClick={openSideBar}>
             <MdMenu size={24} />
         </div>
     )

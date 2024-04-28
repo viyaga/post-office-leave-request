@@ -7,12 +7,12 @@ const { createSlice } = require("@reduxjs/toolkit");
 const initialState = {
     isSidebarOpen: false,
     isPageLoading: false,
-    pendingLeave: [],
+    pendingLeave: null,
     employee: {
-        regular: [],
-        substitute: [],
+        regular: null,
+        substitute: null,
     },
-    holidays: [],
+    holidays: null,
 }
 
 

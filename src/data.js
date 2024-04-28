@@ -2,7 +2,7 @@ import { BsFillPersonLinesFill } from "react-icons/bs";
 import { FaBaby } from "react-icons/fa";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { PiFlagPennantFill } from "react-icons/pi";
-import { MdDateRange, MdLocalLibrary, MdOutlineMoneyOffCsred, MdOutlinePendingActions, MdPerson } from "react-icons/md";
+import { MdCheckCircle, MdDateRange, MdLocalLibrary, MdOutlineMoneyOffCsred, MdOutlinePendingActions, MdPerson } from "react-icons/md";
 import moment from "moment";
 import { textCapitalize } from "./services";
 
@@ -19,30 +19,36 @@ const menu = [
       },
       {
         id: 2,
+        title: "Approved",
+        url: "/dashboard/approved",
+        icon: <MdCheckCircle size={20} />,
+      },
+      {
+        id: 3,
         title: "Paid",
         url: "/dashboard/data-page?cat=paid leave",
         icon: <FaMoneyCheckDollar size={18} />,
       },
       {
-        id: 3,
+        id: 4,
         title: "Training",
         url: "/dashboard/data-page?cat=training",
         icon: <MdLocalLibrary size={18} />,
       },
       {
-        id: 4,
+        id: 5,
         title: "LWA",
         url: "/dashboard/data-page?cat=lwa",
         icon: <MdOutlineMoneyOffCsred size={20} />,
       },
       {
-        id: 5,
+        id: 6,
         title: "Maternity",
         url: "/dashboard/data-page?cat=maternity",
         icon: <FaBaby size={18} />,
       },
       {
-        id: 6,
+        id: 7,
         title: "SGA",
         url: "/dashboard/data-page?cat=stop gap arrangement",
         icon: <PiFlagPennantFill size={18} />,
