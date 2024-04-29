@@ -27,7 +27,7 @@ const DeleteHoliday = ({ deleteData, setDeleteData }) => {
     }
 
     return (
-        <div className="deleteSubstitute">
+        <div className="deleteHoliday">
             <div className="modal">
                 <h1>Are you sure you want to delete {deleteData.name}&apos;s data? This action cannot be undone</h1>
                 <div className="buttons">

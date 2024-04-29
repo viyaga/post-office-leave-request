@@ -13,13 +13,28 @@ const fetchData = async () => {
   }
 }
 
+const getPendngLeaveData = async () => {
+  const LEAVE_API = process.env.SERVER_ONE + '/leaves'
+
+  try {
+    const response = await fetch(`${LEAVE_API}/pending`, { next: { revalidate: 10 } })
+    const { leaves } = await response.json()
+    return leaves
+  } catch (error) {
+    return { error: errResponse(error) }
+  }
+}
+
 const page = async () => {
 
   const res = await fetchData()
   if (res.error) return <p>An error occured try after sometimes</p>
 
+  const pendingLeaveData = await getPendngLeaveData()
+  if (pendingLeaveData.error) return <p>An error occured try after sometimes</p>
+
   return (
-    <PendingLeaveRequest substitutes={res.substitutes} employees={res.employees} holidays={res.holidays} />
+    <PendingLeaveRequest substitutes={res.substitutes} employees={res.employees} holidays={res.holidays} pendingLeaveData={pendingLeaveData} />
   )
 }
 

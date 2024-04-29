@@ -1,9 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import toast from 'react-hot-toast'
 import './substituteEmployee.scss'
-import { getAllSubstituteEmployeesData } from "@/services";
 import { substituteEmployeeColums } from '@/data'
 import { useDispatch, useSelector } from "react-redux";
 import { setSubstituteEmployee } from "@/redux/slices/commonSlice";
@@ -12,24 +10,16 @@ import AddSubstituteEmployee from "./addSubstituteEmployee/AddSubstituteEmployee
 import DeleteSubstituteEmployee from "./deleteSubstitute/DeleteSubstituteEmployee";
 import DashboardLoading from "@/components/shared/dashboardLoading/DashboardLoading";
 
-const SubstituteEmployee = () => {
+const SubstituteEmployee = ({ substituteEmployeeData }) => {
     const { substitute } = useSelector(state => state.common.employee)
     const [deleteData, setDeleteData] = useState(null)
     const [editData, setEditData] = useState(null)
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
 
-    const fetchData = async () => {
-        const res = await getAllSubstituteEmployeesData()
-        if (res.error) return toast.error("An Error Occured While Fetching Data")
-        if (res.employees) {
-            dispatch(setSubstituteEmployee(res.employees))
-        }
-    }
-
     useEffect(() => {
-        fetchData()
-    }, [])
+        dispatch(setSubstituteEmployee(substituteEmployeeData))
+    }, [dispatch, substituteEmployeeData])
 
     return (
         <div className="substituteEmployee">

@@ -1,9 +1,7 @@
 "use client"
 
-import { useEffect, useState, useTransition } from "react";
-import toast from 'react-hot-toast'
+import { useEffect, useState } from "react";
 import './regularEmployee.scss'
-import { getAllRegularEmployeesData } from "@/services";
 import { regularEmployeeColumns } from '@/data'
 import { useDispatch, useSelector } from "react-redux";
 import { setRegularEmployee } from "@/redux/slices/commonSlice";
@@ -12,25 +10,16 @@ import AddRegularEmployee from "./addRegularEmployee/AddRegularEmployee";
 import DeleteRegularEmployee from "./deleteRegularEmployee/DeleteRegularEmployee";
 import DashboardLoading from "@/components/shared/dashboardLoading/DashboardLoading";
 
-const RegularEmployee = ({ offices }) => {
+const RegularEmployee = ({ offices, regularEmployees }) => {
     const { regular } = useSelector(state => state.common.employee)
     const [deleteData, setDeleteData] = useState(null)
     const [editData, setEditData] = useState(null)
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
 
-    const fetchData = async () => {
-
-        const res = await getAllRegularEmployeesData()
-        if (res.error) return toast.error("An Error Occured While Fetching Data")
-        if (res.employees) {
-            dispatch(setRegularEmployee(res.employees))
-        }
-    }
-
     useEffect(() => {
-        fetchData()
-    }, [])
+        dispatch(setRegularEmployee(regularEmployees))
+    }, [dispatch, regularEmployees])
 
     return (
         <div className="regularEmployee">

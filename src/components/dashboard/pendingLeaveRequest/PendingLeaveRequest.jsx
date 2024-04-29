@@ -12,26 +12,16 @@ import { setPendingLeaves } from "@/redux/slices/commonSlice";
 import DeleteLeaveData from "./deleteLeaveData/DeleteLeaveData";
 import DashboardLoading from "@/components/shared/dashboardLoading/DashboardLoading";
 
-const PendingLeaveRequest = ({ substitutes, employees, holidays }) => {
+const PendingLeaveRequest = ({ substitutes, employees, holidays, pendingLeaveData }) => {
   const { pendingLeave } = useSelector(state => state.common)
   const [deleteData, setDeleteData] = useState(null)
   const [editData, setEditData] = useState(null)
   const [open, setOpen] = useState(false)
   const dispatch = useDispatch()
 
-  const fetchData = async () => {
-    const res = await getPendngLeaveData()
-
-    if (res.error) toast.error("An Error Occured While Fetching Data")
-    if (res.leaves) {
-      console.log({ leaves: res.leaves });
-      dispatch(setPendingLeaves(res.leaves))
-    }
-  }
-
   useEffect(() => {
-    fetchData()
-  }, [])
+    dispatch(setPendingLeaves(pendingLeaveData))
+  }, [dispatch, pendingLeaveData])
 
   return (
     <div className="pendingLeave">

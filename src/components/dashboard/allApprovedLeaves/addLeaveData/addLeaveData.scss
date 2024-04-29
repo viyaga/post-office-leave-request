@@ -1,7 +1,7 @@
 @import "../../../../styles/variables.scss";
 @import "../../../../styles/responsive.scss";
 
-.addHoliday {
+.addLeaveRequest {
   width: 100vw;
   height: 100vh;
   position: absolute;
@@ -13,6 +13,10 @@
   justify-content: center;
   z-index: 998;
   
+  @include sm {
+    background-color: white;
+  }
+
   .modal {
     padding: 50px;
     border-radius: 10px;
@@ -21,6 +25,7 @@
     z-index: 999;
 
     @include sm {
+      margin-top: 300px;
       width: 90%;
     }
 
@@ -60,6 +65,16 @@
 
         label {
           font-size: 14px;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          span {
+            color: orange;
+            font-weight: 600;
+            font-size: 13px;
+            justify-content: center;
+            text-transform: capitalize;
+          }
         }
 
         input {
@@ -73,10 +88,6 @@
           text-transform: capitalize;
         }
 
-        input[type='date'] {
-          text-transform: none;
-        }
-
         select {
           padding: 10px;
           background-color: transparent;
@@ -85,12 +96,18 @@
           border: 1px solid $soft-color;
           border-radius: 3px;
           width: 100%;
+          text-transform: capitalize;
 
           option {
             color: $main-bg;
             font-weight: 600;
+            text-transform: capitalize;
           }
         }
+      }
+
+      input[type='date'] {
+       text-transform: none;
       }
 
       input[type='submit'] {
