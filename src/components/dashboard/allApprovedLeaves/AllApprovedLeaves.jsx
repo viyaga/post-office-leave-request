@@ -47,7 +47,7 @@ const AllApprovedLeaves = ({ substitutes, employees, holidays }) => {
           : <DashboardLoading />
       }
       {editData && <AddLeaveData substitutes={substitutes} employees={employees} holidays={holidays} editData={editData} setEditData={setEditData} />}
-      {isFilterOpen && <FilterByDate setIsFilterOpen={setIsFilterOpen} substitutes={substitutes} employees={employees} />}
+      {/* {isFilterOpen && <FilterByDate setIsFilterOpen={setIsFilterOpen} substitutes={substitutes} employees={employees} />} */}
       {deleteData && <DeleteLeaveData deleteData={deleteData} setDeleteData={setDeleteData} />}
     </div>
   )

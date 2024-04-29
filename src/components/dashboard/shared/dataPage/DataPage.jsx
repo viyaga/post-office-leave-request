@@ -1,10 +1,8 @@
 "use client"
 
-import { useEffect, useState } from "react";
-import toast from 'react-hot-toast'
+import { useState } from "react";
 import './data-page.scss'
 import DataTable from "./dataTable/DataTable";
-import { getLeaveDataByCategory } from "@/services";
 import { leaveDataColums, stopGapArrangementColums } from '@/data'
 import FilterByDate from "./filterByDate/FilterByDate";
 import { MdFilterList } from "react-icons/md";
