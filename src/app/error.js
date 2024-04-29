@@ -1,6 +1,6 @@
 'use client'
 
-export default function GlobalError({ error, reset }) {
+export default function GlobalError({ error }) {
     return (
         <html>
             <body
@@ -15,7 +15,17 @@ export default function GlobalError({ error, reset }) {
                 }}>
                 <h2>Something went wrong!</h2>
                 <p>{error?.message}</p>
-                <button onClick={() => reset()}>Try after 60 seconds</button>
+                <button
+                    style={{
+                        padding: '5px 10px',
+                        borderRadius: '5px',
+                        marginTop: '5px'
+
+                    }}
+                    onClick={() => location.reload()}
+                >
+                    Try after {error.message.toLowerCase() === 'connection closed.' ? "60 seconds" : "some times"}
+                </button>
             </body>
         </html>
     )
