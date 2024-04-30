@@ -1,6 +1,6 @@
 "use client"
 
-import { formatRegularEmployeeData, formatSubstituteEmployeeData, formatHolidayData, formatPendingLeaveData } from "@/services";
+import { formatRegularEmployeeData, formatSubstituteEmployeeData, formatHolidayData, formatLeaveData } from "@/services";
 
 const { createSlice } = require("@reduxjs/toolkit");
 
@@ -8,6 +8,7 @@ const initialState = {
     isSidebarOpen: false,
     isPageLoading: false,
     pendingLeave: null,
+    allLeaves: null,
     employee: {
         regular: null,
         substitute: null,
@@ -29,13 +30,13 @@ const commonSlice = createSlice({
 
         // Pending Leave Data ==========================================================
         setPendingLeaves: (state, action) => {
-            const formatedData = formatPendingLeaveData(action.payload)
+            const formatedData = formatLeaveData(action.payload)
             state.pendingLeave = formatedData
         },
         addPendingLeave: (state, action) => {
             if (action.payload?.status === 0) {
                 state.pendingLeave.push(action.payload)
-                const formatedData = formatPendingLeaveData(state.pendingLeave)
+                const formatedData = formatLeaveData(state.pendingLeave)
                 state.pendingLeave = formatedData
             }
         },
@@ -43,18 +44,29 @@ const commonSlice = createSlice({
             if (action.payload?.status === 0) {
                 const data = state.pendingLeave.filter((item) => item._id !== action.payload._id)
                 data.push(action.payload)
-                const formatedData = formatPendingLeaveData(data)
+                const formatedData = formatLeaveData(data)
                 state.pendingLeave = formatedData
             } else {
                 const data = state.pendingLeave.filter((item) => item._id !== action.payload._id)
-                const formatedData = formatPendingLeaveData(data)
+                const formatedData = formatLeaveData(data)
                 state.pendingLeave = formatedData
             }
         },
         deletePendingLeave: (state, action) => {
             const data = state.pendingLeave.filter((item) => item._id !== action.payload._id)
-            const formatedData = formatPendingLeaveData(data)
+            const formatedData = formatLeaveData(data)
             state.pendingLeave = formatedData
+        },
+
+        // All Leaves ==========================================================
+        setLeaves: (state, action) => {
+            const formatedData = formatLeaveData(action.payload)
+            state.allLeaves = formatedData
+        },
+        cancelLeave: (state, action) => {
+            const data = state.allLeaves.filter((item) => item._id !== action.payload._id)
+            const formatedData = formatLeaveData(data)
+            state.allLeaves = formatedData
         },
 
         // Regular employee =============================
@@ -127,7 +139,7 @@ const commonSlice = createSlice({
 
 export const {
     setSideBarOpen, setPageLoading,
-    setPendingLeaves, addPendingLeave, editPendingLeave, deletePendingLeave,
+    setPendingLeaves, addPendingLeave, editPendingLeave, deletePendingLeave, setLeaves, cancelLeave,
     setRegularEmployee, addRegularEmployee, editRegularEmployee, deleteRegularEmployee,
     setSubstituteEmployee, addSubstituteEmployee, editSubstituteEmployee, deleteSubstituteEmployee,
     setHoliday, addHoliday, editHoliday, deleteHoliday,

@@ -122,6 +122,29 @@ const leaveDataColums = [
   { field: "remarks", type: "string", headerName: "Remarks", width: 200, valueFormatter: params => textCapitalize(params) },
 ]
 
+const approvedLeaveDataColums = [
+  { field: "id", headerName: "SL.No", width: 70, filterable: false },
+  { field: "name", type: "string", headerName: "Name", width: 200, valueFormatter: (params) => textCapitalize(params) },
+  {
+    field: "designation", type: "string", headerName: "Designation", width: 120,
+    valueFormatter: (params) => {
+      let designation = params.toUpperCase()
+      if (params.split(' ')[0] === 'dak') {
+        designation = "DAK SEVAK"
+      }
+      return designation
+    }
+  },
+  { field: "officeName", type: "string", headerName: "Office Name", width: 180, valueFormatter: (params) => textCapitalize(params) },
+  { field: "from", type: "Date", headerName: "From", width: 120, valueFormatter: params => moment(params).format("DD/MM/YYYY") },
+  { field: "to", type: "Date", headerName: "To", width: 100, valueFormatter: params => moment(params).format("DD/MM/YYYY") },
+  { field: "days", type: "number", headerName: "Days", width: 100 },
+  { field: "substituteName", type: "string", headerName: "Substitute Name", width: 200, valueFormatter: params => textCapitalize(params) },
+  { field: "accountNo", type: "string", headerName: "Account Number", width: 160 },
+  { field: "remarks", type: "string", headerName: "Remarks", width: 200, valueFormatter: params => textCapitalize(params) },
+  { field: "leaveType", type: "string", headerName: "Leave Type", width: 250, valueFormatter: params => textCapitalize(params) },
+]
+
 const stopGapArrangementColums = [
   { field: "id", headerName: "SL.No", width: 70, filterable: false },
   {
@@ -154,6 +177,6 @@ const designationOptions = ['BPM', 'ABPM', 'ABPM I', 'ABPM II', 'DAK SEVAK', 'DA
 const subDivisionOptions = ['Tirumangalam']
 
 export {
-  menu, regularEmployeeColumns, substituteEmployeeColums, leaveDataColums,
+  menu, regularEmployeeColumns, substituteEmployeeColums, leaveDataColums, approvedLeaveDataColums,
   stopGapArrangementColums, HolidayColums, designationOptions, subDivisionOptions
 }

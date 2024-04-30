@@ -128,7 +128,6 @@ const AddLeaveData = ({ substitutes, employees, holidays, editData, setEditData,
             status: props.status === 'approved' ? 1 : 0,
         }
 
-        console.log({leaveData});
         let res = null
         if (editData) {
             res = await updatePendingLeaveData(editData._id, leaveData)

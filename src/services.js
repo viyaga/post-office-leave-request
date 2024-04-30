@@ -10,6 +10,8 @@ const errResponse = (error) => {
 }
 
 const textCapitalize = (text) => {
+    if(!text || (typeof text !== 'string')) return
+
     // .split(/[ .]/)
     var sentence = text.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
     sentence = sentence.split('.').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('.')
@@ -51,6 +53,8 @@ const isHoliday = (holidays, date) => {
 }
 
 const removeInitialFromName = (name) => {
+    if(!name || (typeof name !== 'string')) return
+
     const initialRemovedNameArray = name.split(' ').filter(string => string.length > 1)
     const newName = initialRemovedNameArray.join(' ')
     return newName
@@ -332,7 +336,7 @@ const deletePendingLeaveData = async (id) => {
     }
 }
 
-const formatPendingLeaveData = (leaveData) => {
+const formatLeaveData = (leaveData) => {
     const sortedData = leaveData.sort((a, b) => {
         return new Date(a.from) - new Date(b.from)
     });
@@ -356,10 +360,10 @@ const getAllOffices = async () => {
 
 
 export {
-    errResponse, textCapitalize, addIdToDataGridRows, findNumberOfDays, getMonthAndYear, dateToIsoString, isHoliday, isNameEditable, isObjectSame,
+    errResponse, textCapitalize, addIdToDataGridRows, findNumberOfDays, getMonthAndYear, dateToIsoString, isHoliday, removeInitialFromName, isNameEditable, isObjectSame,
     getAllRegularEmployeesData, createRegularEmployeeData, updateRegularEmployeeData, deleteRegularEmployeeData, getEmployeeName, formatRegularEmployeeData,
     getAllSubstituteEmployeesData, getNonWorkingSubstitute, createSubstituteEmployeeData, updateSubstituteEmployeeData, deleteSubstituteEmployeeData, formatSubstituteEmployeeData,
     getAllHolidayData, createHolidayData, updateHolidayData, deleteHolidayData, formatHolidayData,
-    getPendngLeaveData, getLeaveDataByCategory, createLeaveData, updatePendingLeaveData, deletePendingLeaveData, formatPendingLeaveData,
+    getPendngLeaveData, getLeaveDataByCategory, createLeaveData, updatePendingLeaveData, deletePendingLeaveData, formatLeaveData,
     getAllOffices,
 }

@@ -16,7 +16,7 @@ const fetchData = async () => {
 const getLeaveDataByCategory = async (category, fromDate, toDate, officeId, employeeId, substituteId, remarks) => {
   const LEAVE_API = process.env.SERVER_ONE + '/leaves'
   try {
-    const response = await fetch(`${LEAVE_API}/${category}/${fromDate}/${toDate}/${officeId}/${employeeId}/${substituteId}/${remarks}`, { next: { revalidate: 20 } })
+    const response = await fetch(`${LEAVE_API}/${category}/${fromDate}/${toDate}/${officeId}/${employeeId}/${substituteId}/${remarks}`, { next: { revalidate: 10 } })
     const { leaves } = await response.json()
     return leaves
   } catch (error) {
@@ -27,7 +27,7 @@ const getLeaveDataByCategory = async (category, fromDate, toDate, officeId, empl
 const page = async ({ searchParams }) => {
 
   const res = await fetchData()
-  if (res.error) return <p>An error occured try after sometimes</p>
+  if (res.error) return <p>An error occured while fetching try after sometimes</p>
 
   const category = searchParams?.cat || "pending"
   const fromDate = searchParams?.fromDate || dateToIsoString(Date.now())
@@ -38,6 +38,7 @@ const page = async ({ searchParams }) => {
   const remarks = searchParams?.remarks || 0
 
   const leaves = await getLeaveDataByCategory(category, fromDate, toDate, officeId, employeeId, substituteId, remarks)
+  if (leaves.error) return <p>An error occured while fetching try after sometimes</p>
   const idAddedLeaveData = addIdToDataGridRows(leaves)
 
   return (

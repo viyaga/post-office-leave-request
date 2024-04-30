@@ -2,10 +2,10 @@ import {
   DataGrid,
   GridToolbar,
 } from "@mui/x-data-grid";
-import "./dataTableWithActions.scss";
+import "./dataTableWithCancel.scss";
 import { MdDelete, MdEdit } from "react-icons/md";
 
-const DataTableWithActions = ({ columns, rows, setOpen, setEditData, setDeleteData }) => {
+const DataTableWithCancel = ({ columns, rows, setOpen, setEditData, setDeleteData }) => {
 
   const handleEdit = (data) => {
     setEditData(data)
@@ -63,4 +63,4 @@ const DataTableWithActions = ({ columns, rows, setOpen, setEditData, setDeleteDa
   );
 };
 
-export default DataTableWithActions;
+export default DataTableWithCancel;
