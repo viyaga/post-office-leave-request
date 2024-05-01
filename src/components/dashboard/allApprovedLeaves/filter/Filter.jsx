@@ -18,6 +18,7 @@ const filterSchema = z.object({
     officeId: z.string().max(50),
     employeeId: z.string().max(50),
     substituteId: z.string().max(50),
+    leaveType: z.string().max(50),
     remarks: z.string().max(100),
 })
 
@@ -47,6 +48,7 @@ const Filter = ({ setIsFilterOpen, substitutes, employees }) => {
         officeId: searchParams.get('officeId') || '',
         employeeId: searchParams.get('employeeId') || '',
         substituteId: searchParams.get('substituteId') || '',
+        leaveType: searchParams.get('cat') || '',
         remarks: searchParams.get('remarks') || ''
     }
 
@@ -61,15 +63,13 @@ const Filter = ({ setIsFilterOpen, substitutes, employees }) => {
     const remarkOptions = ['Personal affairs', 'Officiating', 'POD', 'Induction training', 'Maternity leave', 'Medical affairs']
 
     const onFilterSubmit = async (props) => {
-        const { fromDate, toDate, officeId, employeeId, substituteId, remarks } = props
+        const { fromDate, toDate, officeId, employeeId, substituteId, leaveType, remarks } = props
         const fromDateIso = dateToIsoString(fromDate)
         const toDateIso = dateToIsoString(toDate)
         const days = findNumberOfDays(fromDate, toDate)
         if (days < 1) return toast.error("Invalid Date")
 
-        const category = searchParams.get('cat') || 0
-
-        router.push(`${pathname}/?cat=${category}&&fromDate=${fromDateIso}&&toDate=${toDateIso}&officeId=${officeId}&employeeId=${employeeId}&substituteId=${substituteId}&remarks=${remarks}`)
+        router.push(`${pathname}/?cat=${leaveType}&&fromDate=${fromDateIso}&&toDate=${toDateIso}&officeId=${officeId}&employeeId=${employeeId}&substituteId=${substituteId}&remarks=${remarks}`)
         setIsFilterOpen(false)
     }
 
@@ -94,7 +94,7 @@ const Filter = ({ setIsFilterOpen, substitutes, employees }) => {
                         <label><p>Office</p><span>(optional)</span></label>
                         <div>
                             <select {...register("officeId")}>
-                                <option value="">Select</option>
+                                <option value="">Any</option>
                                 {offices && offices.map((item, index) =>
                                     <option key={index} value={item._id}>{item.officeName}</option>
                                 )}
@@ -108,7 +108,7 @@ const Filter = ({ setIsFilterOpen, substitutes, employees }) => {
                         <label><p>Employee</p><span>(optional)</span></label>
                         <div>
                             <select {...register("employeeId")}>
-                                <option value="">Select</option>
+                                <option value="">Any</option>
                                 {employees && employees.sort((a, b) => a.name.localeCompare(b.name)).map((item, index) =>
                                     <option key={index} value={item._id}>{item.name}</option>
                                 )}
@@ -122,7 +122,7 @@ const Filter = ({ setIsFilterOpen, substitutes, employees }) => {
                         <label><p>Substitute</p><span>(optional)</span></label>
                         <div>
                             <select {...register("substituteId")}>
-                                <option value="">Select</option>
+                                <option value="">Any</option>
                                 {substitutes && substitutes.map((item, index) =>
                                     <option key={index} value={item._id}>{item.name}</option>
                                 )}
@@ -134,11 +134,11 @@ const Filter = ({ setIsFilterOpen, substitutes, employees }) => {
                     </div>
                     <div className="item">
                         <label>Leave Type</label>
-                        <ZodSelectInput name="leaveType" register={register} defaultValue="Select" options={leaveTypeOptions} error={errors['leaveType']} />
+                        <ZodSelectInput name="leaveType" register={register} defaultValue="Any" options={leaveTypeOptions} error={errors['leaveType']} />
                     </div>
                     <div className="item">
                         <label><p>Remarks</p><span>(optional)</span></label>
-                        <ZodSelectInput name="remarks" register={register} defaultValue="Select" options={remarkOptions} error={errors['remarks']} />
+                        <ZodSelectInput name="remarks" register={register} defaultValue="Any" options={remarkOptions} error={errors['remarks']} />
                     </div>
                     <input type="submit" defaultValue="Submit" />
                 </form>

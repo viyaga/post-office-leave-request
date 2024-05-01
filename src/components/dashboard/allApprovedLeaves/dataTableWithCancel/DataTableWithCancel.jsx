@@ -3,14 +3,9 @@ import {
   GridToolbar,
 } from "@mui/x-data-grid";
 import "./dataTableWithCancel.scss";
-import { MdDelete, MdEdit } from "react-icons/md";
+import { MdCancel, MdDelete, MdEdit } from "react-icons/md";
 
-const DataTableWithCancel = ({ columns, rows, setOpen, setEditData, setDeleteData }) => {
-
-  const handleEdit = (data) => {
-    setEditData(data)
-    setOpen(true)
-  }
+const DataTableWithCancel = ({ columns, rows, setOpen, setEditData, setCancelationData }) => {
 
   const actionColumn = {
     field: "action",
@@ -20,11 +15,8 @@ const DataTableWithCancel = ({ columns, rows, setOpen, setEditData, setDeleteDat
     renderCell: (params) => {
       return (
         <div className="action">
-          <div className="edit" onClick={() => handleEdit(params.row)}>
-            <MdEdit size={20} />
-          </div>
-          <div className="delete" onClick={() => setDeleteData(params.row)}>
-            <MdDelete size={20} />
+          <div className="delete" onClick={() => setCancelationData(params.row)}>
+            <MdCancel size={20} />
           </div>
         </div >
       );

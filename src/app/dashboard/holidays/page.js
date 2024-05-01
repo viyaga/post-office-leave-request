@@ -4,7 +4,7 @@ const HOLIDAY_API = process.env.SERVER_ONE + '/holiday'
 
 const getAllHolidayData = async () => {
   try {
-    const response = await fetch(HOLIDAY_API)
+    const response = await fetch(HOLIDAY_API, { next: { revalidate: 10 } })
     const { holidays } = await response.json()
     return holidays
   } catch (error) {
@@ -13,7 +13,7 @@ const getAllHolidayData = async () => {
 }
 
 const page = async () => {
-  
+
   const holidayData = await getAllHolidayData()
   if (holidayData.error) return <p>An Error Occured While Fetching Data</p>
 

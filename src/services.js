@@ -10,7 +10,7 @@ const errResponse = (error) => {
 }
 
 const textCapitalize = (text) => {
-    if(!text || (typeof text !== 'string')) return
+    if (!text || (typeof text !== 'string')) return
 
     // .split(/[ .]/)
     var sentence = text.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
@@ -53,7 +53,7 @@ const isHoliday = (holidays, date) => {
 }
 
 const removeInitialFromName = (name) => {
-    if(!name || (typeof name !== 'string')) return
+    if (!name || (typeof name !== 'string')) return
 
     const initialRemovedNameArray = name.split(' ').filter(string => string.length > 1)
     const newName = initialRemovedNameArray.join(' ')
@@ -336,6 +336,16 @@ const deletePendingLeaveData = async (id) => {
     }
 }
 
+const cancelLeaveApproval = async (id) => {
+    try {
+        const response = await axios.patch(`${LEAVE_API}/approved/${id}`)
+        const message = response.data.message
+        return { success: message }
+    } catch (error) {
+        return { error: errResponse(error) }
+    }
+}
+
 const formatLeaveData = (leaveData) => {
     const sortedData = leaveData.sort((a, b) => {
         return new Date(a.from) - new Date(b.from)
@@ -364,6 +374,6 @@ export {
     getAllRegularEmployeesData, createRegularEmployeeData, updateRegularEmployeeData, deleteRegularEmployeeData, getEmployeeName, formatRegularEmployeeData,
     getAllSubstituteEmployeesData, getNonWorkingSubstitute, createSubstituteEmployeeData, updateSubstituteEmployeeData, deleteSubstituteEmployeeData, formatSubstituteEmployeeData,
     getAllHolidayData, createHolidayData, updateHolidayData, deleteHolidayData, formatHolidayData,
-    getPendngLeaveData, getLeaveDataByCategory, createLeaveData, updatePendingLeaveData, deletePendingLeaveData, formatLeaveData,
+    getPendngLeaveData, getLeaveDataByCategory, createLeaveData, updatePendingLeaveData, deletePendingLeaveData, cancelLeaveApproval, formatLeaveData,
     getAllOffices,
 }

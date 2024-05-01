@@ -1,9 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import toast from 'react-hot-toast'
 import './pendingLeaveRequest.scss'
-import { getPendngLeaveData } from "@/services";
 import { leaveDataColums } from '@/data'
 import DataTableWithActions from "../shared/dataTableWithActions/DataTableWithActions";
 import AddLeaveData from "./addLeaveData/AddLeaveData";
@@ -13,7 +11,7 @@ import DeleteLeaveData from "./deleteLeaveData/DeleteLeaveData";
 import DashboardLoading from "@/components/shared/dashboardLoading/DashboardLoading";
 
 const PendingLeaveRequest = ({ substitutes, employees, holidays, pendingLeaveData }) => {
-  const { pendingLeave } = useSelector(state => state.common)
+  const { pendingLeave,isDashboardLoading } = useSelector(state => state.common)
   const [deleteData, setDeleteData] = useState(null)
   const [editData, setEditData] = useState(null)
   const [open, setOpen] = useState(false)
@@ -29,11 +27,11 @@ const PendingLeaveRequest = ({ substitutes, employees, holidays, pendingLeaveDat
         <h2>Pending</h2>
         <button onClick={() => setOpen(true)}>Add New</button>
       </div>
-      {(pendingLeave?.length > 0)
-        ? < DataTableWithActions columns={leaveDataColums} rows={pendingLeave} setOpen={setOpen} setEditData={setEditData} setDeleteData={setDeleteData} />
-        : (pendingLeave?.length === 0)
-          ? <p>No Data Found</p>
-          : <DashboardLoading />
+      {isDashboardLoading
+        ? <DashboardLoading />
+        : (pendingLeave?.length > 0)
+          ? < DataTableWithActions columns={leaveDataColums} rows={pendingLeave} setOpen={setOpen} setEditData={setEditData} setDeleteData={setDeleteData} />
+          : <p>No Data Found</p>
       }
       {open && <AddLeaveData substitutes={substitutes} employees={employees} holidays={holidays} editData={editData} setEditData={setEditData} setOpen={setOpen} />}
       {deleteData && <DeleteLeaveData deleteData={deleteData} setDeleteData={setDeleteData} />}

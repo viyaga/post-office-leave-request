@@ -4,7 +4,7 @@ import { addIdToDataGridRows, dateToIsoString, errResponse } from "@/services"
 const fetchData = async () => {
   const API_URL = process.env.SERVER_ONE + '/employee/substitute/substitutes-employees'
   try {
-    const response = await fetch(API_URL, { next: { revalidate: 3600 } })
+    const response = await fetch(API_URL, { next: { revalidate: 2 } })
     const { employees, substitutes } = await response.json()
 
     return { employees, substitutes }
@@ -16,7 +16,7 @@ const fetchData = async () => {
 const getLeaveDataByCategory = async (category, fromDate, toDate, officeId, employeeId, substituteId, remarks) => {
   const LEAVE_API = process.env.SERVER_ONE + '/leaves'
   try {
-    const response = await fetch(`${LEAVE_API}/${category}/${fromDate}/${toDate}/${officeId}/${employeeId}/${substituteId}/${remarks}`, { next: { revalidate: 10 } })
+    const response = await fetch(`${LEAVE_API}/${category}/${fromDate}/${toDate}/${officeId}/${employeeId}/${substituteId}/${remarks}`, { next: { revalidate: 2 } })
     const { leaves } = await response.json()
     return leaves
   } catch (error) {

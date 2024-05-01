@@ -5,16 +5,17 @@ import './allApprovedLeaves.scss'
 import { approvedLeaveDataColums } from '@/data'
 import { useDispatch, useSelector } from "react-redux";
 import { setLeaves } from "@/redux/slices/commonSlice";
-import DeleteLeaveData from "./deleteLeaveData/DeleteLeaveData";
+import DeleteLeaveData from "./cancelLeaveApproval/CancelLeaveApproval";
 import DashboardLoading from "@/components/shared/dashboardLoading/DashboardLoading";
 import { MdFilterList } from "react-icons/md";
 import DataTableWithCancel from "./dataTableWithCancel/DataTableWithCancel";
 import Filter from "./filter/Filter";
+import CancelLeaveApproval from "./cancelLeaveApproval/CancelLeaveApproval";
 
 const AllApprovedLeaves = ({ substitutes, employees, leaves }) => {
-  const { allLeaves } = useSelector(state => state.common)
+  const { allLeaves, isDashboardLoading } = useSelector(state => state.common)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
-  const [deleteData, setDeleteData] = useState(null)
+  const [cancelationData, setCancelationData] = useState(null)
   const dispatch = useDispatch()
 
   const calculateTotalDays = () => {
@@ -24,7 +25,7 @@ const AllApprovedLeaves = ({ substitutes, employees, leaves }) => {
     }
     return totalDays;
   };
-  
+
   const totalLeaveDays = calculateTotalDays()
 
   useEffect(() => {
@@ -40,14 +41,14 @@ const AllApprovedLeaves = ({ substitutes, employees, leaves }) => {
         </div>
         <p className="leave-days">{totalLeaveDays} Days</p>
       </div>
-      {(allLeaves?.length > 0)
-        ? < DataTableWithCancel columns={approvedLeaveDataColums} rows={allLeaves} setDeleteData={setDeleteData} />
-        : (allLeaves?.length === 0)
-          ? <p>No Data Found</p>
-          : <DashboardLoading />
+      {isDashboardLoading
+        ? <DashboardLoading />
+        : (allLeaves?.length > 0)
+          ? < DataTableWithCancel columns={approvedLeaveDataColums} rows={allLeaves} setCancelationData={setCancelationData} />
+          : <p>No Data Found</p>
       }
       {isFilterOpen && <Filter setIsFilterOpen={setIsFilterOpen} substitutes={substitutes} employees={employees} />}
-      {deleteData && <DeleteLeaveData deleteData={deleteData} setDeleteData={setDeleteData} />}
+      {cancelationData && <CancelLeaveApproval cancelationData={cancelationData} setCancelationData={setCancelationData} />}
     </div>
   )
 }
