@@ -29,7 +29,7 @@ const page = async ({ searchParams }) => {
   const res = await fetchData()
   if (res.error) return <p>An error occured while fetching try after sometimes</p>
 
-  const category = searchParams?.cat || "pending"
+  const leaveType = searchParams?.cat || "pending"
   const fromDate = searchParams?.fromDate || dateToIsoString(Date.now())
   const toDate = searchParams?.toDate || dateToIsoString(Date.now())
   const officeId = searchParams?.officeId || 0
@@ -37,14 +37,12 @@ const page = async ({ searchParams }) => {
   const substituteId = searchParams?.substituteId || 0
   const remarks = searchParams?.remarks || 0
 
-  const leaves = await getLeaveDataByCategory(category, fromDate, toDate, officeId, employeeId, substituteId, remarks)
-  if (leaves.error) return <p>An error occured while fetching try after sometimes</p>
-  const idAddedLeaveData = addIdToDataGridRows(leaves)
+  const searchParamsObj = {leaveType, fromDate, toDate, officeId, employeeId, substituteId, remarks}
 
   return (
     <DataPage
       substitutes={res.substitutes} employees={res.employees}
-      category={category} rows={idAddedLeaveData}
+      leaveType={leaveType} searchParamsObj={searchParamsObj}
     />
   )
 }

@@ -8,7 +8,7 @@ import ZodSelectInput from "@/components/shared/zodSelectInput/ZodSelectInput"
 import toast from "react-hot-toast"
 import { createLeaveData, findNumberOfDays, getEmployeeName, getMonthAndYear, getNonWorkingSubstitute, isHoliday, updatePendingLeaveData } from "@/services"
 import { useDispatch } from "react-redux"
-import { addPendingLeave, editPendingLeave } from "@/redux/slices/commonSlice"
+import { addLeave, editLeave } from "@/redux/slices/commonSlice"
 import { useEffect } from "react"
 import moment from "moment"
 import { designationOptions } from "@/data"
@@ -135,14 +135,14 @@ const AddLeaveData = ({ substitutes, employees, holidays, editData, setEditData,
                 toast.success(res.success)
                 setOpen(false)
                 setEditData(null)
-                dispatch(editPendingLeave(res.leave))
+                dispatch(editLeave(res.leave))
             }
         } else {
             res = await createLeaveData(leaveData)
             if (res.success) {
                 toast.success(res.success)
                 setOpen(false)
-                dispatch(addPendingLeave(res.leave))
+                dispatch(addLeave(res.leave))
             }
         }
 

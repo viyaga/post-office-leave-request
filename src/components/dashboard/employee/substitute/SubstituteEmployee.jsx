@@ -14,11 +14,13 @@ const SubstituteEmployee = ({ substituteEmployeeData }) => {
     const { substitute } = useSelector(state => state.common.employee)
     const [deleteData, setDeleteData] = useState(null)
     const [editData, setEditData] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(setSubstituteEmployee(substituteEmployeeData))
+        setIsLoading(false)
     }, [dispatch, substituteEmployeeData])
 
     return (
@@ -27,11 +29,11 @@ const SubstituteEmployee = ({ substituteEmployeeData }) => {
                 <h2>Substitute</h2>
                 <button onClick={() => setOpen(true)}>Add New</button>
             </div>
-            {(substitute?.length > 0)
-                ? < DataTableWithActions columns={substituteEmployeeColums} rows={substitute} setOpen={setOpen} setEditData={setEditData} setDeleteData={setDeleteData} />
-                : (substitute?.length === 0)
-                    ? <p>No Data Found</p>
-                    : <DashboardLoading />
+            {isLoading
+                ? <DashboardLoading />
+                : (substitute?.length > 0)
+                    ? < DataTableWithActions columns={substituteEmployeeColums} rows={substitute} setOpen={setOpen} setEditData={setEditData} setDeleteData={setDeleteData} />
+                    : <p>No Data Found</p>
             }
             {open && <AddSubstituteEmployee editData={editData} setEditData={setEditData} setOpen={setOpen} />}
             {deleteData && <DeleteSubstituteEmployee deleteData={deleteData} setDeleteData={setDeleteData} />}

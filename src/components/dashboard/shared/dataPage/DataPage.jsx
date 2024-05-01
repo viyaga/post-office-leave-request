@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './data-page.scss'
 import DataTable from "./dataTable/DataTable";
 import { leaveDataColums, stopGapArrangementColums } from '@/data'
@@ -8,14 +8,28 @@ import FilterByDate from "./filterByDate/FilterByDate";
 import { MdFilterList } from "react-icons/md";
 import jsPDF from "jspdf";
 import DashboardLoading from "@/components/shared/dashboardLoading/DashboardLoading";
+import { useDispatch, useSelector } from "react-redux";
+import { setLeaves } from "@/redux/slices/commonSlice";
+import { getLeaveDataByCategory } from "@/services";
+import toast from "react-hot-toast";
 
 const DataPage = (props) => {
-  const { substitutes, employees, category, rows } = props
+  const { leaveData } = useSelector(state => state.common)
+  const { substitutes, employees, leaveType, searchParamsObj } = props
+  const [isLoading, setIsLoading] = useState(true)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const dispatch = useDispatch()
 
   let columns = leaveDataColums
-  if (category === 'stop gap arrangement') {
+  if (leaveType === 'stop gap arrangement') {
     columns = stopGapArrangementColums
+  }
+
+  const fetchData = async (searchParamsObj) => {
+    const res = await getLeaveDataByCategory(searchParamsObj)
+    if (res.error) toast.error("An Error Occured While Fetching Data")
+    if (res.leaves) dispatch(setLeaves(res.leaves))
+    setIsLoading(false)
   }
 
   const handleDownloadPDF = () => {
@@ -46,23 +60,26 @@ const DataPage = (props) => {
     doc.save('data.pdf');
   };
 
+  useEffect(() => {
+    fetchData(searchParamsObj)
+  }, [searchParamsObj])
 
   return (
     <div className="leave-requests">
       <div className="info">
         <div className="title-and-filter">
-          <h2>{category}</h2>
+          <h2>{leaveType}</h2>
           <div onClick={() => setIsFilterOpen(true)}><MdFilterList size={24} /></div>
         </div>
         <button className="pdf-btn" onClick={() => handleDownloadPDF()}>Download PDF</button>
       </div>
-      {(rows?.length > 0)
-        ? < DataTable columns={columns} rows={rows} />
-        : (rows?.length === 0)
-          ? <p>No Data Found</p>
-          : <DashboardLoading />
+      {isLoading
+        ? <DashboardLoading />
+        : (leaveData?.length > 0)
+          ? < DataTable columns={columns} rows={leaveData} />
+          : <p>No Data Found</p>
       }
-      {isFilterOpen && <FilterByDate setIsFilterOpen={setIsFilterOpen} substitutes={substitutes} employees={employees} />}
+      {isFilterOpen && <FilterByDate setIsFilterOpen={setIsFilterOpen} setIsLoading={setIsLoading} substitutes={substitutes} employees={employees} />}
     </div>
   )
 }

@@ -22,7 +22,7 @@ const filterSchema = z.object({
     remarks: z.string().max(100),
 })
 
-const FilterByDate = ({ setIsFilterOpen, substitutes, employees }) => {
+const FilterByDate = ({ setIsFilterOpen, setIsLoading, substitutes, employees }) => {
 
     // get unique offices =======================================
     const officesString = employees.map((item) => {
@@ -71,6 +71,7 @@ const FilterByDate = ({ setIsFilterOpen, substitutes, employees }) => {
 
         router.push(`${pathname}/?cat=${category}&&fromDate=${fromDateIso}&&toDate=${toDateIso}&officeId=${officeId}&employeeId=${employeeId}&substituteId=${substituteId}&remarks=${remarks}`)
         setIsFilterOpen(false)
+        setIsLoading(true)
     }
 
     return (

@@ -295,9 +295,11 @@ const getPendngLeaveData = async () => {
     }
 }
 
-const getLeaveDataByCategory = async (category, fromDate, toDate, officeId, employeeId, substituteId, remarks) => {
+const getLeaveDataByCategory = async (searchParamsObj) => {
+   const {leaveType, fromDate, toDate, officeId, employeeId, substituteId, remarks} = searchParamsObj
+
     try {
-        const response = await axios.get(`${LEAVE_API}/${category}/${fromDate}/${toDate}/${officeId}/${employeeId}/${substituteId}/${remarks}`)
+        const response = await axios.get(`${LEAVE_API}/${leaveType}/${fromDate}/${toDate}/${officeId}/${employeeId}/${substituteId}/${remarks}`)
         const leaves = response.data.leaves
         return { leaves }
     } catch (error) {

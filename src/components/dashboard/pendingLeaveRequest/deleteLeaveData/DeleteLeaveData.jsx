@@ -1,6 +1,6 @@
 import { deletePendingLeaveData } from '@/services'
 import './deleteLeaveData.scss'
-import { deletePendingLeave } from '@/redux/slices/commonSlice'
+import { deleteLeave, deletePendingLeave } from '@/redux/slices/commonSlice'
 import { useDispatch } from 'react-redux'
 import { useTransition } from 'react'
 import toast from 'react-hot-toast'
@@ -20,7 +20,7 @@ const DeleteLeaveData = ({ deleteData, setDeleteData }) => {
 
             if (res.success) {
                 toast.success(res.success)
-                dispatch(deletePendingLeave(deleteData))
+                dispatch(deleteLeave(deleteData))
                 setDeleteData(null)
             }
         })

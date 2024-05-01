@@ -15,10 +15,12 @@ const Holidays = ({ holidayData }) => {
     const [deleteData, setDeleteData] = useState(null)
     const [editData, setEditData] = useState(null)
     const [open, setOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(setHoliday(holidayData))
+        setIsLoading(false)
     }, [dispatch, holidayData])
 
     return (
@@ -27,11 +29,11 @@ const Holidays = ({ holidayData }) => {
                 <h2>Holidays</h2>
                 <button onClick={() => setOpen(true)}>Add New</button>
             </div>
-            {(holidays?.length > 0)
-                ? < DataTableWithActions columns={HolidayColums} rows={holidays} setOpen={setOpen} setEditData={setEditData} setDeleteData={setDeleteData} />
-                : (holidays?.length === 0)
-                    ? <p>No Data Found</p>
-                    : <DashboardLoading />
+            {isLoading
+                ? <DashboardLoading />
+                : (holidays?.length > 0)
+                    ? < DataTableWithActions columns={HolidayColums} rows={holidays} setOpen={setOpen} setEditData={setEditData} setDeleteData={setDeleteData} />
+                    : <p>No Data Found</p>
             }
             {open && <AddHoliday editData={editData} setEditData={setEditData} setOpen={setOpen} />}
             {deleteData && <DeleteHoliday deleteData={deleteData} setDeleteData={setDeleteData} />}

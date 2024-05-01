@@ -6,8 +6,8 @@ const { createSlice } = require("@reduxjs/toolkit");
 
 const initialState = {
     isSidebarOpen: false,
-    isDashboardLoading: true,
-    pendingLeave: [],
+    isDashboardLoading: false,
+    leaveData: [],
     allLeaves: [],
     employee: {
         regular: [],
@@ -29,57 +29,55 @@ const commonSlice = createSlice({
         },
 
         // Pending Leave Data ==========================================================
-        setPendingLeaves: (state, action) => {
+        setLeaves: (state, action) => {
             const formatedData = formatLeaveData(action.payload)
-            state.pendingLeave = formatedData
-            state.isDashboardLoading = false
+            state.leaveData = formatedData
         },
-        addPendingLeave: (state, action) => {
+        addLeave: (state, action) => {
             if (action.payload?.status === 0) {
-                state.pendingLeave.push(action.payload)
-                const formatedData = formatLeaveData(state.pendingLeave)
-                state.pendingLeave = formatedData
+                state.leaveData.push(action.payload)
+                const formatedData = formatLeaveData(state.leaveData)
+                state.leaveData = formatedData
             }
         },
-        editPendingLeave: (state, action) => {
+        editLeave: (state, action) => {
             if (action.payload?.status === 0) {
-                const data = state.pendingLeave.filter((item) => item._id !== action.payload._id)
+                const data = state.leaveData.filter((item) => item._id !== action.payload._id)
                 data.push(action.payload)
                 const formatedData = formatLeaveData(data)
-                state.pendingLeave = formatedData
+                state.leaveData = formatedData
             } else {
-                const data = state.pendingLeave.filter((item) => item._id !== action.payload._id)
+                const data = state.leaveData.filter((item) => item._id !== action.payload._id)
                 const formatedData = formatLeaveData(data)
-                state.pendingLeave = formatedData
+                state.leaveData = formatedData
             }
         },
-        deletePendingLeave: (state, action) => {
-            const data = state.pendingLeave.filter((item) => item._id !== action.payload._id)
+        deleteLeave: (state, action) => {
+            const data = state.leaveData.filter((item) => item._id !== action.payload._id)
             const formatedData = formatLeaveData(data)
-            state.pendingLeave = formatedData
+            state.leaveData = formatedData
         },
 
         // All Leaves ==========================================================
-        setLeaves: (state, action) => {
+        setApprovedLeaves: (state, action) => {
             const formatedData = formatLeaveData(action.payload)
             state.allLeaves = formatedData
-            state.isDashboardLoading = false
         },
         cancelLeave: (state, action) => {
             const data = state.allLeaves.filter((item) => item._id !== action.payload._id)
             const formatedData = formatLeaveData(data)
             state.allLeaves = formatedData
 
-            state.pendingLeave.push(action.payload)
-            const formatedData1 = formatLeaveData(state.pendingLeave)
-            state.pendingLeave = formatedData1
+            console.log({leave: action.payload});
+            state.leaveData.push(action.payload)
+            const formatedData1 = formatLeaveData(state.leaveData)
+            state.leaveData = formatedData1
         },
 
         // Regular employee =============================
         setRegularEmployee: (state, action) => {
             const formatedData = formatRegularEmployeeData(action.payload)
             state.employee.regular = formatedData
-            state.isDashboardLoading = false
         },
         addRegularEmployee: (state, action) => {
             state.employee.regular.push(action.payload)
@@ -102,7 +100,6 @@ const commonSlice = createSlice({
         setSubstituteEmployee: (state, action) => {
             const formatedData = formatSubstituteEmployeeData(action.payload)
             state.employee.substitute = formatedData
-            state.isDashboardLoading = false
         },
         addSubstituteEmployee: (state, action) => {
             state.employee.substitute.push(action.payload)
@@ -125,11 +122,10 @@ const commonSlice = createSlice({
         setHoliday: (state, action) => {
             const formatedData = formatHolidayData(action.payload)
             state.holidays = formatedData
-            state.isDashboardLoading = false
         },
         addHoliday: (state, action) => {
             state.holidays.push(action.payload)
-            const formatedData = formatHolidayData(state.holiday)
+            const formatedData = formatHolidayData(state.holidays)
             state.holidays = formatedData
         },
         editHoliday: (state, action) => {
@@ -148,7 +144,7 @@ const commonSlice = createSlice({
 
 export const {
     setSideBarOpen, setDashboardLoading,
-    setPendingLeaves, addPendingLeave, editPendingLeave, deletePendingLeave, setLeaves, cancelLeave,
+    setLeaves, addLeave, editLeave, deleteLeave, setApprovedLeaves, cancelLeave,
     setRegularEmployee, addRegularEmployee, editRegularEmployee, deleteRegularEmployee,
     setSubstituteEmployee, addSubstituteEmployee, editSubstituteEmployee, deleteSubstituteEmployee,
     setHoliday, addHoliday, editHoliday, deleteHoliday,
