@@ -10,9 +10,9 @@ export default function GlobalError({ error }) {
         return time < 10 ? `0${time}` : time;
     }
 
-    if (!isConnection) {
-        useEffect(() => {
 
+    useEffect(() => {
+        if (!isConnection) {
             const timer = setInterval(() => {
                 if (countdown > 0) {
                     setCountdown(prevCountdown => prevCountdown - 1);
@@ -22,8 +22,8 @@ export default function GlobalError({ error }) {
             }, 1000);
 
             return () => clearInterval(timer);
-        }, [countdown])
-    }
+        }
+    }, [isConnection, countdown])
 
     return (
         <html>
