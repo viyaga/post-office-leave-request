@@ -14,7 +14,7 @@ export default function GlobalError({ error }) {
     useEffect(() => {
         if (!isConnection) {
             const timer = setInterval(() => {
-                if (countdown > 0) {
+                if (countdown > 3) {
                     setCountdown(prevCountdown => prevCountdown - 1);
                 } else {
                     location.reload()
