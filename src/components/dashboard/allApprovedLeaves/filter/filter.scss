@@ -21,6 +21,7 @@
     z-index: 999;
 
     @include sm {
+      margin-top: 150px;
       width: 90%;
     }
 
