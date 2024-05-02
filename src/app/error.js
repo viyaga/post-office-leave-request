@@ -16,7 +16,7 @@ export default function GlobalError({ error }) {
             const timer = setInterval(() => {
                 if (countdown > 0) {
                     setCountdown(prevCountdown => prevCountdown - 1);
-                    if (countdown < 3) location.reload()
+                    if (countdown === 3) location.reload()
                 }
             }, 1000);
 
