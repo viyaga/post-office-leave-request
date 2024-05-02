@@ -51,7 +51,7 @@ const AllApprovedLeaves = ({ substitutes, employees, searchParamsObj }) => {
           <h2>Approved</h2>
           <div className="btn" onClick={() => setIsFilterOpen(true)}><MdFilterList size={24} /></div>
         </div>
-        <p className="leave-days">{totalLeaveDays} {totalLeaveDays < 2 ? "Day" : "Days"}</p>
+        <p className="leave-days">Total: {totalLeaveDays} {totalLeaveDays < 2 ? "Day" : "Days"}</p>
       </div>
       {isLoading
         ? <DashboardLoading />
