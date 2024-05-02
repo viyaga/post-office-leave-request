@@ -75,7 +75,7 @@ const Filter = ({ setIsFilterOpen, setIsLoading, substitutes, employees }) => {
     }
 
     return (
-        <div className="filter">
+        <div className="approvedLeaveFilter">
             <div className="modal">
                 <span className="close" onClick={() => setIsFilterOpen(false)}>
                     X
