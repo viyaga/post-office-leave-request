@@ -296,7 +296,7 @@ const getPendngLeaveData = async () => {
 }
 
 const getLeaveDataByCategory = async (searchParamsObj) => {
-   const {leaveType, fromDate, toDate, officeId, employeeId, substituteId, remarks} = searchParamsObj
+    const { leaveType, fromDate, toDate, officeId, employeeId, substituteId, remarks } = searchParamsObj
 
     try {
         const response = await axios.get(`${LEAVE_API}/${leaveType}/${fromDate}/${toDate}/${officeId}/${employeeId}/${substituteId}/${remarks}`)
