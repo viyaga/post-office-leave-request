@@ -12,6 +12,10 @@
   align-items: center;
   justify-content: center;
   z-index: 998;
+
+  @include sm {
+    background-color: white;
+  }
   
   .modal {
     padding: 50px;
