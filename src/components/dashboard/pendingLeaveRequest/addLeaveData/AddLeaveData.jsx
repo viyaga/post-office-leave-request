@@ -15,7 +15,7 @@ import { designationOptions } from "@/data"
 
 const leaveSchema = z.object({
     name: z.string().min(1, { message: "Name Required" }).max(50),
-    designation: z.string().min(1, { message: "Designation Required" }).max(10),
+    designation: z.string().min(1, { message: "Designation Required" }).max(20),
     officeName: z.string().min(1, { message: "Office Required" }).max(50),
     from: z.string().min(1, { message: "Invalid Date" }).max(20),
     to: z.string().min(1, { message: "Invalid Date" }).max(20),
