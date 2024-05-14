@@ -4,7 +4,7 @@ const SUBSTITUTE_API = process.env.SERVER_ONE + '/employee/substitute'
 
 const getAllSubstituteEmployeesData = async () => {
   try {
-    const response = await fetch(SUBSTITUTE_API, { next: { revalidate: 10 } })
+    const response = await fetch(SUBSTITUTE_API)
     const { employees } = await response.json()
     return employees
   } catch (error) {

@@ -32,8 +32,8 @@ const AddRegularEmployee = ({ offices, editData, setEditData, setOpen }) => {
     const onEmployeeDataSubmit = async ({ name, designation, officeName }) => {
 
         const employeeData = {
-            name: name.trim(),
-            designation: designation.trim(),
+            name: name.trim().toLowerCase(),
+            designation: designation.trim().toLowerCase(),
             officeId: officeName,
             officeName: offices.find((item) => item._id === officeName).officeName,
         }

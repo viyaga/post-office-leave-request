@@ -112,8 +112,8 @@ const AddLeaveData = ({ substitutes, employees, holidays, editData, setEditData,
 
         const leaveData = {
             employeeId: employees.find((data) => ((data.designation === props.designation) && (data.officeId === props.officeName)))?._id,
-            name: props.name,
-            designation: props.designation,
+            name: props.name.toLowerCase(),
+            designation: props.designation.toLowerCase(),
             officeId: props.officeName,
             officeName: offices.find((office) => office._id === props.officeName)?.officeName,
             leaveMonth: getMonthAndYear(fromDate),

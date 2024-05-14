@@ -98,6 +98,9 @@ const substituteEmployeeColums = [
   { field: "id", headerName: "S.No.", width: 90, filterable: false },
   { field: "name", type: "string", headerName: "Name", width: 250, valueFormatter: (params) => textCapitalize(params) },
   { field: "accountNo", type: "string", headerName: "Account Number", width: 250 },
+  { field: "workStartDate", type: "Date", headerName: "Working From", width: 120, valueFormatter: params => params ? moment(params).format("DD/MM/YYYY") : "-" },
+  { field: "workEndDate", type: "Date", headerName: "To", width: 120, valueFormatter: params => params ? moment(params).format("DD/MM/YYYY") : "-" },
+  { field: "workingDays", type: "number", headerName: "CWD", width: 100, valueFormatter: params => params ? `${params} Days` : 0 },
 ];
 
 const leaveDataColums = [

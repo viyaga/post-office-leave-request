@@ -31,8 +31,8 @@ const AddSubstituteEmployee = ({ editData, setEditData, setOpen }) => {
 
     const onEmployeeDataSubmit = async ({ name, accountNo }) => {
 
-        const substituteData =  {
-            name: name.trim(),
+        const substituteData = {
+            name: name.trim().toLowerCase(),
             accountNo: accountNo.trim()
         }
 
