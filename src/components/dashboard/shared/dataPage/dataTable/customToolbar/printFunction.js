@@ -59,20 +59,20 @@ const handlePrint = (apiRef, leaveType) => {
     th {
       background-color: #f2f2f2;
     }
-    .ip li{
-      text-align: right;
-      font-weight: bold;
-      font-size: 20px;
-      list-style: none;
-      margin-bottom: 3px;
-    }
     .copyMemo {
       margin-bottom: 10px;
     }
     ol li {
       margin-left: 40px;
       font-size: 19px;
-      margin-bottom: 3px;
+      margin-bottom: 8px;
+    }
+    .ip li{
+      text-align: right;
+      font-weight: bold;
+      font-size: 20px;
+      list-style: none;
+      margin-bottom: 5px;
     }
   `);
   printDocument.write('</style></head><body>');
@@ -113,7 +113,7 @@ const handlePrint = (apiRef, leaveType) => {
 
   printDocument.write('</tbody></table>');
   printDocument.write(`${data.bottomContent}`)
-  printDocument.write(`</br></br></br>
+  printDocument.write(`</br></br></br></br></br>
     <ul class="ip">
       <li>Inspector Posts,</li>
       <li>Tirumangalam sub division,</li>

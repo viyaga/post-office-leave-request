@@ -186,7 +186,7 @@ const printData = [
     <h2 class="underline center marginBottom">LWA STATEMENT FOR THE MONTH OF MARCH 2024- SUPPLEMENTARY</h2>
     <ol>
       <li>The following <span>Gramin Dak Sevaks</span> have been <span>permitted to proceed on leave without allowance (LWA)</span> as per the particulars noted against each.</li>
-      <li>The <span>engagement of substitutes by the Gramin Dak Sevak approved on the clear understanding that the</span></li>
+      <li>The <span>engagement of substitutes by the Gramin Dak Sevak approved on the clear understanding that the substitute may be discharged by the undersigned</span> or by the appointing authority in case of BPMs at any time without assigning any reason.</li>
       <li>The substitutes are entitled only to the <span>minimum of the TRCA applicable to GDS.</span></span></li>
     </ol>
     `,
@@ -200,7 +200,7 @@ const printData = [
     TopContent: `
         <ol class="marginTop">
           <li>The following <span>Gramin Dak Sevaks</span> have been <span>permitted to proceed on leave with allowance (Paid Leave)</span> as per the particulars noted against each.</li>
-          <li>The <span>engagement of substitutes by the Gramin Dak Sevak approved on the clear understanding that the substitute may be discharged by the undersigned or by the appointing authority in case of BPMs at any time without assigning any reason.</span></li>
+          <li>The <span>engagement of substitutes by the Gramin Dak Sevak approved on the clear understanding that the substitute may be discharged by the undersigned</span> or by the appointing authority in case of BPMs at any time without assigning any reason.</li>
           <li>The substitutes are entitled only to the <span>minimum of the TRCA applicable to GDS.</span></li>
         </ol>
     `,
@@ -214,7 +214,7 @@ const printData = [
     TopContent: `
       <ol class="marginTop">
         <li>The following <span>Gramin Dak Sevaks</span> have been <span>permitted to attend induction training at WTC, Madurai HO</span> as per the particulars noted against each.</li>
-        <li>The <span>engagement of substitutes by the Gramin Dak Sevak approved on the clear understanding that the substitute may be discharged by the undersigned or by the appointing authority in case of BPMs at any time without assigning any reason.</span></li>
+        <li>The <span>engagement of substitutes by the Gramin Dak Sevak approved on the clear understanding that the substitute may be discharged by the undersigned</span> or by the appointing authority in case of BPMs at any time without assigning any reason.</li>
         <li>The substitutes are entitled only to the <span>minimum of the TRCA applicable to GDS.</span></li>
       </ol>
     `,
