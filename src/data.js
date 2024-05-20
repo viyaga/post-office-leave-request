@@ -198,7 +198,7 @@ const printData = [
   {
     leaveType: "paid leave", title: ``,
     TopContent: `
-        <ol>
+        <ol class="marginTop">
           <li>The following <span>Gramin Dak Sevaks</span> have been <span>permitted to proceed on leave without allowance (LWA)</span> as per the particulars noted against each.</li>
           <li>The <span>engagement of substitutes by the Gramin Dak Sevak approved on the clear understanding that the substitute may be discharged by the undersigned or by the appointing authority in case of BPMs at any time without assigning any reason.</span></li>
           <li>The substitutes are entitled only to the <span>minimum of the TRCA applicable to GDS.</span></li>
@@ -212,7 +212,7 @@ const printData = [
   {
     leaveType: "training", title: ``,
     TopContent: `
-      <ol>
+      <ol class="marginTop">
         <li>The following <span>Gramin Dak Sevaks</span> have been <span>permitted to attend induction training at WTC, Madurai HO</span> as per the particulars noted against each.</li>
         <li>The <span>engagement of substitutes by the Gramin Dak Sevak approved on the clear understanding that the substitute may be discharged by the undersigned or by the appointing authority in case of BPMs at any time without assigning any reason.</span></li>
         <li>The substitutes are entitled only to the <span>minimum of the TRCA applicable to GDS.</span></li>
@@ -226,7 +226,7 @@ const printData = [
   {
     leaveType: "stop gap arrangement", title: ``,
     TopContent: `
-      <ol>
+      <ol class="marginTop">
         <li>The following <span>Outsiders</span> have been engaged on<span>Stop Gap Arrangement</span> in the vacant posts for the periods shown against each.</li>
         <li>The substitutes are entitled only to the <span>minimum of the TRCA applicable to GDS.</span></li>
       </ol>
