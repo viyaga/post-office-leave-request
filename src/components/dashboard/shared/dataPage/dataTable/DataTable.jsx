@@ -3,14 +3,9 @@ import {
   GridToolbar,
 } from "@mui/x-data-grid";
 import "./dataTable.scss";
-import Link from "next/link";
-import { MdDelete, MdEdit } from "react-icons/md";
+import CustomToolbar from "./customToolbar/CustomToolbar";
 
 const DataTable = (props) => {
-
-  const handleDelete = (id) => {
-    console.log(id)
-  };
 
   return (
     <div className="dataTable">
@@ -25,14 +20,14 @@ const DataTable = (props) => {
             },
           },
         }}
-        slots={{ toolbar: GridToolbar }}
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-            quickFilterProps: { debounceMs: 300 },
-            printOptions: { disableToolbarButton: true }
-          },
-        }}
+        slots={{ toolbar: CustomToolbar }}
+        // slotProps={{
+        //   toolbar: {
+        //     showQuickFilter: true,
+        //     quickFilterProps: { debounceMs: 300 },
+        //     // printOptions: { disableToolbarButton: true }
+        //   },
+        // }}
         //rowCount={100}
         // paginationMode="server"
         pageSizeOptions={[5, 10, 25]}

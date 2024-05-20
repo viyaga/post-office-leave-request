@@ -71,7 +71,7 @@ const DataPage = (props) => {
           <h2>{leaveType}</h2>
           <div onClick={() => setIsFilterOpen(true)}><MdFilterList size={24} /></div>
         </div>
-        <button className="pdf-btn" onClick={() => handleDownloadPDF()}>Download PDF</button>
+        {/* <button className="pdf-btn" onClick={() => handleDownloadPDF()}>Download PDF</button> */}
       </div>
       {isLoading
         ? <DashboardLoading />
