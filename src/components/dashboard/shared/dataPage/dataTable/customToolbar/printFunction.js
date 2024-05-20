@@ -9,8 +9,12 @@ const handlePrint = (apiRef, leaveType) => {
   const rows = apiRef.current.getAllRowIds().map((id) => apiRef.current.getRow(id));
   const data = printData.find((d) => d.leaveType === leaveType)
 
-  const printWindow = window.open('', '_blank');
-  const printDocument = printWindow.document;
+  // Create an iframe element
+  const iframe = document.createElement('iframe');
+  document.body.appendChild(iframe);
+
+  const printDocument = iframe.contentDocument || iframe.contentWindow.document;
+
   printDocument.write('<html><head>');
   printDocument.write('<style>');
   printDocument.write(`
@@ -97,10 +101,10 @@ const handlePrint = (apiRef, leaveType) => {
       } else if (field === 'designation') {
         let designation = row[field].toUpperCase()
         if (designation.split(' ')[0] === 'DAK') {
-           designation = "Dak sevak"
+          designation = "Dak sevak"
         }
-        printDocument.write(`<td>${designation }</td>`);
-      }else {
+        printDocument.write(`<td>${designation}</td>`);
+      } else {
         printDocument.write(`<td>${row[col.field]}</td>`);
       }
     });
@@ -126,8 +130,13 @@ const handlePrint = (apiRef, leaveType) => {
     `);
   printDocument.write('</body></html>');
   printDocument.close();
-  printWindow.print();
-  printWindow.close();
+
+  // Wait for iframe content to load and then print
+  iframe.contentWindow.focus();
+  iframe.contentWindow.print();
+
+  // Remove the iframe after printing
+  document.body.removeChild(iframe);
 };
 
 export default handlePrint;
