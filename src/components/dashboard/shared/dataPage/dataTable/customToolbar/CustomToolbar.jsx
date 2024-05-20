@@ -4,6 +4,7 @@ import { useGridApiContext } from '@mui/x-data-grid';
 import handlePrint from './printFunction';
 import './customToolbar.scss'
 import { useSearchParams } from 'next/navigation';
+import csvDownload from './csvDownloadFunction';
 
 const CustomToolbar = () => {
     const apiRef = useGridApiContext();
@@ -12,7 +13,10 @@ const CustomToolbar = () => {
 
     return (
         <GridToolbarContainer style={{ display: "flex", justifyContent: "space-between" }}>
-            <button className='print-btn' onClick={() => handlePrint(apiRef, leaveType)}>Print</button>
+            <div className='export'>
+                <button className='csv btn' onClick={() => csvDownload(apiRef, leaveType)}>CSV</button>
+                <button className='print btn' onClick={() => handlePrint(apiRef, leaveType)}>Print</button>
+            </div>
             <GridToolbarQuickFilter debounceMs={300} />
         </GridToolbarContainer>
     );
