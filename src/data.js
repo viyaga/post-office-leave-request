@@ -199,14 +199,14 @@ const printData = [
     leaveType: "paid leave", title: ``,
     TopContent: `
         <ol class="marginTop">
-          <li>The following <span>Gramin Dak Sevaks</span> have been <span>permitted to proceed on leave without allowance (LWA)</span> as per the particulars noted against each.</li>
+          <li>The following <span>Gramin Dak Sevaks</span> have been <span>permitted to proceed on leave with allowance (Paid Leave)</span> as per the particulars noted against each.</li>
           <li>The <span>engagement of substitutes by the Gramin Dak Sevak approved on the clear understanding that the substitute may be discharged by the undersigned or by the appointing authority in case of BPMs at any time without assigning any reason.</span></li>
           <li>The substitutes are entitled only to the <span>minimum of the TRCA applicable to GDS.</span></li>
         </ol>
     `,
     bottomContent: `
         <h3>Certified that the POSB account number of all the outsiders in this leave order has been verified and found correct.</h3>
-        <h2 class="underline">No. IP (TMM)/GDS/Leave Orders/LWA/dlgs dated at Tirumangalam 625706 the ${moment(Date.now()).format('DD.MM.YYYY')}</h2>
+        <h2 class="underline">No. IP (TMM)/GDS/Paid leave/dlgs dated at Tirumangalam 625706 the ${moment(Date.now()).format('DD.MM.YYYY')}</h2>
     `
   },
   {
