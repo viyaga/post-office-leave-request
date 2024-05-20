@@ -32,6 +32,9 @@ const handlePrint = (apiRef, leaveType) => {
     .marginBottom {
       margin-bottom: 20px;
     }
+    .marginTop {
+      margin-top: 20px;
+    }
     p {
       font-size: 16px;
       margin-bottom: 20px;
