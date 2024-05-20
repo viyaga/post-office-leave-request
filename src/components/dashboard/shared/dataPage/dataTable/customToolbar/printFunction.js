@@ -95,7 +95,11 @@ const handlePrint = (apiRef, leaveType) => {
       } else if (field === 'name' || field === 'substituteName' || field === 'officeName' || field === 'remarks') {
         printDocument.write(`<td>${textCapitalize(row[field])}</td>`);
       } else if (field === 'designation') {
-        printDocument.write(`<td>${row[field].toUpperCase()}</td>`);
+        let designation = row[field].toUpperCase()
+        if (designation.split(' ')[0] === 'DAK') {
+           designation = "Dak sevak"
+        }
+        printDocument.write(`<td>${designation }</td>`);
       }else {
         printDocument.write(`<td>${row[col.field]}</td>`);
       }
