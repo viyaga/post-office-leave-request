@@ -30,6 +30,15 @@ const AddLeaveData = ({ substitutes, employees, holidays, editData, setEditData,
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset, getValues, setValue } = useForm({ resolver: zodResolver(leaveSchema), defaultValues: { employeeId: '' } })
     const dispatch = useDispatch()
 
+    //Alter substitutes array ==================================
+    const combinedDutyIndex = substitutes.findIndex(substitute => substitute.name === "combined duty")
+
+    if (combinedDutyIndex !== -1) {
+        const combinedDutyEle = substitutes.splice(combinedDutyIndex, 1)[0]
+        substitutes.unshift(combinedDutyEle)
+    }
+    // =========================================================
+
     // get unique offices =======================================
     const officesString = employees.map((item) => {
         const string = JSON.stringify({ _id: item.officeId, officeName: item.officeName })
