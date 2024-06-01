@@ -27,7 +27,7 @@ const leaveSchema = z.object({
 })
 
 const AddLeaveData = ({ substitutes, employees, holidays, editData, setEditData, setOpen }) => {
-    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, getValues, setValue } = useForm({ resolver: zodResolver(leaveSchema), defaultValues:{ employeeId: ''}})
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, getValues, setValue } = useForm({ resolver: zodResolver(leaveSchema), defaultValues: { employeeId: '' } })
     const dispatch = useDispatch()
 
     // get unique offices =======================================
@@ -80,12 +80,16 @@ const AddLeaveData = ({ substitutes, employees, holidays, editData, setEditData,
             return
         }
 
-        console.log({employee});
+        console.log({ employee });
         setValue('name', employee.name)
 
     }
 
     const getEmployeeAccount = (e) => {
+        if (e.target.value === "combined duty") {
+            setValue('accountNo', "NA")
+            return
+        }
         const accountNo = substitutes.filter((item) => item._id === e.target.value)[0]?.accountNo
         setValue('accountNo', accountNo)
     }
@@ -215,6 +219,7 @@ const AddLeaveData = ({ substitutes, employees, holidays, editData, setEditData,
                         <div>
                             <select {...register("substituteName")} onChange={getEmployeeAccount}>
                                 <option value="">Select</option>
+                                <option value="combined duty">Combined Duty</option>
                                 {substitutes && substitutes.map((item, index) =>
                                     <option key={index} value={item._id}>{item.name}</option>
                                 )}
@@ -240,8 +245,8 @@ const AddLeaveData = ({ substitutes, employees, holidays, editData, setEditData,
                     </div>
 
                     {editData
-                        ? <input type="submit" defaultValue={isSubmitting ? "Updating..." : "Update"} />
-                        : <input type="submit" defaultValue={isSubmitting ? "Adding..." : "Add"} />
+                        ? <input type="submit" className={isSubmitting ? "disabled" : ""} defaultValue={isSubmitting ? "Updating..." : "Update"} disabled={isSubmitting} />
+                        : <input type="submit" className={isSubmitting ? "disabled" : ""} defaultValue={isSubmitting ? "Adding..." : "Add"} disabled={isSubmitting} />
                     }
                 </form>
             </div>

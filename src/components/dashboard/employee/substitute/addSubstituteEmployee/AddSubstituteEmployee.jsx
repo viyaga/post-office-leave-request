@@ -93,8 +93,8 @@ const AddSubstituteEmployee = ({ editData, setEditData, setOpen }) => {
                         )
                     })}
                     {editData
-                        ? <input type="submit" defaultValue={isSubmitting ? "Updating..." : "Update"} />
-                        : <input type="submit" defaultValue={isSubmitting ? "Adding..." : "Add"} />
+                        ? <input type="submit" className={isSubmitting ? "disabled" : ""} defaultValue={isSubmitting ? "Updating..." : "Update"} disabled={isSubmitting} />
+                        : <input type="submit" className={isSubmitting ? "disabled" : ""} defaultValue={isSubmitting ? "Adding..." : "Add"} disabled={isSubmitting} />
                     }
                 </form>
             </div>

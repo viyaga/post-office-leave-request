@@ -31,8 +31,8 @@ const DeleteSubstituteEmployee = ({ deleteData, setDeleteData }) => {
             <div className="modal">
                 <h1>Are you sure you want to delete {deleteData.name}&apos;s data? This action cannot be undone</h1>
                 <div className="buttons">
-                    <button className="deleteBtn" onClick={handleDelete}>{isLoading ? "Deleting..." : "Delete"}</button>
-                    <button className="cancelBtn" onClick={() => setDeleteData(null)}>Cancel</button>
+                    <button className={isLoading ? "deleteBtn disabled" : "deleteBtn"} onClick={handleDelete} disabled={isLoading} >{isLoading ? "Deleting..." : "Delete"}</button>
+                    <button className={isLoading ? "cancelBtn disabled" : "cancelBtn"} onClick={() => setDeleteData(null)} disabled={isLoading} >Cancel</button>
                 </div>
             </div>
         </div>

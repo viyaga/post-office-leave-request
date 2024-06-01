@@ -114,8 +114,8 @@ const AddRegularEmployee = ({ offices, editData, setEditData, setOpen }) => {
                         <ZodFormInput type="text" name="name" register={register} placeholder="Name" error={errors["name"]} />
                     </div>
                     {editData
-                        ? <input type="submit" defaultValue={isSubmitting ? "Updating..." : "Update"} />
-                        : <input type="submit" defaultValue={isSubmitting ? "Adding..." : "Add"} />
+                        ? <input type="submit" className={isSubmitting ? "disabled" : ""} defaultValue={isSubmitting ? "Updating..." : "Update"} disabled={isSubmitting} />
+                        : <input type="submit" className={isSubmitting ? "disabled" : ""} defaultValue={isSubmitting ? "Adding..." : "Add"} disabled={true} />
                     }
 
                 </form>
