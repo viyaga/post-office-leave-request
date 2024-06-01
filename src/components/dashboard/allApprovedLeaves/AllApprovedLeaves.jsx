@@ -30,7 +30,7 @@ const AllApprovedLeaves = ({ substitutes, employees, searchParamsObj }) => {
 
   const fetchData = async (searchParamsObj) => {
     const res = await getLeaveDataByCategory(searchParamsObj)
-    if (res.error) toast.error("An Error Occured While Fetching Data")
+    if (res.error) toast.error(res.error)
     if (res.leaves) dispatch(setApprovedLeaves(res.leaves))
     setIsLoading(false)
   }
