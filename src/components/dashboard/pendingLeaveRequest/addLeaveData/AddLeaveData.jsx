@@ -219,7 +219,6 @@ const AddLeaveData = ({ substitutes, employees, holidays, editData, setEditData,
                         <div>
                             <select {...register("substituteName")} onChange={getEmployeeAccount}>
                                 <option value="">Select</option>
-                                <option value="combined duty">Combined Duty</option>
                                 {substitutes && substitutes.map((item, index) =>
                                     <option key={index} value={item._id}>{item.name}</option>
                                 )}
