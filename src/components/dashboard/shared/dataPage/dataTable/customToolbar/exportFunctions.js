@@ -234,7 +234,6 @@ const handlePrint = (apiRef, leaveType) => {
     printDocument.write(`
     <ol>
       <li>The Senior Postmaster Madurai HO - 625001</li>
-      <li>The General Manager, PA & F Section, Chennai - 600008 thro S.No.1</li>
       <li>File</li>
     </ol>  
     `);
