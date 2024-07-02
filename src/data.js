@@ -6,8 +6,11 @@ import { MdCheckCircle, MdDateRange, MdLocalLibrary, MdOutlineMoneyOffCsred, MdO
 import moment from "moment";
 import { textCapitalize } from "./services";
 
-const date = new Date()
-const month = date.getMonth()
+const date = new Date();
+const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",  "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+const monthIndex = date.getMonth();
+const month = monthNames[monthIndex];
+
 const menu = [
   {
     id: 1,
