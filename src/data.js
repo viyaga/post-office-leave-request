@@ -6,6 +6,8 @@ import { MdCheckCircle, MdDateRange, MdLocalLibrary, MdOutlineMoneyOffCsred, MdO
 import moment from "moment";
 import { textCapitalize } from "./services";
 
+const date = new Date()
+const month = date.getMonth()
 const menu = [
   {
     id: 1,
@@ -183,7 +185,7 @@ const printData = [
   {
     leaveType: "lwa", title: "",
     TopContent: `
-    <h2 class="underline center marginBottom">LWA STATEMENT FOR THE MONTH OF MARCH 2024- SUPPLEMENTARY</h2>
+    <h2 class="underline center marginBottom">LWA STATEMENT FOR THE MONTH OF ${month} 2024- SUPPLEMENTARY</h2>
     <ol>
       <li>The following <span>Gramin Dak Sevaks</span> have been <span>permitted to proceed on leave without allowance (LWA)</span> as per the particulars noted against each.</li>
       <li>The <span>engagement of substitutes by the Gramin Dak Sevak approved on the clear understanding that the substitute may be discharged by the undersigned</span> or by the appointing authority in case of BPMs at any time without assigning any reason.</li>
